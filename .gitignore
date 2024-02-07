@@ -1,18 +1,36 @@
-*/config/development
-*/logs/log-*.php
-!*/logs/index.html
-*/cache/*
-!system/cache/*
-!*/cache/index.html
-!*/cache/.htaccess
+# Environment Files
+.env
 
-user_guide_src/build/*
-user_guide_src/cilexer/build/*
-user_guide_src/cilexer/dist/*
-user_guide_src/cilexer/pycilexer.egg-info/*
+# Private Files
+app/Config/database.php
+public/
+system/
+writable/
 
-#codeigniter 3
-application/logs/*
-!application/logs/index.html
-!application/logs/.htaccess
-/vendor/
+# Jetbrains editors (PHPStorm, etc)
+.idea/
+*.iml
+
+# Visual Studio Code
+.vscode/
+
+# System Files
+LICENSE
+README.md
+phpunit.xml.dist
+
+# Other Files
+/results/
+/phpunit*.xml
+/.phpunit.*.cache
+
+# Public main.css to gitkeep
+!public/
+public/*
+!public/themes/
+public/themes/*
+!public/themes/dist/
+public/themes/dist/*
+!public/themes/dist/css/
+public/themes/dist/css/*
+!public/themes/dist/css/main.css
