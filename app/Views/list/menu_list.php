@@ -13,6 +13,10 @@ echo view("partial/header");
         </div>
     </div>
 
+    <link rel="stylesheet"
+          href="<?php echo base_url('public'); ?>/datatables-bs4/css/dataTables.bootstrap4.css">
+    <script src="<?php echo base_url('public'); ?>/datatables/jquery.dataTables.js"></script>
+    <script src="<?php echo base_url('public'); ?>/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
 
     <!-- loader END -->
@@ -57,7 +61,7 @@ echo view("partial/header");
                                 ?>
 
                                 <div class="table-responsive">
-                                    <table id="datatable" class="table table-striped table-bordered">
+                                    <table id="example2" class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
                                             <th>No</th>
@@ -100,7 +104,7 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
         $(function () {
-            $('#datatable').DataTable();
+            $("#example2").DataTable();
         });
 
         function confirmDelete() {
