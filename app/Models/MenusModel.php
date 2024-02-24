@@ -17,7 +17,17 @@ class MenusModel extends Model
 
     public function listData()
     {
-        $sql = "select * from " . $this->table . " order by menu_id asc";
+        $sql = "select menus.*, parent.menu_name parent_name
+from menus
+left join menus parent on parent.menu_id=menus.menu_parent
+order by menus.menu_parent asc,menus.menu_id asc";
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+    public function listDataParent()
+    {
+        $sql = "select * from " . $this->table . " where menu_parent is null order by menu_id asc";
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }

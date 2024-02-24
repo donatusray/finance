@@ -73,9 +73,9 @@ echo view("partial/header");
                                         <tbody>
                                         <?php foreach ($list_menu as $no => $lm) { ?>
                                             <tr>
-                                                <td><?= $no+1 ?></td>
+                                                <td><?= $no + 1 ?></td>
                                                 <td><?= $lm['menu_name'] ?></td>
-                                                <td><?= $lm['menu_parent'] ?></td>
+                                                <td><?= $lm['parent_name'] ?></td>
                                                 <td><?= $lm['menu_link'] ?></td>
                                                 <td><?= $lm['menu_icon'] ?></td>
                                                 <td><?= $lm['menu_description'] ?></td>

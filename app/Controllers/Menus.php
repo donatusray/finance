@@ -29,7 +29,9 @@ class Menus extends BaseController
 
     public function add()
     {
-        return view('forms/menu_add');
+        $listMenuParent = $this->menuModel->listDataParent();
+        $data['parents'] = $listMenuParent;
+        return view('forms/menu_add', $data);
     }
 
     public function insert()
@@ -42,6 +44,9 @@ class Menus extends BaseController
             'createdby' => 1,
             'updatedby' => 1
         );
+        if ($this->request->getPost('menu_parent') != '') {
+            $data['menu_parent'] = $this->request->getPost('menu_parent');
+        }
 
         $dataErrors = $this->getError($data);
 
