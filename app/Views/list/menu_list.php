@@ -71,7 +71,11 @@ echo view("partial/header");
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php foreach ($list_menu as $no => $lm) { ?>
+                                        <?php foreach ($list_menu as $no => $lm) {
+                                            $linkEdit = "<a href='" . base_url('menus/edit') . "?id=" . $lm['menu_id'] . "' data-toggle='tooltip'
+                                   data-placement='top' title='Ubah Menu' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
+                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('menus/delete') . "?id=" . $lm['menu_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Menu' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                            ?>
                                             <tr>
                                                 <td><?= $no + 1 ?></td>
                                                 <td><?= $lm['menu_name'] ?></td>
@@ -80,7 +84,7 @@ echo view("partial/header");
                                                 <td><?= $lm['menu_icon'] ?></td>
                                                 <td><?= $lm['menu_description'] ?></td>
                                                 <td><?= $lm['menu_isactive'] ?></td>
-                                                <td></td>
+                                                <td><?= $linkEdit . " " . $linkDelete ?></td>
                                             </tr>
                                         <?php } ?>
                                         </tfoot>
@@ -98,6 +102,14 @@ echo view("partial/header");
         $(function () {
             $('#datatable').DataTable();
         });
+
+        function confirmDelete() {
+            if (confirm('Yakin menghapus menu?')) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     </script>
 <?php
 echo view("partial/footer");

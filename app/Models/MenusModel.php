@@ -25,6 +25,13 @@ order by menus.menu_parent asc,menus.menu_id asc";
         return $query->getResultArray();
     }
 
+    public function getMenu($id)
+    {
+        $sql = "select * from " . $this->table . " where menu_id=:id:";
+        $query = $this->db->query($sql, ['id' => $id]);
+        return $query->getRowArray();
+    }
+
     public function listDataParent()
     {
         $sql = "select * from " . $this->table . " where menu_parent is null order by menu_id asc";
