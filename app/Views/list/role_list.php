@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: IT PETUALANG
- * Date: 18/02/2024
- * Time: 01:30
+ * Date: 03/03/2024
+ * Time: 00:03
  */
 echo view("partial/header");
 ?>
@@ -32,12 +32,12 @@ echo view("partial/header");
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Daftar Menu</h4>
+                                    <h4 class="card-title">Daftar Role</h4>
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <a href="<?= base_url('menus/add') ?>" class="btn btn-success" data-toggle="tooltip"
-                                   data-placement="top" title="Tambah Menu"><i
+                                <a href="<?= base_url('roles/add') ?>" class="btn btn-success" data-toggle="tooltip"
+                                   data-placement="top" title="Tambah Role"><i
                                         class="fa fa-plus"></i></a>
                                 <br><br>
 
@@ -66,32 +66,26 @@ echo view("partial/header");
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Cabang</th>
-                                            <th>Link</th>
-                                            <th>Icon</th>
                                             <th>Keterangan</th>
                                             <th>Aktif</th>
                                             <th>Aksi</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php foreach ($list_menu as $no => $lm) {
-                                            $linkEdit = "<a href='" . base_url('menus/edit') . "?id=" . $lm['menu_id'] . "' data-toggle='tooltip'
-                                   data-placement='top' title='Ubah Menu' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
-                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('menus/delete') . "?id=" . $lm['menu_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Menu' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                        <?php foreach ($list_role as $no => $lr) {
+                                            $linkEdit = "<a href='" . base_url('roles/edit') . "?id=" . $lr['role_id'] . "' data-toggle='tooltip'
+                                   data-placement='top' title='Ubah Role' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
+                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('roles/delete') . "?id=" . $lr['role_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Role' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                             $iconActive = "<span class='badge badge-success'><i class='las la-check'></i></span>";
-                                            if ($lm['menu_isactive'] == 'N') {
+                                            if ($lr['isactive'] == 'N') {
                                                 $iconActive = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
                                             }
 
                                             ?>
                                             <tr>
                                                 <td><?= $no + 1 ?></td>
-                                                <td><?= $lm['menu_name'] ?></td>
-                                                <td><?= $lm['parent_name'] ?></td>
-                                                <td><?= $lm['menu_link'] ?></td>
-                                                <td><?= $lm['menu_icon'] ?></td>
-                                                <td><?= $lm['menu_description'] ?></td>
+                                                <td><?= $lr['role_name'] ?></td>
+                                                <td><?= $lr['description'] ?></td>
                                                 <td><?= $iconActive ?></td>
                                                 <td><?= $linkEdit . " " . $linkDelete ?></td>
                                             </tr>
