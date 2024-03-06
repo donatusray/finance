@@ -29,7 +29,7 @@ class Menus extends BaseController
 
     public function add()
     {
-        $listMenuParent = $this->menuModel->listDataParent();
+        $listMenuParent = $this->menuModel->listDataAction('N');
         $data['parents'] = $listMenuParent;
         return view('forms/menu_add', $data);
     }
@@ -41,6 +41,8 @@ class Menus extends BaseController
             'menu_link' => $this->request->getPost('menu_link'),
             'menu_icon' => $this->request->getPost('menu_icon'),
             'menu_description' => $this->request->getPost('menu_description'),
+            'menu_action' => ($this->request->getPost('menu_action')) ? "Y" : "N",
+            'menu_order'=>$this->request->getPost('menu_order'),
             'createdby' => 1,
             'updatedby' => 1
         );
@@ -66,7 +68,7 @@ class Menus extends BaseController
     public function edit()
     {
         $id = $this->request->getGet('id');
-        $listMenuParent = $this->menuModel->listDataParent();
+        $listMenuParent = $this->menuModel->listDataAction('N');
         $menus = $this->menuModel->getMenu($id);
         $data['parents'] = $listMenuParent;
         $data['menus'] = $menus;
@@ -82,6 +84,8 @@ class Menus extends BaseController
             'menu_link' => $this->request->getPost('menu_link'),
             'menu_icon' => $this->request->getPost('menu_icon'),
             'menu_description' => $this->request->getPost('menu_description'),
+            'menu_order' => $this->request->getPost('menu_order'),
+            'menu_action' => ($this->request->getPost('menu_action')) ? "Y" : "N",
             'updatedby' => 1,
             'updated' => date('Y-m-d H:i:s')
         );

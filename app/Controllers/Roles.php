@@ -9,15 +9,21 @@
 namespace App\Controllers;
 
 
+use App\Models\MenusModel;
+use App\Models\RoleMenuModel;
 use App\Models\RolesModel;
 
 class Roles extends BaseController
 {
     private $roleModel;
+    private $menuModel;
+    private $roleMenuModel;
 
     public function __construct()
     {
         $this->roleModel = new RolesModel();
+        $this->menuModel = new MenusModel();
+        $this->roleMenuModel = new RoleMenuModel();
     }
 
     public function index()
@@ -94,14 +100,35 @@ class Roles extends BaseController
     public function delete()
     {
         $id = $this->request->getGet('id');
-        $delete = $this->roleModel->deleteRole($id);
-        if ($delete) {
-            session()->setFlashdata('success', 'Delete Role Berhasil');
+        if ($id == 1) {
+            session()->setFlashdata('warning', 'Superadmin tidak bisa dihapus!');
             return redirect()->to(base_url('roles'));
         } else {
-            session()->setFlashdata('warning', 'Delete Role Gagal');
-            return redirect()->to(base_url('roles'));
+
+            $roleMenus = $this->roleMenuModel->selectRoleMenuByRole($id);
+            if (count($roleMenus) > 0) {
+                $this->roleMenuModel->deleteRoleMenuByIdRole($id);
+            }
+
+            $delete = $this->roleModel->deleteRole($id);
+            if ($delete) {
+                session()->setFlashdata('success', 'Delete Role Berhasil');
+                return redirect()->to(base_url('roles'));
+            } else {
+                session()->setFlashdata('warning', 'Delete Role Gagal');
+                return redirect()->to(base_url('roles'));
+            }
         }
+    }
+
+    public function rolemenu()
+    {
+        $roleId = $this->request->getGet('role');
+        $role = $this->roleModel->getRole($roleId);
+        $menus = $this->menuModel->listDataWithRoleMenu($roleId);
+        $data['role'] = $role;
+        $data['menus'] = $menus;
+        return view('forms/role_menu_edit', $data);
     }
 
     private function getError($post)
@@ -111,6 +138,8 @@ class Roles extends BaseController
             $error[] = "Nama Role Wajib Diisi";
         }
 
-        return $error;
+        if ($post['role_menu'])
+
+            return $error;
     }
 } 

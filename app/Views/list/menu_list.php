@@ -64,13 +64,13 @@ echo view("partial/header");
                                     <table id="example2" class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
-                                            <th>No</th>
+                                            <th>Urutan</th>
                                             <th>Nama</th>
                                             <th>Cabang</th>
                                             <th>Link</th>
                                             <th>Icon</th>
                                             <th>Keterangan</th>
-                                            <th>Aktif</th>
+                                            <th>IsAction</th>
                                             <th>Aksi</th>
                                         </tr>
                                         </thead>
@@ -79,20 +79,20 @@ echo view("partial/header");
                                             $linkEdit = "<a href='" . base_url('menus/edit') . "?id=" . $lm['menu_id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Ubah Menu' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
                                             $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('menus/delete') . "?id=" . $lm['menu_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Menu' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
-                                            $iconActive = "<span class='badge badge-success'><i class='las la-check'></i></span>";
-                                            if ($lm['menu_isactive'] == 'N') {
-                                                $iconActive = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
+                                            $iconAction = "<span class='badge badge-success'><i class='las la-check'></i></span>";
+                                            if ($lm['menu_action'] == 'N') {
+                                                $iconAction = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
                                             }
 
                                             ?>
                                             <tr>
-                                                <td><?= $no + 1 ?></td>
+                                                <td><?= $lm['menu_order'] ?></td>
                                                 <td><?= $lm['menu_name'] ?></td>
                                                 <td><?= $lm['parent_name'] ?></td>
                                                 <td><?= $lm['menu_link'] ?></td>
                                                 <td><?= $lm['menu_icon'] ?></td>
                                                 <td><?= $lm['menu_description'] ?></td>
-                                                <td><?= $iconActive ?></td>
+                                                <td><?= $iconAction ?></td>
                                                 <td><?= $linkEdit . " " . $linkDelete ?></td>
                                             </tr>
                                         <?php } ?>

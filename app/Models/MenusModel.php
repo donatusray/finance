@@ -20,8 +20,17 @@ class MenusModel extends Model
         $sql = "select menus.*, parent.menu_name parent_name
 from menus
 left join menus parent on parent.menu_id=menus.menu_parent
-order by menus.menu_parent asc,menus.menu_id asc";
+order by menus.menu_order asc";
         $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+    public function listDataWithRoleMenu($idRole)
+    {
+        $sql = "SELECT m.menu_id, m.menu_order, m.menu_name, rm.role_id, rm.menu_id menu_id_role
+FROM menus m
+left join role_menu rm on rm.menu_id=m.menu_id and rm.role_id=:id_role:";
+        $query = $this->db->query($sql, ['id_role' => $idRole]);
         return $query->getResultArray();
     }
 
@@ -36,6 +45,13 @@ order by menus.menu_parent asc,menus.menu_id asc";
     {
         $sql = "select * from " . $this->table . " where menu_parent is null order by menu_id asc";
         $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+    public function listDataAction($act)
+    {
+        $sql = "select * from " . $this->table . " where menu_action=:act:";
+        $query = $this->db->query($sql, ['act' => $act]);
         return $query->getResultArray();
     }
 

@@ -75,6 +75,8 @@ echo view("partial/header");
                                         <?php foreach ($list_role as $no => $lr) {
                                             $linkEdit = "<a href='" . base_url('roles/edit') . "?id=" . $lr['role_id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Ubah Role' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
+                                            $linkEditMenu = "<a href='" . base_url('roles/rolemenu') . "?role=" . $lr['role_id'] . "' data-toggle='tooltip'
+                                   data-placement='top' title='Setting Role Menu' class='btn btn-warning'><i class='fa fa-gear'></i></a>";
                                             $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('roles/delete') . "?id=" . $lr['role_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Role' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                             $iconActive = "<span class='badge badge-success'><i class='las la-check'></i></span>";
                                             if ($lr['isactive'] == 'N') {
@@ -87,7 +89,7 @@ echo view("partial/header");
                                                 <td><?= $lr['role_name'] ?></td>
                                                 <td><?= $lr['description'] ?></td>
                                                 <td><?= $iconActive ?></td>
-                                                <td><?= $linkEdit . " " . $linkDelete ?></td>
+                                                <td><?= $linkEditMenu . " " . $linkEdit . " " . $linkDelete ?></td>
                                             </tr>
                                         <?php } ?>
                                         </tfoot>

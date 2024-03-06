@@ -24,7 +24,7 @@ echo view("partial/header");
                 <div class="row">
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?=base_url('menus')?>">Menus</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('menus') ?>">Menus</a></li>
                             <li class="breadcrumb-item active">Tambah Menu</li>
                         </ol>
                         <div class="iq-card">
@@ -69,7 +69,7 @@ echo view("partial/header");
                                             <select name="menu_parent" id="menu_parent" class="form-control">
                                                 <option value=""></option>
                                                 <?php
-                                                if (count($parents) > 0){
+                                                if (count($parents) > 0) {
                                                     foreach ($parents as $parent) {
                                                         echo "<option value='" . $parent['menu_id'] . "'>" . $parent['menu_name'] . "</option>";
                                                     }
@@ -105,6 +105,23 @@ echo view("partial/header");
                                             <textarea rows="2" name="menu_description" id="menu_description"
                                                       placeholder="Keterangan"
                                                       class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0" for="menu_action">Isaction</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" name="menu_action"
+                                                   id="menu_action">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0" for="menu_order">Urutan
+                                            Menu <span class="text-danger">*</span></label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="menu_order" id="menu_order" required class="form-control"
+                                                  />
                                         </div>
                                     </div>
                                     <div class="form-group">

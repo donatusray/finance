@@ -103,6 +103,23 @@ echo view("partial/header");
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0" for="menu_action">Isaction</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" name="menu_action"
+                                                   id="menu_action" <?= ($inputs['menu_action'] == 'Y') ? "checked" : "" ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0" for="menu_order">Urutan
+                                            Menu <span class="text-danger">*</span></label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" name="menu_order" id="menu_order" class="form-control"
+                                                   value="<?= $inputs['menu_order'] ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="menu_description">Keterangan</label>
 
