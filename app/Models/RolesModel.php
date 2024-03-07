@@ -22,6 +22,13 @@ class RolesModel extends Model
         return $query->getResultArray();
     }
 
+    public function selectRoleUser()
+    {
+        $sql = "select * from " . $this->table . " where isactive=:active: order by role_name asc";
+        $query = $this->db->query($sql, ['active' => 'Y']);
+        return $query->getResultArray();
+    }
+
     public function getRole($id)
     {
         $sql = "select * from " . $this->table . " where role_id=:id:";
