@@ -9,6 +9,7 @@
 namespace App\Controllers;
 
 
+use App\Models\MenusModel;
 use App\Models\UserModel;
 
 class Auth extends BaseController
@@ -16,15 +17,17 @@ class Auth extends BaseController
     public function __construct()
     {
         $this->user_model = new UserModel();
+        $this->menuModel = new MenusModel();
     }
 
     public function index()
     {
-        if ($this->checkLogin() == FALSE) {
+
+        if ($this->checkLogin() == false) {
             return view('auth/login');
         }
-
         return redirect()->to(base_url('home'));
+
     }
 
     public function loginprocess()
@@ -38,15 +41,14 @@ class Auth extends BaseController
         } else {
             $getUsername = $this->user_model->get_username($userName);
             if ($getUsername) {
-                $passwordForm = $this->preparePassword($password);
-                $passwordDb = $this->preparePassword($getUsername['password']);
-                if ($passwordForm == $passwordDb) {
+                if ($password == $getUsername['password']) {
                     $menu = "";
-                    $roleApp = $getUsername['role_app'];
-                    $dataMenu = $this->auth_model->getMenuRole($roleApp);
+                    $roleApp = $getUsername['role_id'];
+
+                    $dataMenu = $this->menuModel->listDataParentWithRoleMenu($roleApp);
                     $nav = 1;
                     foreach ($dataMenu as $main) {
-                        $dataSubMenu = trim($main['menu_link']) == '#' ? $this->auth_model->get_submenu($main['menu_id']) : NULL;
+                        $dataSubMenu = trim($main['menu_link']) == '#' ? $this->menuModel->listDataChildWithRoleMenu($roleApp, $main['menu_id']) : NULL;
                         if (is_null($dataSubMenu)) {
                             $menu .= '<li class="nav-item">
                             <a id="' . $nav . '" data-nav="' . $nav . '" href="' . base_url($main['menu_link']) . '" class="nav-link menu-nav">
@@ -55,21 +57,31 @@ class Auth extends BaseController
                             </a>
                           </li>';
                         } else {
+                            $collapsed = "";
+                            $expanded = "false";
+                            $show = "";
                             $navSub = 1;
-                            $menu .= '<li id="menu' . $nav . '" class="nav-item has-treeview">';
-                            $menu .= '<a id="' . $nav . '" data-nav="' . $nav . '" href="' . base_url($main['menu_link']) . '" class="nav-link menu-nav">
-                            <i class="nav-icon ' . $main['menu_icon'] . '"></i>
-                            <p style="margin-left:10px;">' . $main['menu_name'] . '<i class="fas fa-angle-left right"></i></p>
-                          </a>';
-                            $menu .= '<ul class="nav nav-treeview">';
+                            $active = "";
+                            if ($nav == 1) {
+                                $collapsed = "collapsed";
+                                $expanded = "true";
+                                $show = "show";
+                                $active = "class='active'";
+                            }
+                            $menu .= '<li ' . $active . '>';
+                            $menu .= '<a href="#form' . $nav . '" class="iq-waves-effect ' . $collapsed . '" data-toggle="collapse" aria-expanded="' . $expanded . '"><span
+                            class="ripple rippleEffect"></span><i
+                            class="' . $main['menu_icon'] . ' iq-arrow-left"></i><span>' . $main['menu_name'] . '</span><i
+                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>';
+                            $menu .= '<ul id="form' . $nav . '" class="iq-submenu collapse ' . $show . '" data-parent="#iq-sidebar-toggle">';
 
                             foreach ($dataSubMenu as $sub) {
-                                $menu .= '<li class="nav-item">
-                                <a id="' . $nav . '-' . $navSub . '" data-navsub="' . $nav . '-' . $navSub . '" href="' . base_url($sub['menu_link']) . '" class="nav-link menu-navsub">
-                                    <i class="nav-icon ' . $sub['menu_icon'] . '"></i>
-                                    <p style="margin-left:10px;">' . $sub['menu_name'] . '</p>
-                                </a>
-                              </li>';
+                                if ($navSub == 1 && $nav == 1) {
+                                    $menu .= '<li ' . $active . '>';
+                                } else {
+                                    $menu .= '<li>';
+                                }
+                                $menu .= '<a href="' . $sub['menu_link'] . '"><i class="' . $sub['menu_link'] . '"></i>' . $sub['menu_name'] . '</a></li>';
                                 $navSub++;
                             }
 
@@ -77,12 +89,11 @@ class Auth extends BaseController
                         }
                         $nav++;
                     }
-
                     $sessionData = array(
-                        'logged' => TRUE,
+                        'logged' => 1,
                         'akses_menu' => $menu,
-                        'user_id' => $getUsername['ad_user_id'],
-                        'username' => $getUsername['name'],
+                        'user_id' => $getUsername['user_id'],
+                        'username' => $getUsername['username'],
                         'role_app' => $roleApp
                     );
                     session()->set($sessionData);
@@ -101,17 +112,7 @@ class Auth extends BaseController
     public function logout()
     {
         session()->destroy();
-
         return redirect()->to(base_url());
     }
 
-    private function preparePassword($password)
-    {
-        return base64_encode(hash('sha384', $password, true));
-    }
-
-    private function verifyPassword($password, $hash)
-    {
-        return password_verify($this->preparePassword($password), $hash);
-    }
-} 
+}

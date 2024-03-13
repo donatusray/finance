@@ -25,6 +25,8 @@ abstract class BaseController extends Controller
 
     protected $helpers = [];
 
+    protected $alertLogin = "Silahkan login terlebih dahulu untuk mengakses data !";
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
@@ -32,11 +34,12 @@ abstract class BaseController extends Controller
 
     }
 
+
     public function checkLogin()
     {
-        $result = TRUE;
-        if ($_SESSION['logged'] <> 1) {
-            $result = FALSE;
+        $result = true;
+        if (!session('logged')) {
+            $result = false;
         }
 
         return $result;

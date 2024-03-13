@@ -24,52 +24,10 @@
     <div id="sidebar-scrollbar">
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
-                <li>
-                    <a href="#dashboard" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><span
-                            class="ripple rippleEffect"></span><i
-                            class="las la-home iq-arrow-left"></i><span>Dashboard</span><i
-                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                    <ul id="dashboard" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <li><a href="index.html"><i class="las la-laptop-code"></i>Monitoring Keuangan</a></li>
-
-                    </ul>
-                </li>
-
-
-                <li>
-                    <a href="#userinfo" class="iq-waves-effect" data-toggle="collapse" aria-expanded="false"><span
-                            class="ripple rippleEffect"></span><i
-                            class="las la-user-tie iq-arrow-left"></i><span>Pengaturan</span><i
-                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                    <ul id="userinfo" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" style="">
-                        <li><a href="profile.html"><i class="las la-id-card-alt"></i>Role</a></li>
-                        <li><a href="user-list.html"><i class="las la-th-list"></i>Daftar Pengguna</a></li>
-                        <li><a href="form-wizard-vertical.html"><i class="ri-anticlockwise-line"></i>Organisasi</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#ui-elements" class="iq-waves-effect collapsed" data-toggle="collapse"
-                       aria-expanded="false"><i
-                            class="lab la-elementor iq-arrow-left"></i><span>Master Data</span><i
-                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                    <ul id="ui-elements" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <li><a href="ui-colors.html"><i class="las la-palette"></i>Akun</a></li>
-                        <li><a href="ui-typography.html"><i class="las la-keyboard"></i>Kategori</a></li>
-                        <li><a href="ui-alerts.html"><i class="las la-tag"></i>Budget</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#forms" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i
-                            class="lab la-wpforms iq-arrow-left"></i><span>Transaksi</span><i
-                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                    <ul id="forms" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <li><a href="form-layout.html"><i class="las la-book"></i>Pemasukan</a></li>
-                        <li><a href="form-validation.html"><i class="las la-edit"></i>Pengeluaran</a></li>
-                        <li><a href="form-switch.html"><i class="las la-toggle-off"></i>Transfer</a></li>
-                        <li><a href="form-chechbox.html"><i class="las la-check-square"></i>Mutasi</a></li>
-                    </ul>
-                </li>
+                <?php
+                $_dataMenu = session()->get('akses_menu');
+                echo $_dataMenu;
+                ?>
             </ul>
         </nav>
         <div class="p-3"></div>
@@ -153,7 +111,7 @@
                              alt="user">
 
                         <div class="caption">
-                            <h6 class="mb-0 line-height">Barry Tech</h6>
+                            <h6 class="mb-0 line-height"><?= session()->get('username') ?></h6>
 
                             <p class="mb-0">Manager</p>
                         </div>
@@ -190,33 +148,10 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
-                                    <div class="media align-items-center">
-                                        <div class="rounded iq-card-icon iq-bg-primary">
-                                            <i class="ri-account-box-line"></i>
-                                        </div>
-                                        <div class="media-body ml-3">
-                                            <h6 class="mb-0 ">Account settings</h6>
-
-                                            <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="privacy-setting.html" class="iq-sub-card iq-bg-primary-hover">
-                                    <div class="media align-items-center">
-                                        <div class="rounded iq-card-icon iq-bg-primary">
-                                            <i class="ri-lock-line"></i>
-                                        </div>
-                                        <div class="media-body ml-3">
-                                            <h6 class="mb-0 ">Privacy Settings</h6>
-
-                                            <p class="mb-0 font-size-12">Control your privacy parameters.</p>
-                                        </div>
-                                    </div>
-                                </a>
 
                                 <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i
+                                    <a class="bg-primary iq-sign-btn" href="<?= base_url('auth/logout') ?>"
+                                       role="button">Sign out<i
                                             class="ri-login-box-line ml-2"></i></a>
                                 </div>
                             </div>
