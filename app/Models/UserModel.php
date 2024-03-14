@@ -34,6 +34,13 @@ class UserModel extends Model
         return $query->getRowArray();
     }
 
+    public function getUsernameWithRoleName($username)
+    {
+        $sql = "select u.*, r.role_name from users u inner join roles r on r.role_id=u.role_id where u.username=:username: and u.isactive=:isactive:";
+        $query = $this->db->query($sql, ['username' => $username, 'isactive' => 'Y']);
+        return $query->getRowArray();
+    }
+
     public function insertUser($data)
     {
         return $this->db->table($this->table)->insert($data);

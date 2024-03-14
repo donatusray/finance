@@ -30,6 +30,14 @@ class Users extends BaseController
         return view('list/user_list', $data);
     }
 
+    public function profile()
+    {
+        $username = session()->get('username');
+        $users = $this->userModel->getUsernameWithRoleName($username);
+        $data['users'] = $users;
+        return view('auth/profile', $data);
+    }
+
     public function add()
     {
         $listRole = $this->roleModel->selectRoleUser();
@@ -47,7 +55,6 @@ class Users extends BaseController
             'createdby' => 1,
             'updatedby' => 1
         );
-
 
         $dataErrors = $this->getError($data);
 
@@ -118,6 +125,34 @@ class Users extends BaseController
                 session()->setFlashdata('warning', 'Delete Pengguna Gagal');
                 return redirect()->to(base_url('users'));
             }
+        }
+    }
+
+    public function usereditsingle()
+    {
+        $id = session()->get('user_id');
+        $listRole = $this->roleModel->selectRoleUser();
+        $users = $this->userModel->getUser($id);
+        $data['roles'] = $listRole;
+        $data['users'] = $users;
+        session()->setFlashdata('inputs', $users);
+        return view('forms/user_edit_single', $data);
+    }
+
+    public function updatesingle()
+    {
+        $id = $this->request->getPost('user_id');
+        $data = array(
+            'full_name' => $this->request->getPost('full_name'),
+            'role_id' => $this->request->getPost('role_id'),
+            'updatedby' => 1,
+            'updated' => date('Y-m-d H:i:s')
+        );
+
+        $simpan = $this->userModel->updateUser($data, $id);
+        if ($simpan) {
+            session()->setFlashdata('success', 'Update Profil Berhasil');
+            return redirect()->to(base_url('users/usereditsingle'));
         }
     }
 

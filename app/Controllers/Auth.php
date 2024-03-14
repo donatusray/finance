@@ -39,7 +39,7 @@ class Auth extends BaseController
             session()->setFlashdata('error_login', '<b>Error : </b>Username & password tidak boleh kosong');
             return redirect()->to(base_url());
         } else {
-            $getUsername = $this->user_model->get_username($userName);
+            $getUsername = $this->user_model->getUsernameWithRoleName($userName);
             if ($getUsername) {
                 if ($password == $getUsername['password']) {
                     $menu = "";
@@ -57,31 +57,21 @@ class Auth extends BaseController
                             </a>
                           </li>';
                         } else {
-                            $collapsed = "";
-                            $expanded = "false";
-                            $show = "";
                             $navSub = 1;
-                            $active = "";
-                            if ($nav == 1) {
-                                $collapsed = "collapsed";
-                                $expanded = "true";
-                                $show = "show";
-                                $active = "class='active'";
-                            }
-                            $menu .= '<li ' . $active . '>';
-                            $menu .= '<a href="#form' . $nav . '" class="iq-waves-effect ' . $collapsed . '" data-toggle="collapse" aria-expanded="' . $expanded . '"><span
+                            $menu .= '<li id="' . $nav . '" >';
+                            $menu .= '<a id="a' . $nav . '" href="#form' . $nav . '" class="iq-waves-effect menu-nav" data-toggle="collapse"><span
                             class="ripple rippleEffect"></span><i
                             class="' . $main['menu_icon'] . ' iq-arrow-left"></i><span>' . $main['menu_name'] . '</span><i
                             class="ri-arrow-right-s-line iq-arrow-right"></i></a>';
-                            $menu .= '<ul id="form' . $nav . '" class="iq-submenu collapse ' . $show . '" data-parent="#iq-sidebar-toggle">';
+                            $menu .= '<ul id="form' . $nav . '" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">';
 
                             foreach ($dataSubMenu as $sub) {
                                 if ($navSub == 1 && $nav == 1) {
-                                    $menu .= '<li ' . $active . '>';
+                                    $menu .= '<li id="' . $nav . "-" . $navSub . '" >';
                                 } else {
-                                    $menu .= '<li>';
+                                    $menu .= '<li id="' . $nav . "-" . $navSub . '">';
                                 }
-                                $menu .= '<a href="' . $sub['menu_link'] . '"><i class="' . $sub['menu_link'] . '"></i>' . $sub['menu_name'] . '</a></li>';
+                                $menu .= '<a data-navsub="' . $nav . "-" . $navSub . '" href="' . $sub['menu_link'] . '" class="menu-navsub"><i class="' . $sub['menu_link'] . '"></i>' . $sub['menu_name'] . '</a></li>';
                                 $navSub++;
                             }
 
@@ -94,6 +84,7 @@ class Auth extends BaseController
                         'akses_menu' => $menu,
                         'user_id' => $getUsername['user_id'],
                         'username' => $getUsername['username'],
+                        'role_name' => $getUsername['role_name'],
                         'role_app' => $roleApp
                     );
                     session()->set($sessionData);
@@ -107,6 +98,48 @@ class Auth extends BaseController
                 return redirect()->to(base_url());
             }
         }
+    }
+
+    public function changepassword()
+    {
+        return view('auth/change_password');
+    }
+
+    public function changepasswordact()
+    {
+        $userId = session()->get('user_id');
+        $passwordLama = $this->request->getPost('password_old');
+        $passwordBaru = $this->request->getPost('password_new');
+        $passwordConfirm = $this->request->getPost('password_confirm');
+
+        $dataErrors = $this->getErrorChangePassword($passwordLama, $passwordBaru, $passwordConfirm, $userId);
+
+        if (!empty($dataErrors)) {
+            session()->setFlashdata('inputs', $this->request->getPost());
+            session()->setFlashdata('errors', $dataErrors);
+            return redirect()->to(base_url('auth/changepassword'));
+        } else {
+            $simpan = $this->user_model->updateUser(array('password' => $passwordBaru), $userId);
+            if ($simpan) {
+                session()->setFlashdata('success', 'Pergantian Password Berhasil');
+                return redirect()->to(base_url('auth/changepassword'));
+            }
+        }
+    }
+
+    public function getErrorChangePassword($passwordLama, $passwordBaru, $passwordConfirm, $userId)
+    {
+        $error = array();
+        if ($passwordBaru != $passwordConfirm) {
+            $error[] = "Password Baru dan Password Confirm tidak sama";
+        }
+
+        $getUser = $this->user_model->getUser($userId);
+        if ($getUser['password'] != $passwordLama) {
+            $error[] = "Password Lama Tidak Sama";
+        }
+
+        return $error;
     }
 
     public function logout()

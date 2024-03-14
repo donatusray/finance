@@ -107,13 +107,15 @@
             <ul class="navbar-list">
                 <li class="line-height">
                     <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                        <img src="<?= base_url('public') ?>/images/user/1.jpg" class="img-fluid rounded mr-3"
-                             alt="user">
+                        <i class="la la-3x la-user-circle img-fluid rounded mr-3 text-warning"></i>
+                        <!--                        <img src="-->
+                        <? //= base_url('public') ?><!--/images/user/1.jpg" class="img-fluid rounded mr-3"-->
+                        <!--                             alt="user">-->
 
                         <div class="caption">
                             <h6 class="mb-0 line-height"><?= session()->get('username') ?></h6>
 
-                            <p class="mb-0">Manager</p>
+                            <p class="mb-0"><?= session()->get('role_name') ?></p>
                         </div>
                     </a>
 
@@ -121,36 +123,50 @@
                         <div class="iq-card shadow-none m-0">
                             <div class="iq-card-body p-0 ">
                                 <div class="bg-primary p-3">
-                                    <h5 class="mb-0 text-white line-height">Hello Barry Tech</h5>
+                                    <h5 class="mb-0 text-white line-height">Hello <?= session()->get('username') ?></h5>
                                     <span class="text-white font-size-12">Available</span>
                                 </div>
-                                <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                <a href="<?= base_url('users/profile') ?>" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-file-user-line"></i>
                                         </div>
                                         <div class="media-body ml-3">
-                                            <h6 class="mb-0 ">My Profile</h6>
+                                            <h6 class="mb-0 ">Profil Saya</h6>
 
-                                            <p class="mb-0 font-size-12">View personal profile details.</p>
+                                            <p class="mb-0 font-size-12">Melihat profil detail aplikasi.</p>
                                         </div>
                                     </div>
                                 </a>
-                                <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
+                                <a href="<?= base_url('users/usereditsingle') ?>"
+                                   class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-primary">
                                             <i class="ri-profile-line"></i>
                                         </div>
                                         <div class="media-body ml-3">
-                                            <h6 class="mb-0 ">Edit Profile</h6>
+                                            <h6 class="mb-0 ">Edit Profil</h6>
 
-                                            <p class="mb-0 font-size-12">Modify your personal details.</p>
+                                            <p class="mb-0 font-size-12">Modifikasi profil.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="<?= base_url('auth/changepassword') ?>"
+                                   class="iq-sub-card iq-bg-primary-hover">
+                                    <div class="media align-items-center">
+                                        <div class="rounded iq-card-icon iq-bg-primary">
+                                            <i class="ri-lock-line"></i>
+                                        </div>
+                                        <div class="media-body ml-3">
+                                            <h6 class="mb-0 ">Ganti Password</h6>
+
+                                            <p class="mb-0 font-size-12">Ganti password aplikasi.</p>
                                         </div>
                                     </div>
                                 </a>
 
                                 <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="bg-primary iq-sign-btn" href="<?= base_url('auth/logout') ?>"
+                                    <a class="bg-primary iq-sign-btn" id="clicklogout" href="<?= base_url('auth/logout') ?>"
                                        role="button">Sign out<i
                                             class="ri-login-box-line ml-2"></i></a>
                                 </div>
@@ -162,4 +178,32 @@
         </nav>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (sessionStorage.length == 0) {
+            sessionStorage.clear();
+            sessionStorage.setItem("menu-navsub", "1-1");
+        }
+
+        $(".menu-navsub").on('click', function () {
+            sessionStorage.clear();
+            const navsub = $(this).data('navsub');
+            sessionStorage.setItem("menu-navsub", navsub);
+        });
+
+        if (sessionStorage.getItem("menu-navsub")) {
+            var anavsub = sessionStorage.getItem("menu-navsub");
+            var replaceNavSub = anavsub.split("-");
+            $(".menu-nav").attr("aria-expanded", "false");
+            $("#" + anavsub).addClass("active");
+            $("#a" + replaceNavSub[0]).addClass('collapsed');
+            $("#a" + replaceNavSub[0]).attr("aria-expanded", "true");
+            $("#form" + replaceNavSub[0]).addClass('show');
+            $("#" + replaceNavSub[0]).addClass("active");
+        }
+        $("#clicklogout").on('click',function(){
+            sessionStorage.clear();
+        });
+    });
+</script>
 <!-- TOP Nav Bar END -->
