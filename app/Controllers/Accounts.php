@@ -37,8 +37,9 @@ class Accounts extends BaseController
         $data = array(
             'account_name' => $this->request->getPost('account_name'),
             'account_description' => $this->request->getPost('account_description'),
-            'account_type' => $this->request->getPost('account_type'),
             'account_limit' => str_replace(",", "", $this->request->getPost('account_limit')),
+            'account_income' => ($this->request->getPost('account_income')) ? "Y" : "N",
+            'account_expense' => ($this->request->getPost('account_expense')) ? "Y" : "N",
             'createdby' => 1,
             'updatedby' => 1
         );
@@ -73,10 +74,12 @@ class Accounts extends BaseController
         $data = array(
             'account_name' => $this->request->getPost('account_name'),
             'account_description' => $this->request->getPost('account_description'),
-            'account_type' => $this->request->getPost('account_type'),
             'account_limit' => str_replace(",", "", $this->request->getPost('account_limit')),
             'account_active' => ($this->request->getPost('account_active')) ? "Y" : "N",
-            'updatedby' => 1
+            'updatedby' => 1,
+            'updated' => date('Y-m-d h:i:s'),
+            'account_income' => ($this->request->getPost('account_income')) ? "Y" : "N",
+            'account_expense' => ($this->request->getPost('account_expense')) ? "Y" : "N",
         );
 
         $dataErrors = $this->getError($data);
@@ -121,9 +124,6 @@ class Accounts extends BaseController
         $error = array();
         if ($post['account_name'] == "") {
             $error[] = "Nama Akun Wajib Diisi";
-        }
-        if ($post['account_type'] == "") {
-            $error[] = "Tipe Akun Wajib Diisi";
         }
 
         return $error;

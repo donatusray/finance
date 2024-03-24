@@ -66,7 +66,8 @@ echo view("partial/header");
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Tipe</th>
+                                            <th>Akun Pemasukan</th>
+                                            <th>Akun Pengeluaran</th>
                                             <th>Saldo</th>
                                             <th>Limit</th>
                                             <th>Keterangan</th>
@@ -83,12 +84,21 @@ echo view("partial/header");
                                             if ($la['account_active'] == 'N') {
                                                 $iconActive = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
                                             }
+                                            $iconIncome = "<span class='badge badge-success'><i class='las la-check'></i></span>";
+                                            if ($la['account_income'] == 'N') {
+                                                $iconIncome = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
+                                            }
+                                            $iconExpense = "<span class='badge badge-success'><i class='las la-check'></i></span>";
+                                            if ($la['account_expense'] == 'N') {
+                                                $iconExpense = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
+                                            }
 
                                             ?>
                                             <tr>
                                                 <td><?= ($no + 1) ?></td>
                                                 <td><?= $la['account_name'] ?></td>
-                                                <td><?= $la['account_type'] ?></td>
+                                                <td><?= $iconIncome ?></td>
+                                                <td><?= $iconExpense ?></td>
                                                 <td class="text-right"><?= number_format($la['account_balance'], 0, '.', ',') ?></td>
                                                 <td class="text-right"><?= number_format($la['account_limit'], 0, '.', ',') ?></td>
                                                 <td><?= $la['account_description'] ?></td>

@@ -64,14 +64,20 @@ echo view("partial/header");
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="account_type">Tipe <span class="text-danger">*</span></label>
+                                               for="account_income">Akun Pemasukan</label>
 
                                         <div class="col-sm-10">
-                                            <select name="account_type" id="account_type" class="form-control" required>
-                                                <option value="">--Pilih Account--</option>
-                                                <option value="DEBET">DEBET</option>
-                                                <option value="CREDIT">CREDIT</option>
-                                            </select>
+                                            <input type="checkbox" name="account_income"
+                                                   id="account_income" <?= ($inputs['account_income'] == 'Y') ? "checked" : "" ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="account_expense">Akun Pengeluaran</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" name="account_expense"
+                                                   id="account_expense" <?= ($inputs['account_expense'] == 'Y') ? "checked" : "" ?>>
                                         </div>
                                     </div>
                                     <div class="form-group row">

@@ -74,7 +74,8 @@ class Categories extends BaseController
             'category_name' => $this->request->getPost('category_name'),
             'category_type' => $this->request->getPost('category_type'),
             'category_description' => $this->request->getPost('category_description'),
-            'updatedby' => 1
+            'updatedby' => 1,
+            'updated'=>date('Y-m-d h:i:s')
         );
 
         $dataErrors = $this->getError($data);
