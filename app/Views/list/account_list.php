@@ -66,7 +66,8 @@ echo view("partial/header");
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Tipe</th>
+                                            <th>Akun Pemasukan</th>
+                                            <th>Akun Pengeluaran</th>
                                             <th>Saldo</th>
                                             <th>Limit</th>
                                             <th>Keterangan</th>
@@ -78,19 +79,28 @@ echo view("partial/header");
                                         <?php foreach ($list_account as $no => $la) {
                                             $linkEdit = "<a href='" . base_url('accounts/edit') . "?id=" . $la['account_id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Ubah Akun' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
-                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('accounts/delete') . "?id=" . $la['account_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Menu' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('accounts/delete') . "?id=" . $la['account_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Akun' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                             $iconActive = "<span class='badge badge-success'><i class='las la-check'></i></span>";
                                             if ($la['account_active'] == 'N') {
                                                 $iconActive = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
+                                            }
+                                            $iconIncome = "<span class='badge badge-success'><i class='las la-check'></i></span>";
+                                            if ($la['account_income'] == 'N') {
+                                                $iconIncome = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
+                                            }
+                                            $iconExpense = "<span class='badge badge-success'><i class='las la-check'></i></span>";
+                                            if ($la['account_expense'] == 'N') {
+                                                $iconExpense = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
                                             }
 
                                             ?>
                                             <tr>
                                                 <td><?= ($no + 1) ?></td>
                                                 <td><?= $la['account_name'] ?></td>
-                                                <td><?= $la['account_type'] ?></td>
-                                                <td><?= $la['account_balance'] ?></td>
-                                                <td><?= $la['account_limit'] ?></td>
+                                                <td><?= $iconIncome ?></td>
+                                                <td><?= $iconExpense ?></td>
+                                                <td class="text-right"><?= number_format($la['account_balance'], 0, '.', ',') ?></td>
+                                                <td class="text-right"><?= number_format($la['account_limit'], 0, '.', ',') ?></td>
                                                 <td><?= $la['account_description'] ?></td>
                                                 <td><?= $iconActive ?></td>
                                                 <td><?= $linkEdit . " " . $linkDelete ?></td>
@@ -113,7 +123,7 @@ echo view("partial/header");
         });
 
         function confirmDelete() {
-            if (confirm('Yakin menghapus menu?')) {
+            if (confirm('Yakin menghapus akun?')) {
                 return true;
             } else {
                 return false;

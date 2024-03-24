@@ -26,12 +26,12 @@ echo view("partial/header");
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?= base_url('accounts') ?>">Akun</a></li>
-                            <li class="breadcrumb-item active">Tambah Akun</li>
+                            <li class="breadcrumb-item active">Edit Akun</li>
                         </ol>
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Tambah Akun</h4>
+                                    <h4 class="card-title">Edit Akun</h4>
                                 </div>
                             </div>
                             <div class="iq-card-body">
@@ -51,14 +51,17 @@ echo view("partial/header");
                                     </div>
                                 <?php } ?>
 
-                                <form class="form-horizontal" action="<?= base_url('accounts/insert') ?>" method="post">
+                                <form class="form-horizontal" action="<?= base_url('accounts/update') ?>" method="post">
+                                    <input type="hidden" name="account_id" id="account_id"
+                                           value="<?= $inputs['account_id'] ?>">
+
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="account_name">Nama Akun <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" name="account_name"
-                                                   id="account_name"
+                                                   id="account_name" value="<?= $inputs['account_name'] ?>"
                                                    required placeholder="Nama Akun">
                                         </div>
                                     </div>
@@ -86,7 +89,8 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" name="account_limit" id="account_limit"
-                                                   class="form-control money" value="0" required>
+                                                   class="form-control money" value="<?= $inputs['account_limit'] ?>"
+                                                   required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -95,7 +99,17 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="account_description" id="account_description"
-                                                      placeholder="Keterangan" class="form-control"></textarea>
+                                                      placeholder="Keterangan"
+                                                      class="form-control"><?= $inputs['account_description'] ?></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="account_active">Aktif</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" name="account_active"
+                                                   id="account_active" <?= ($inputs['account_active'] == 'Y') ? "checked" : "" ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
