@@ -17,7 +17,7 @@ class IncomeModel extends Model
 
     public function listIncome()
     {
-        $sql = "select * from " . $this->table . " order by income_date asc";
+        $sql = "select i.*,a.account_name from " . $this->table . " i inner join accounts a on a.account_id=i.account_id order by i.income_date asc";
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
