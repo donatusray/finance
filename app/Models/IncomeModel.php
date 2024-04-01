@@ -13,7 +13,7 @@ use CodeIgniter\Model;
 
 class IncomeModel extends Model
 {
-    protected $table = "income";
+    protected $table = "incomes";
 
     public function listIncome()
     {

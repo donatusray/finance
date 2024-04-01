@@ -71,7 +71,7 @@ class Auth extends BaseController
                                 } else {
                                     $menu .= '<li id="' . $nav . "-" . $navSub . '">';
                                 }
-                                $menu .= '<a data-navsub="' . $nav . "-" . $navSub . '" href="' . $sub['menu_link'] . '" class="menu-navsub"><i class="' . $sub['menu_icon'] . '"></i>' . $sub['menu_name'] . '</a></li>';
+                                $menu .= '<a data-navsub="' . $nav . "-" . $navSub . '" href="' . base_url($sub['menu_link']) . '" class="menu-navsub"><i class="' . $sub['menu_icon'] . '"></i>' . $sub['menu_name'] . '</a></li>';
                                 $navSub++;
                             }
 
