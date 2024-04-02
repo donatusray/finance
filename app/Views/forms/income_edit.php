@@ -59,7 +59,7 @@ echo view("partial/header");
 
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="amount">Nama Pemasukan <span class="text-danger">*</span></label>
+                                               for="income_title">Nama Pemasukan <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" name="income_title" id="income_title"

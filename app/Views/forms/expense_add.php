@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: IT PETUALANG
- * Date: 01/04/2024
- * Time: 10:14
+ * Date: 02/04/2024
+ * Time: 10:53
  */
 echo view("partial/header");
 ?>
@@ -14,9 +14,9 @@ echo view("partial/header");
     </div>
     <!-- MASK -->
     <script src="<?= base_url('public/jquery-mask') ?>/jquery.mask.min.js"></script>
-<!--    <!-- daterangepicker -->-->
-<!--    <script src="--><?php //echo base_url('public/moment'); ?><!--/moment.min.js"></script>-->
-<!--    <script src="--><?php //echo base_url('public/daterangepicker'); ?><!--/daterangepicker.js"></script>-->
+    <!--    <!-- daterangepicker -->-->
+    <!--    <script src="--><?php //echo base_url('public/moment'); ?><!--/moment.min.js"></script>-->
+    <!--    <script src="--><?php //echo base_url('public/daterangepicker'); ?><!--/daterangepicker.js"></script>-->
     <!-- loader END -->
     <!-- Wrapper Start -->
     <div class="wrapper">
@@ -28,13 +28,13 @@ echo view("partial/header");
                 <div class="row">
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?= base_url('incomes') ?>">Pemasukan</a></li>
-                            <li class="breadcrumb-item active">Tambah Pemasukan</li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('expense') ?>">Pengeluaran</a></li>
+                            <li class="breadcrumb-item active">Tambah Pengeluaran</li>
                         </ol>
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Tambah Pemasukan</h4>
+                                    <h4 class="card-title">Tambah Pengeluaran</h4>
                                 </div>
                             </div>
                             <div class="iq-card-body">
@@ -54,23 +54,23 @@ echo view("partial/header");
                                     </div>
                                 <?php } ?>
 
-                                <form class="form-horizontal" action="<?= base_url('income/insert') ?>" method="post">
+                                <form class="form-horizontal" action="<?= base_url('expense/insert') ?>" method="post">
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="income_title">Nama Pemasukan <span class="text-danger">*</span></label>
+                                               for="expense_title">Nama Pengeluaran <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" name="income_title" id="income_title"
-                                                   class="form-control" placeholder="Nama Pemasukan" required>
+                                            <input type="text" name="expense_title" id="expense_title"
+                                                   class="form-control" placeholder="Nama Pengeluaran" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="income_date">Tanggal Pemasukan <span
+                                               for="expense_date">Tanggal Pemasukan <span
                                                 class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <input type="date" name="income_date" id="income_date" value="<?=date('Y-m-d')?>"
+                                            <input type="date" name="expense_date" id="expense_date" value="<?=date('Y-m-d')?>"
                                                    class="form-control"  required>
                                         </div>
                                     </div>
@@ -93,12 +93,12 @@ echo view("partial/header");
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="account_id">Akun Pemasukan <span
+                                               for="account_id">Akun Pengeluaran <span
                                                 class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <select required name="account_id" id="account_id" class="form-control">
-                                                <option value="">Pilih Akun Pemasukan</option>
+                                                <option value="">Pilih Akun Pengeluaran</option>
                                                 <?php
                                                 foreach ($accounts as $account) {
                                                     echo "<option value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
@@ -121,13 +121,13 @@ echo view("partial/header");
                                                for="income_description">Keterangan</label>
 
                                         <div class="col-sm-10">
-                                            <textarea rows="2" name="income_description" id="income_description"
+                                            <textarea rows="2" name="expense_description" id="expense_description"
                                                       placeholder="Keterangan" class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <a href="<?= base_url('income') ?>" class="btn iq-bg-danger">Kembali</a>
+                                        <a href="<?= base_url('expense') ?>" class="btn iq-bg-danger">Kembali</a>
                                     </div>
                                 </form>
                             </div>

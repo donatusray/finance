@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: IT PETUALANG
- * Date: 01/04/2024
- * Time: 10:14
+ * Date: 02/04/2024
+ * Time: 11:08
  */
 echo view("partial/header");
 ?>
@@ -14,9 +14,9 @@ echo view("partial/header");
     </div>
     <!-- MASK -->
     <script src="<?= base_url('public/jquery-mask') ?>/jquery.mask.min.js"></script>
-<!--    <!-- daterangepicker -->-->
-<!--    <script src="--><?php //echo base_url('public/moment'); ?><!--/moment.min.js"></script>-->
-<!--    <script src="--><?php //echo base_url('public/daterangepicker'); ?><!--/daterangepicker.js"></script>-->
+    <!--    <!-- daterangepicker -->-->
+    <!--    <script src="--><?php //echo base_url('public/moment'); ?><!--/moment.min.js"></script>-->
+    <!--    <script src="--><?php //echo base_url('public/daterangepicker'); ?><!--/daterangepicker.js"></script>-->
     <!-- loader END -->
     <!-- Wrapper Start -->
     <div class="wrapper">
@@ -28,13 +28,13 @@ echo view("partial/header");
                 <div class="row">
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?= base_url('incomes') ?>">Pemasukan</a></li>
-                            <li class="breadcrumb-item active">Tambah Pemasukan</li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('expense') ?>">Pengeluaran</a></li>
+                            <li class="breadcrumb-item active">Ubah Pengeluaran</li>
                         </ol>
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Tambah Pemasukan</h4>
+                                    <h4 class="card-title">Ubah Pengeluaran</h4>
                                 </div>
                             </div>
                             <div class="iq-card-body">
@@ -54,24 +54,28 @@ echo view("partial/header");
                                     </div>
                                 <?php } ?>
 
-                                <form class="form-horizontal" action="<?= base_url('income/insert') ?>" method="post">
+                                <form class="form-horizontal" action="<?= base_url('expense/update') ?>" method="post">
+                                    <input type="hidden" name="id" id="id" value="<?= $expense['id'] ?>"/>
+
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="income_title">Nama Pemasukan <span class="text-danger">*</span></label>
+                                               for="expense_title">Nama Pengeluaran <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" name="income_title" id="income_title"
-                                                   class="form-control" placeholder="Nama Pemasukan" required>
+                                            <input type="text" name="expense_title" id="expense_title"
+                                                   value="<?= $inputs['expense_title'] ?>"
+                                                   class="form-control" placeholder="Nama Pengeluaran" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="income_date">Tanggal Pemasukan <span
+                                               for="expense_date">Tanggal Pengeluaran <span
                                                 class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <input type="date" name="income_date" id="income_date" value="<?=date('Y-m-d')?>"
-                                                   class="form-control"  required>
+                                            <input type="date" name="expense_date" id="expense_date"
+                                                   value="<?= date('Y-m-d', strtotime($inputs['expense_date'])) ?>"
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -84,24 +88,33 @@ echo view("partial/header");
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
                                                 foreach ($categories as $cat) {
-                                                    echo "<option value='" . $cat['category_id'] . "'>" . $cat['category_name'] . "</option>";
+                                                    $selected = "";
+                                                    if ($cat['category_id'] == $inputs['category_id']) {
+                                                        $selected = "selected";
+                                                    }
+                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
-                                            <input type="hidden" name="category_name" id="category_name">
+                                            <input type="hidden" name="category_name" id="category_name"
+                                                   value="<?= $inputs['category_name'] ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="account_id">Akun Pemasukan <span
+                                               for="account_id">Akun Pengeluaran <span
                                                 class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <select required name="account_id" id="account_id" class="form-control">
-                                                <option value="">Pilih Akun Pemasukan</option>
+                                            <select required name="account_id" id="account_id" class="form-control"
+                                                    readonly="true">
                                                 <?php
                                                 foreach ($accounts as $account) {
-                                                    echo "<option value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
+                                                    if ($account['account_id'] != $inputs['account_id']) {
+                                                        continue;
+                                                    }
+                                                    $selected = "selected";
+                                                    echo "<option " . $selected . " value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -113,21 +126,23 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" name="amount" id="amount"
-                                                   class="form-control money" value="0" required>
+                                                   class="form-control money" value="<?= $inputs['amount'] ?>"
+                                                   required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="income_description">Keterangan</label>
+                                               for="expense_description">Keterangan</label>
 
                                         <div class="col-sm-10">
-                                            <textarea rows="2" name="income_description" id="income_description"
-                                                      placeholder="Keterangan" class="form-control"></textarea>
+                                            <textarea rows="2" name="expense_description" id="expense_description"
+                                                      placeholder="Keterangan"
+                                                      class="form-control"><?= $inputs['expense_description'] ?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <a href="<?= base_url('income') ?>" class="btn iq-bg-danger">Kembali</a>
+                                        <a href="<?= base_url('expense') ?>" class="btn iq-bg-danger">Kembali</a>
                                     </div>
                                 </form>
                             </div>
