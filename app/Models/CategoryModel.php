@@ -15,6 +15,20 @@ class CategoryModel extends Model
 {
     protected $table = "category";
 
+    public function listCategoryIncome()
+    {
+        $sql = "select * from " . $this->table . " where category_type=:tipe: order by category_name asc";
+        $query = $this->db->query($sql, ['tipe' => 'INCOME']);
+        return $query->getResultArray();
+    }
+
+    public function listCategoryExpense()
+    {
+        $sql = "select * from " . $this->table . " where category_type=:tipe: order by category_name asc";
+        $query = $this->db->query($sql, ['tipe' => 'EXPENSE']);
+        return $query->getResultArray();
+    }
+
     public function listCategory()
     {
         $sql = "select * from " . $this->table . " order by category_name asc";

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: IT PETUALANG
- * Date: 01/04/2024
- * Time: 09:54
+ * Date: 02/04/2024
+ * Time: 10:50
  */
 echo view("partial/header");
 ?>
@@ -31,13 +31,13 @@ echo view("partial/header");
                         <div class="iq-card">
                             <div class="iq-card-header d-flex justify-content-between">
                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Daftar Pemasukan</h4>
+                                    <h4 class="card-title">Daftar Pengeluaran</h4>
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <a href="<?= base_url('income/add') ?>" class="btn btn-success"
+                                <a href="<?= base_url('expense/add') ?>" class="btn btn-success"
                                    data-toggle="tooltip"
-                                   data-placement="top" title="Tambah Pemasukan"><i
+                                   data-placement="top" title="Tambah Pengeluaran"><i
                                         class="fa fa-plus"></i></a>
                                 <br><br>
 
@@ -67,24 +67,24 @@ echo view("partial/header");
                                             <th>Tanggal</th>
                                             <th>Kategori</th>
                                             <th>Akun</th>
-                                            <th>Nama Pemasukan</th>
+                                            <th>Nama Pengeluaran</th>
                                             <th>Nominal</th>
                                             <th>Aksi</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                                        foreach ($incomes as $no => $income) {
-                                            $linkEdit = "<a href='" . base_url('income/edit') . "?id=" . $income['id'] . "' data-toggle='tooltip'
-                                   data-placement='top' title='Ubah Pemasukan' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
-                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('income/delete') . "?id=" . $income['id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Pemasukan' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                        foreach ($expenses as $no => $expense) {
+                                            $linkEdit = "<a href='" . base_url('expense/edit') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
+                                   data-placement='top' title='Ubah Pengeluaran' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
+                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('expense/delete') . "?id=" . $expense['id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Pengeluaran' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
-                                            echo "<td>" . date('d-m-Y',strtotime($income['income_date'])) . "</td>";
-                                            echo "<td>" . $income['category_name'] . "</td>";
-                                            echo "<td>" . $income['account_name'] . "</td>";
-                                            echo "<td>" . $income['income_title'] . "</td>";
-                                            echo "<td class='text-right'>" . number_format($income['amount'], 0, '.', ',') . "</td>";
+                                            echo "<td>" . date('d-m-Y', strtotime($expense['expense_date'])) . "</td>";
+                                            echo "<td>" . $expense['category_name'] . "</td>";
+                                            echo "<td>" . $expense['account_name'] . "</td>";
+                                            echo "<td>" . $expense['expense_title'] . "</td>";
+                                            echo "<td class='text-right'>" . number_format($expense['amount'], 0, '.', ',') . "</td>";
                                             echo "<td>" . $linkEdit . " " . $linkDelete . "</td>";
                                             echo "</tr>";
                                         }
@@ -106,7 +106,7 @@ echo view("partial/header");
         });
 
         function confirmDelete() {
-            if (confirm('Yakin menghapus pemasukan?')) {
+            if (confirm('Yakin menghapus pengeluaran?')) {
                 return true;
             } else {
                 return false;

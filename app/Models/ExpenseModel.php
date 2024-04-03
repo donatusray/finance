@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: IT PETUALANG
- * Date: 01/04/2024
- * Time: 09:46
+ * Date: 02/04/2024
+ * Time: 10:27
  */
 
 namespace App\Models;
@@ -11,36 +11,35 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class IncomeModel extends Model
-{
-    protected $table = "incomes";
+class ExpenseModel extends Model{
+    protected $table = "expense";
 
-    public function listIncome()
+    public function listExpense()
     {
-        $sql = "select i.*,a.account_name from " . $this->table . " i inner join accounts a on a.account_id=i.account_id order by i.income_date asc";
+        $sql = "select e.*,a.account_name from " . $this->table . " e inner join accounts a on a.account_id=e.account_id order by e.expense_date asc";
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
 
-    public function getIncome($id)
+    public function getExpense($id)
     {
         $sql = "select * from " . $this->table . " where id=:id:";
         $query = $this->db->query($sql, ['id' => $id]);
         return $query->getRowArray();
     }
 
-    public function insertIncome($data)
+    public function insertExpense($data)
     {
         $this->db->table($this->table)->insert($data);
         return $this->db->insertID();
     }
 
-    public function updateIncome($data, $id)
+    public function updateExpense($data, $id)
     {
         return $this->db->table($this->table)->update($data, ['id' => $id]);
     }
 
-    public function deleteIncome($id)
+    public function deleteExpense($id)
     {
         return $this->db->table($this->table)->delete(['id' => $id]);
     }

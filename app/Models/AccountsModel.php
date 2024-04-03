@@ -22,6 +22,20 @@ class AccountsModel extends Model
         return $query->getResultArray();
     }
 
+    public function listAccountIncomeActive()
+    {
+        $sql = "select * from " . $this->table . " where account_income=:account_income: and account_active=:active:";
+        $query = $this->db->query($sql, ['account_income' => 'Y', 'active' => 'Y']);
+        return $query->getResultArray();
+    }
+
+    public function listAccountExpenseActive()
+    {
+        $sql = "select * from " . $this->table . " where account_expense=:account_expense: and account_active=:active:";
+        $query = $this->db->query($sql, ['account_expense' => 'Y', 'active' => 'Y']);
+        return $query->getResultArray();
+    }
+
     public function getAccount($id)
     {
         $sql = "select * from " . $this->table . " where account_id=:id:";
