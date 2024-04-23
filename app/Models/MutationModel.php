@@ -33,6 +33,7 @@ where m.mutation_date between :from_date: and :to_date: ";
         if ($account != "") {
             $sql .= " and (m.account_id_income=:account_id: or m.account_id_expense=:account_id:)";
         }
+        $sql .= " order by mutation_date asc ";
         $column['from_date'] = $from;
         $column['to_date'] = $to;
         if ($account != '') {

@@ -65,7 +65,11 @@ echo view("partial/header");
                                                     <option value="">Pilih Akun</option>
                                                     <?php
                                                     foreach ($accounts as $account) {
-                                                        echo "<option value='" . $account['account_id'] . "'>" . $account['account_name'] . " (" . $account['account_active'] . ")</option>";
+                                                        $selected = "";
+                                                        if ($account['account_id'] == $get_account) {
+                                                            $selected = "selected";
+                                                        }
+                                                        echo "<option " . $selected . " value='" . $account['account_id'] . "'>" . $account['account_name'] . " (" . $account['account_active'] . ")</option>";
                                                     }?>
                                                 </select>
                                             </div>
@@ -110,15 +114,30 @@ echo view("partial/header");
                                         </thead>
                                         <tbody>
                                         <?php
+                                        $totalNominalDebet = 0;
+                                        $totalNominalCredit = 0;
                                         foreach ($mutation as $no => $mut) {
                                             $nominalDebet = 0;
-                                            $nominnalCredit = 0;
-                                            if ($mut['account_debet'] != '') {
-                                                $nominalDebet = $mut['mutation_amount'];
+                                            $nominalCredit = 0;
+                                            if ($get_account != '') {
+                                                if ($get_account == $mut['account_id_income']) {
+                                                    $nominalDebet = $mut['mutation_amount'];
+                                                    $mut['account_credit'] = "";
+                                                }
+                                                if ($get_account == $mut['account_id_expense']) {
+                                                    $nominalCredit = $mut['mutation_amount'];
+                                                    $mut['account_debet'] = "";
+                                                }
+                                            } else {
+                                                if ($mut['account_debet'] != '') {
+                                                    $nominalDebet = $mut['mutation_amount'];
+                                                }
+                                                if ($mut['account_credit'] != '') {
+                                                    $nominalCredit = $mut['mutation_amount'];
+                                                }
                                             }
-                                            if ($mut['account_credit'] != '') {
-                                                $nominalCredit = $mut['mutation_amount'];
-                                            }
+                                            $totalNominalDebet += $nominalDebet;
+                                            $totalNominalCredit += $nominalCredit;
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
                                             echo "<td>" . $mut['account_debet'] . "</td>";
@@ -130,8 +149,18 @@ echo view("partial/header");
                                             echo "<td></td>";
                                             echo "</tr>";
                                         }
+                                        $saldo = $totalNominalDebet - $totalNominalCredit;
+
                                         ?>
                                         </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <td colspan="5">Total</td>
+                                            <td class='text-right'><?= number_format($totalNominalDebet) ?></td>
+                                            <td class='text-right'><?= number_format($totalNominalCredit) ?></td>
+                                            <td class="text-right"><?= ($saldo > 0) ? "<span class='text-success'>" . number_format($saldo) . "</span>" : "<span class='text-danger'>" . number_format($saldo) . "</span>"; ?></td>
+                                        </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

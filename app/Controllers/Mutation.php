@@ -40,6 +40,7 @@ class Mutation extends BaseController
         $data['accounts'] = $this->accountsModel->listAccount();
         $data['get_to'] = $getTo;
         $data['get_from'] = $getFrom;
+        $data['get_account'] = $getAccount;
         $data['mutation'] = $mutation;
         return view('list/mutation_list', $data);
     }
