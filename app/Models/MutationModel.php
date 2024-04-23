@@ -23,6 +23,26 @@ class MutationModel extends Model
         return $query->getResultArray();
     }
 
+    public function listMutationByAccountDate($from, $to, $account)
+    {
+        $sql = "select m.*, debet.account_name account_debet, credit.account_name account_credit
+from mutation m
+left join accounts debet on debet.account_id = m.account_id_income
+left join accounts credit on credit.account_id = m.account_id_expense
+where m.mutation_date between :from_date: and :to_date: ";
+        if ($account != "") {
+            $sql .= " and (m.account_id_income=:account_id: or m.account_id_expense=:account_id:)";
+        }
+        $sql .= " order by mutation_date asc ";
+        $column['from_date'] = $from;
+        $column['to_date'] = $to;
+        if ($account != '') {
+            $column['account_id'] = $account;
+        }
+        $query = $this->db->query($sql, $column);
+        return $query->getResultArray();
+    }
+
     public function getMutation($id)
     {
         $sql = "select * from " . $this->table . " where id=:id:";
