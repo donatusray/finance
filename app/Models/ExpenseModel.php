@@ -11,13 +11,35 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ExpenseModel extends Model{
+class ExpenseModel extends Model
+{
     protected $table = "expense";
 
     public function listExpense()
     {
-        $sql = "select e.*,a.account_name from " . $this->table . " e inner join accounts a on a.account_id=e.account_id order by e.expense_date asc";
+        $sql = "select e.*,a.account_name
+from " . $this->table . " e
+inner join accounts a on a.account_id=e.account_id
+order by e.expense_date asc";
         $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+    public function listExpenseCustom($where, $value)
+    {
+        $sql = "select e.*,a.account_name
+from " . $this->table . " e
+inner join accounts a on a.account_id=e.account_id ";
+        if (count($where) > 0) {
+            $sql .= " where " . implode(" ", $where);
+        }
+        $sql .= " order by e.expense_date asc";
+        if (count($value) > 0) {
+            $query = $this->db->query($sql, $value);
+        } else {
+            $query = $this->db->query($sql);
+        }
+
         return $query->getResultArray();
     }
 

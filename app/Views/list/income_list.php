@@ -35,6 +35,69 @@ echo view("partial/header");
                                 </div>
                             </div>
                             <div class="iq-card-body">
+                                <div class="card iq-mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="filter_from">Tanggal Pemasukan Dari</label>
+                                                    <input type="date" name="filter_from" id="filter_from"
+                                                           value="<?= $get_from ?>" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="filter_to">Tanggal Pemasukan Sampai</label>
+                                                    <input type="date" name="filter_to" id="filter_to"
+                                                           value="<?= $get_to ?>" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="filter_category">Kategori Pemasukan</label>
+                                                    <select name="filter_category" id="filter_category"
+                                                            class="form-control">
+                                                        <option value="">All</option>
+                                                        <?php
+                                                        foreach ($categories as $cat) {
+                                                            $selected = "";
+                                                            if ($cat['category_id'] == $get_category) {
+                                                                $selected = "selected";
+                                                            }
+                                                            echo "<option value='" . $cat['category_id'] . "' ".$selected.">" . $cat['category_name'] . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="filter_account">Akun Pemasukan</label>
+                                                    <select name="filter_account" id="filter_account"
+                                                            class="form-control">
+                                                        <option value="">All</option>
+                                                        <?php
+                                                        foreach ($accounts as $account) {
+                                                            $selected = "";
+                                                            if ($account['account_id'] == $get_account) {
+                                                                $selected = "selected";
+                                                            }
+                                                            echo "<option value='" . $account['account_id'] . "' " . $selected . ">" . $account['account_name'] . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="button" name="btn" class="btn btn-primary"
+                                                        onclick="search()"><i class="las la-search"></i> Cari Data
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+
                                 <a href="<?= base_url('income/add') ?>" class="btn btn-success"
                                    data-toggle="tooltip"
                                    data-placement="top" title="Tambah Pemasukan"><i
@@ -104,6 +167,14 @@ echo view("partial/header");
         $(function () {
             $("#example2").DataTable();
         });
+
+        function search() {
+            var from = $("#filter_from").val();
+            var to = $("#filter_to").val();
+            var account = $("#filter_account").val();
+            var category = $("#filter_category").val();
+            window.location = "<?=base_url('income')?>?from=" + from + "&to=" + to + "&account=" + account + "&category=" + category;
+        }
 
         function confirmDelete() {
             if (confirm('Yakin menghapus pemasukan?')) {

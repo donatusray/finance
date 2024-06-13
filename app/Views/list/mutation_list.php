@@ -32,47 +32,35 @@ echo view("partial/header");
                             <div class="iq-card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-4 align-self-center mb-0"
-                                                   for="get_from">Tanggal Dari</label>
-
-                                            <div class="col-sm-8">
-                                                <input type="date" name="get_from" id="get_from"
-                                                       value="<?= date('Y-m-d', strtotime($get_from)) ?>"
-                                                       class="form-control">
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="get_from">Tanggal Dari</label>
+                                            <input type="date" name="get_from" id="get_from"
+                                                   value="<?= date('Y-m-d', strtotime($get_from)) ?>"
+                                                   class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-4 align-self-center mb-0"
-                                                   for="get_to">Tanggal Sampai</label>
-
-                                            <div class="col-sm-8">
-                                                <input type="date" name="get_to" id="get_to"
-                                                       value="<?= date('Y-m-d', strtotime($get_to)) ?>"
-                                                       class="form-control">
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="get_to">Tanggal Sampai</label>
+                                            <input type="date" name="get_to" id="get_to"
+                                                   value="<?= date('Y-m-d', strtotime($get_to)) ?>"
+                                                   class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group row">
-                                            <label class="control-label col-sm-4 align-self-center mb-0"
-                                                   for="get_account">Akun</label>
-
-                                            <div class="col-sm-8">
-                                                <select name="get_account" id="get_account" class="form-control">
-                                                    <option value="">Pilih Akun</option>
-                                                    <?php
-                                                    foreach ($accounts as $account) {
-                                                        $selected = "";
-                                                        if ($account['account_id'] == $get_account) {
-                                                            $selected = "selected";
-                                                        }
-                                                        echo "<option " . $selected . " value='" . $account['account_id'] . "'>" . $account['account_name'] . " (" . $account['account_active'] . ")</option>";
-                                                    }?>
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="get_account">Akun</label>
+                                            <select name="get_account" id="get_account" class="form-control">
+                                                <option value="">Pilih Akun</option>
+                                                <?php
+                                                foreach ($accounts as $account) {
+                                                    $selected = "";
+                                                    if ($account['account_id'] == $get_account) {
+                                                        $selected = "selected";
+                                                    }
+                                                    echo "<option " . $selected . " value='" . $account['account_id'] . "'>" . $account['account_name'] . " (" . $account['account_active'] . ")</option>";
+                                                }?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

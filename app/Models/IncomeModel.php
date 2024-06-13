@@ -22,6 +22,24 @@ class IncomeModel extends Model
         return $query->getResultArray();
     }
 
+    public function listIncomeCustom($where, $value)
+    {
+        $sql = "select i.*,a.account_name
+from " . $this->table . " i
+inner join accounts a on a.account_id=i.account_id ";
+        if (count($where) > 0) {
+            $sql .= " where " . implode(" ", $where);
+        }
+        $sql .= " order by i.income_date asc";
+        if (count($value) > 0) {
+            $query = $this->db->query($sql, $value);
+        } else {
+            $query = $this->db->query($sql);
+        }
+
+        return $query->getResultArray();
+    }
+
     public function getIncome($id)
     {
         $sql = "select * from " . $this->table . " where id=:id:";

@@ -10,7 +10,7 @@
 <div class="iq-sidebar">
     <div class="iq-navbar-logo d-flex justify-content-between">
         <a href="index.html" class="header-logo">
-            <img src="images/logo.png" class="img-fluid rounded" alt="">
+            <img src="<?= base_url('public') ?>/images/logo.png" class="img-fluid rounded" alt="">
             <span>Finance</span>
         </a>
 
@@ -44,7 +44,7 @@
                 </div>
                 <div class="iq-navbar-logo d-flex justify-content-between ml-3">
                     <a href="index.html" class="header-logo">
-                        <img src="images/logo.png" class="img-fluid rounded" alt="">
+                        <img src="<?= base_url('public') ?>/images/logo.png" class="img-fluid rounded" alt="">
                         <span>FinDash</span>
                     </a>
                 </div>
@@ -72,30 +72,30 @@
                                             <smaLl cLass="badge  badge-light float-right pt-1">4</small>
                                         </h5>
                                     </div>
-                                    <a href="#" class="iq-sub-card">
-                                        <div class="media align-items-center">
-                                            <div class="">
-                                                <img class="avatar-40 rounded" src="images/user/01.jpg" alt="">
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">Emma Watson Barry</h6>
-                                                <small class="float-right font-size-12">Just now</small>
-                                                <p class="mb-0">95 MB</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="iq-sub-card">
-                                        <div class="media align-items-center">
-                                            <div class="">
-                                                <img class="avatar-40 rounded" src="images/user/02.jpg" alt="">
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">New customer is join</h6>
-                                                <small class="float-right font-size-12">5 days ago</small>
-                                                <p class="mb-0">Cyst Barry</p>
-                                            </div>
-                                        </div>
-                                    </a>
+<!--                                    <a href="#" class="iq-sub-card">-->
+<!--                                        <div class="media align-items-center">-->
+<!--                                            <div class="">-->
+<!--                                                <img class="avatar-40 rounded" src="images/user/01.jpg" alt="">-->
+<!--                                            </div>-->
+<!--                                            <div class="media-body ml-3">-->
+<!--                                                <h6 class="mb-0 ">Emma Watson Barry</h6>-->
+<!--                                                <small class="float-right font-size-12">Just now</small>-->
+<!--                                                <p class="mb-0">95 MB</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
+<!--                                    <a href="#" class="iq-sub-card">-->
+<!--                                        <div class="media align-items-center">-->
+<!--                                            <div class="">-->
+<!--                                                <img class="avatar-40 rounded" src="images/user/02.jpg" alt="">-->
+<!--                                            </div>-->
+<!--                                            <div class="media-body ml-3">-->
+<!--                                                <h6 class="mb-0 ">New customer is join</h6>-->
+<!--                                                <small class="float-right font-size-12">5 days ago</small>-->
+<!--                                                <p class="mb-0">Cyst Barry</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
 
                                 </div>
                             </div>
