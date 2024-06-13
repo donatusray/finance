@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Finance - Donatus Ray</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="shortcut icon" href="<?= base_url('public') ?>/images/favicon.ico"/>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?=base_url('public')?>/css/bootstrap.min.css">
     <!-- Typography CSS -->

@@ -31,8 +31,34 @@ class Expense extends BaseController
 
     public function index()
     {
-        $listExpense = $this->expenseModel->listExpense();
+        $getCategory = $this->request->getGet('category');
+        $getAccount = $this->request->getGet('account');
+        $getFrom = ($this->request->getGet('from') != "") ? $this->request->getGet('from') : date('Y-m-d');
+        $getTo = ($this->request->getGet('to') != "") ? $this->request->getGet('to') : date('Y-m-d');
+        $listCategoryExpense = $this->categoryModel->listCategoryExpense();
+        $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
+        $where[] = "e.expense_date between :from_date: and :to_date:";
+        $value['from_date'] = $getFrom;
+        $value['to_date'] = $getTo;
+
+        if ($getCategory != "") {
+            $where[] = "and e.category_id=:category_id:";
+            $value['category_id'] = $getCategory;
+        }
+        if ($getAccount != "") {
+            $where[] = "and e.account_id=:account_id:";
+            $value['account_id'] = $getAccount;
+        }
+
+        $listExpense = $this->expenseModel->listExpenseCustom($where, $value);
+
+        $data['categories'] = $listCategoryExpense;
+        $data['accounts'] = $listAccountExpense;
         $data['expenses'] = $listExpense;
+        $data['get_category'] = $getCategory;
+        $data['get_account'] = $getAccount;
+        $data['get_from'] = $getFrom;
+        $data['get_to'] = $getTo;
         return view('list/expense_list', $data);
     }
 
@@ -92,7 +118,7 @@ class Expense extends BaseController
     public function update()
     {
         $id = $this->request->getPost('id');
-        $expenseBefore=$this->expenseModel->getExpense($id);
+        $expenseBefore = $this->expenseModel->getExpense($id);
         $accountBefore = $this->accountsModel->getAccount($expenseBefore['account_id']);
         $mutationBefore = $this->mutationModel->getMutationByTypeAndIdTransaction('expense', $id);
         $data = array(
