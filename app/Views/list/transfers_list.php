@@ -34,6 +34,70 @@ echo view("partial/header");
                                     <h4 class="card-title">Daftar Transfers</h4>
                                 </div>
                             </div>
+                            <div class="card iq-mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filter_from">Tanggal Transfer Dari</label>
+                                                <input type="date" name="filter_from" id="filter_from"
+                                                       value="<?= $get_from ?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filter_to">Tanggal Transfer Sampai</label>
+                                                <input type="date" name="filter_to" id="filter_to"
+                                                       value="<?= $get_to ?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filter_account_from">Akun Sumber</label>
+                                                <select name="filter_account_credit" id="filter_account_credit"
+                                                        class="form-control">
+                                                    <option value="">All</option>
+                                                    <?php
+                                                    foreach ($account_expense as $ae) {
+                                                        $selected = "";
+                                                        if ($ae['account_id'] == $get_credit) {
+                                                            $selected = "selected";
+                                                        }
+                                                        echo "<option value='" . $ae['account_id'] . "' " . $selected . ">" . $ae['account_name'] . "</option>";
+                                                    }
+
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="filter_account">Akun Tujuan</label>
+                                                <select name="filter_account_debit" id="filter_account_debit"
+                                                        class="form-control">
+                                                    <option value="">All</option>
+                                                    <?php
+                                                    foreach ($account_income as $ai) {
+                                                        $selected = "";
+                                                        if ($ai['account_id'] == $get_debit) {
+                                                            $selected = "selected";
+                                                        }
+                                                        echo "<option value='" . $ai['account_id'] . "' " . $selected . ">" . $ai['account_name'] . "</option>";
+                                                    }
+
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" name="btn" class="btn btn-primary"
+                                                    onclick="search()"><i class="las la-search"></i> Cari Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="iq-card-body">
                                 <a href="<?= base_url('transfers/add') ?>" class="btn btn-success"
                                    data-toggle="tooltip"
@@ -102,6 +166,14 @@ echo view("partial/header");
         $(function () {
             $("#example2").DataTable();
         });
+
+        function search() {
+            var from = $("#filter_from").val();
+            var to = $("#filter_to").val();
+            var accountDebit = $("#filter_account_debit").val();
+            var accountCredit = $("#filter_account_credit").val();
+            window.location = "<?=base_url('transfers')?>?from=" + from + "&to=" + to + "&debit=" + accountDebit + "&credit=" + accountCredit;
+        }
 
         function confirmDelete() {
             if (confirm('Yakin menghapus transfer?')) {

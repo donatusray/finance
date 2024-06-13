@@ -15,13 +15,21 @@ class TransfersModel extends Model
 {
     protected $table = "transfers";
 
-    public function listTransfers()
+    public function listTransfers($where, $value)
     {
-        $sql = "select t.*, debet.account_name debet_name, credit.account_name credit_name from transfers t
+        $sql = "select t.*, debet.account_name debet_name, credit.account_name credit_name
+                from transfers t
                 inner join accounts debet on debet.account_id=t.account_debet
-                inner join accounts credit on credit.account_id=t.account_credit
-                order by t.transfer_date asc";
-        $query = $this->db->query($sql);
+                inner join accounts credit on credit.account_id=t.account_credit ";
+        if (count($where) > 0) {
+            $sql .= " where " . implode(" ", $where);
+        }
+        $sql .= " order by t.transfer_date asc ";
+        if (count($value) > 0) {
+            $query = $this->db->query($sql, $value);
+        } else {
+            $query = $this->db->query($sql);
+        }
         return $query->getResultArray();
     }
 

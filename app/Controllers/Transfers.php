@@ -28,7 +28,34 @@ class Transfers extends BaseController
 
     public function index()
     {
-        $listTransfer = $this->transfersModel->listTransfers();
+        $getFrom = ($this->request->getGet('from') != "") ? $this->request->getGet('from') : date('Y-m-d');
+        $getTo = ($this->request->getGet('to') != "") ? $this->request->getGet('to') : date('Y-m-d');
+        $getAccountDebit = $this->request->getGet('debit');
+        $getAccountCredit = $this->request->getGet('credit');
+
+        $where[] = "t.transfer_date between :from_date: and :to_date:";
+        $value['from_date'] = $getFrom;
+        $value['to_date'] = $getTo;
+
+        if ($getAccountDebit != "") {
+            $where[] = " and t.account_debet=:debit:";
+            $value['debit'] = $getAccountDebit;
+        }
+
+        if ($getAccountCredit != "") {
+            $where[] = " and t.account_credit=:credit:";
+            $value['credit'] = $getAccountCredit;
+        }
+
+        $listTransfer = $this->transfersModel->listTransfers($where, $value);
+        $listAccountIncome = $this->accountsModel->listAccountIncomeActive();
+        $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
+        $data['account_income'] = $listAccountIncome;
+        $data['account_expense'] = $listAccountExpense;
+        $data['get_from'] = $getFrom;
+        $data['get_to'] = $getTo;
+        $data['get_debit'] = $getAccountDebit;
+        $data['get_credit'] = $getAccountCredit;
         $data['transfers'] = $listTransfer;
         return view('list/transfers_list', $data);
     }
