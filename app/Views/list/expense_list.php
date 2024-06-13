@@ -64,7 +64,7 @@ echo view("partial/header");
                                                             if ($cat['category_id'] == $get_category) {
                                                                 $selected = "selected";
                                                             }
-                                                            echo "<option value='" . $cat['category_id'] . "'>" . $cat['category_name'] . "</option>";
+                                                            echo "<option value='" . $cat['category_id'] . "' " . $selected . ">" . $cat['category_name'] . "</option>";
                                                         }
                                                         ?>
                                                     </select>

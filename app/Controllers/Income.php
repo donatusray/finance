@@ -31,8 +31,35 @@ class Income extends BaseController
 
     public function index()
     {
-        $listIncome = $this->incomeModel->listIncome();
+        $getCategory = $this->request->getGet('category');
+        $getAccount = $this->request->getGet('account');
+        $getFrom = ($this->request->getGet('from') != "") ? $this->request->getGet('from') : date('Y-m-d');
+        $getTo = ($this->request->getGet('to') != "") ? $this->request->getGet('to') : date('Y-m-d');
+        $listCategoryIncome = $this->categoryModel->listCategoryIncome();
+        $listAccountIncome = $this->accountsModel->listAccountIncomeActive();
+        $where[] = "i.income_date between :from_date: and :to_date:";
+        $value['from_date'] = $getFrom;
+        $value['to_date'] = $getTo;
+
+        if ($getCategory != "") {
+            $where[] = "and i.category_id=:category_id:";
+            $value['category_id'] = $getCategory;
+        }
+        if ($getAccount != "") {
+            $where[] = "and i.account_id=:account_id:";
+            $value['account_id'] = $getAccount;
+        }
+
+        $listIncome = $this->incomeModel->listIncomeCustom($where, $value);
+
+        $data['categories'] = $listCategoryIncome;
+        $data['accounts'] = $listAccountIncome;
         $data['incomes'] = $listIncome;
+        $data['get_category'] = $getCategory;
+        $data['get_account'] = $getAccount;
+        $data['get_from'] = $getFrom;
+        $data['get_to'] = $getTo;
+
         return view('list/income_list', $data);
     }
 
