@@ -14,7 +14,10 @@ echo view("partial/header");
         </div>
     </div>
 
-
+    <link rel="stylesheet"
+          href="<?php echo base_url('public'); ?>/datatables-bs4/css/dataTables.bootstrap4.css">
+    <script src="<?php echo base_url('public'); ?>/datatables/jquery.dataTables.js"></script>
+    <script src="<?php echo base_url('public'); ?>/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
     <!-- loader END -->
     <!-- Wrapper Start -->
@@ -96,7 +99,7 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
         $(function () {
-            $("#example2").DataTable();
+            $("#datatable").DataTable();
         });
 
         function confirmDelete() {
