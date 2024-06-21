@@ -31,6 +31,9 @@ class Expense extends BaseController
 
     public function index()
     {
+        $queryString = $_SERVER['QUERY_STRING'];
+        session()->set('current_page', base_url('expense') . "?" . $queryString);
+
         $getCategory = $this->request->getGet('category');
         $getAccount = $this->request->getGet('account');
         $getFrom = ($this->request->getGet('from') != "") ? $this->request->getGet('from') : date('Y-m-d');
@@ -95,7 +98,7 @@ class Expense extends BaseController
             $simpan = $this->expenseModel->insertExpense($data);
             if ($simpan) {
                 session()->setFlashdata('success', 'Insert Pengeluaran Berhasil');
-                return redirect()->to(base_url('expense'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -155,7 +158,7 @@ class Expense extends BaseController
                 $this->accountsModel->updateAccount($dataSaldo, $this->request->getPost('account_id'));
 
                 session()->setFlashdata('success', 'Update Pengeluaran Berhasil');
-                return redirect()->to(base_url('expense'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -181,7 +184,7 @@ class Expense extends BaseController
 
         //notif
         session()->setFlashdata('success', 'Delete Pengeluaran Berhasil');
-        return redirect()->to(base_url('expense'));
+        return redirect()->to(session()->get('current_page'));
 
 
     }

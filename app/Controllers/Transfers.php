@@ -28,6 +28,9 @@ class Transfers extends BaseController
 
     public function index()
     {
+        $queryString = $_SERVER['QUERY_STRING'];
+        session()->set('current_page', base_url('transfers') . "?" . $queryString);
+
         $getFrom = ($this->request->getGet('from') != "") ? $this->request->getGet('from') : date('Y-m-d');
         $getTo = ($this->request->getGet('to') != "") ? $this->request->getGet('to') : date('Y-m-d');
         $getAccountDebit = $this->request->getGet('debit');
@@ -91,7 +94,7 @@ class Transfers extends BaseController
             $simpan = $this->transfersModel->insertTransfer($data);
             if ($simpan) {
                 session()->setFlashdata('success', 'Insert Transfer Berhasil');
-                return redirect()->to(base_url('transfers'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -156,7 +159,7 @@ class Transfers extends BaseController
                 $this->accountsModel->updateAccount($dataSaldo, $this->request->getPost('account_debet'));
 
                 session()->setFlashdata('success', 'Update Transfer Berhasil');
-                return redirect()->to(base_url('transfers'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -189,7 +192,7 @@ class Transfers extends BaseController
 
         //notif
         session()->setFlashdata('success', 'Delete transfer Berhasil');
-        return redirect()->to(base_url('transfers'));
+        return redirect()->to(session()->get('current_page'));
     }
 
     private function getError($post)
