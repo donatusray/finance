@@ -31,6 +31,9 @@ class Income extends BaseController
 
     public function index()
     {
+        $queryString = $_SERVER['QUERY_STRING'];
+        session()->set('current_page', base_url('income') . "?" . $queryString);
+
         $getCategory = $this->request->getGet('category');
         $getAccount = $this->request->getGet('account');
         $getFrom = ($this->request->getGet('from') != "") ? $this->request->getGet('from') : date('Y-m-d');
@@ -96,7 +99,7 @@ class Income extends BaseController
             $simpan = $this->incomeModel->insertIncome($data);
             if ($simpan) {
                 session()->setFlashdata('success', 'Insert Pemasukan Berhasil');
-                return redirect()->to(base_url('income'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -156,7 +159,7 @@ class Income extends BaseController
                 $this->accountsModel->updateAccount($dataSaldo, $this->request->getPost('account_id'));
 
                 session()->setFlashdata('success', 'Update Pemasukan Berhasil');
-                return redirect()->to(base_url('income'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -182,7 +185,7 @@ class Income extends BaseController
 
         //notif
         session()->setFlashdata('success', 'Delete Pemasukan Berhasil');
-        return redirect()->to(base_url('income'));
+        return redirect()->to(session()->get('current_page'));
 
 
     }
