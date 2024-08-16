@@ -16,6 +16,7 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="<?=base_url('public')?>/css/responsive.css">
 
+    <link rel="stylesheet" href="<?=base_url('public')?>/css/flatpickr.min.css">
     <!-- Footer END -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -57,12 +58,17 @@
     <script src="<?= base_url('public') ?>/js/maps.js"></script>
     <!-- am worldLow JavaScript -->
     <script src="<?= base_url('public') ?>/js/worldLow.js"></script>
+    <!-- Raphael-min JavaScript -->
+    <script src="<?= base_url('public') ?>/js/raphael-min.js"></script>
+    <!-- Morris JavaScript -->
+    <script src="<?= base_url('public') ?>/js/morris.js"></script>
+    <!-- Morris min JavaScript -->
+    <script src="<?= base_url('public') ?>/js/morris.min.js"></script>
+    <!-- Flatpicker Js -->
+    <script src="<?= base_url('public') ?>/js/flatpickr.js"></script>
     <!-- Style Customizer -->
     <script src="<?= base_url('public') ?>/js/style-customizer.js"></script>
-    <!-- Chart Custom JavaScript -->
-    <script src="<?= base_url('public') ?>/js/chart-custom.js"></script>
-    <!-- Custom JavaScript -->
-    <script src="<?= base_url('public') ?>/js/custom.js"></script>
+
 
 </head>
 <body class="sidebar-main-active right-column-fixed">
