@@ -105,7 +105,7 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
 
-        if ($('#iq-chart-box1').length) {
+        if ($('#iq-chart-box1').length > 0) {
             var options = {
                 series: [{
                     name: "Pemasukan",
@@ -148,7 +148,7 @@ echo view("partial/header");
             chart.render();
         }
 
-        if ($('#iq-chart-box2').length) {
+        if ($('#iq-chart-box2').length > 0) {
             var options = {
                 series: [{
                     name: "Pengeluaran",
