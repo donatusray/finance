@@ -8,13 +8,13 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?= base_url('public') ?>/images/favicon.ico"/>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?=base_url('public')?>/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url('public') ?>/css/bootstrap.min.css">
     <!-- Typography CSS -->
-    <link rel="stylesheet" href="<?=base_url('public')?>/css/typography.css">
+    <link rel="stylesheet" href="<?= base_url('public') ?>/css/typography.css">
     <!-- Style CSS -->
-    <link rel="stylesheet" href="<?=base_url('public')?>/css/style.css">
+    <link rel="stylesheet" href="<?= base_url('public') ?>/css/style.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="<?=base_url('public')?>/css/responsive.css">
+    <link rel="stylesheet" href="<?= base_url('public') ?>/css/responsive.css">
 
     <!-- Footer END -->
     <!-- Optional JavaScript -->
@@ -57,12 +57,11 @@
     <script src="<?= base_url('public') ?>/js/maps.js"></script>
     <!-- am worldLow JavaScript -->
     <script src="<?= base_url('public') ?>/js/worldLow.js"></script>
+
     <!-- Style Customizer -->
     <script src="<?= base_url('public') ?>/js/style-customizer.js"></script>
-    <!-- Chart Custom JavaScript -->
-    <script src="<?= base_url('public') ?>/js/chart-custom.js"></script>
-    <!-- Custom JavaScript -->
-    <script src="<?= base_url('public') ?>/js/custom.js"></script>
+
+
 
 </head>
 <body class="sidebar-main-active right-column-fixed">

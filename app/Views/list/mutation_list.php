@@ -160,9 +160,9 @@ echo view("partial/header");
     </div>
     <!-- Wrapper END -->
     <script type="text/javascript">
-        $(function () {
-            $("#example2").DataTable();
-        });
+//        $(function () {
+//            $("#example2").DataTable();
+//        });
         function showData() {
             var awal = $("#get_from").val();
             var akhir = $("#get_to").val();

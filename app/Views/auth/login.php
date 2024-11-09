@@ -64,7 +64,7 @@
                                            placeholder="Enter username">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
+                                    <label for="pwuse">Password</label>
                                     <input type="password" class="form-control mb-0" id="pwuse" name="pwuse"
                                            maxlength="15"
                                            placeholder="Password">
@@ -119,8 +119,7 @@
 <script src="<?= base_url('public') ?>/js/smooth-scrollbar.js"></script>
 <!-- Style Customizer -->
 <script src="<?= base_url('public') ?>/js/style-customizer.js"></script>
-<!-- Chart Custom JavaScript -->
-<script src="<?= base_url('public') ?>/js/chart-custom.js"></script>
+
 <!-- Custom JavaScript -->
 <script src="<?= base_url('public') ?>/js/custom.js"></script>
 </body>
