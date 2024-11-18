@@ -40,6 +40,9 @@ echo view("partial/header");
                                    data-toggle="tooltip"
                                    data-placement="top" title="Tambah Kategori"><i
                                         class="fa fa-plus"></i></a>
+                                <button type="button" class="btn btn-primary" data-target="#filterCategoryModal"
+                                        data-toggle="modal" title="Filter Kategori"><i
+                                        class="fa fa-search"></i></button>
                                 <br><br>
 
                                 <?php
@@ -98,6 +101,62 @@ echo view("partial/header");
             </div>
         </div>
     </div>
+    <div class="modal fade" id="filterCategoryModal" tabindex="-1" role="dialog" aria-labelledby="filterCategoryModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Filter Kategori</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="control-label col-sm-4 align-self-center mb-0"
+                               for="category_parent_id">Induk Kategori</label>
+
+                        <div class="col-sm-8">
+                            <select name="category_parent_id"
+                                    id="category_parent_id" class="form-control">
+                                <option value="">--Pilih Kategori Induk--</option>
+                                <?php
+                                foreach ($parents as $par) {
+                                    $selected = "";
+                                    if ($par['category_id'] == $_GET['parents']) {
+                                        $selected = "selected";
+                                    }
+                                    echo "<option " . $selected . " value='" . $par['category_id'] . "'>" . $par['category_name'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="form-group row">
+                        <label class="control-label col-sm-4 align-self-center mb-0"
+                               for="category_type">Tipe <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <select name="category_type" id="category_type" class="form-control">
+                                <option value="">--Pilih Account--</option>
+                                <option <?= ($_GET['tipe'] == "INCOME") ? "selected" : ""; ?> value="INCOME">INCOME
+                                </option>
+                                <option <?= ($_GET['tipe'] == "EXPENSE") ? "selected" : ""; ?> value="EXPENSE">EXPENSE
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="redirectSearch()" class="btn btn-primary">Cari Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Wrapper END -->
     <script type="text/javascript">
         $(function () {
@@ -111,6 +170,15 @@ echo view("partial/header");
                 return false;
             }
         }
+
+        function redirectSearch() {
+            var tipe = $("#category_type").val();
+            var parents = $("#category_parent_id").val();
+            window.location = "<?php echo base_url('categories')?>?tipe=" + tipe + "&parents=" + parents;
+        }
+        $("document").ready(function () {
+            $(".select2").select2();
+        });
     </script>
 
 <?php

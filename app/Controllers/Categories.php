@@ -23,7 +23,11 @@ class Categories extends BaseController
 
     public function index()
     {
-        $listCategory = $this->categoryModel->listCategory();
+        $parents = (isset($_GET['parents']) or $_GET['parents'] != '') ? $_GET['parents'] : 0;
+        $type = (isset($_GET['tipe']) or $_GET['tipe'] != '') ? $_GET['tipe'] : '';
+        $listCategory = $this->categoryModel->listCategoryFilter($type, $parents);
+        $listCategoryParent = $this->categoryModel->listCategoryParent();
+        $data['parents'] = $listCategoryParent;
         $data['categories'] = $listCategory;
         return view('list/category_list', $data);
     }
@@ -81,7 +85,9 @@ class Categories extends BaseController
             'category_type' => $this->request->getPost('category_type'),
             'category_description' => $this->request->getPost('category_description'),
             'updatedby' => 1,
-            'updated' => date('Y-m-d h:i:s')
+            'updated' => date('Y-m-d h:i:s'),
+            'category_parent_id' => $this->request->getPost('category_parent_id'),
+            'category_parent_name' => $this->request->getPost('category_parent_name')
         );
 
         $dataErrors = $this->getError($data);

@@ -15,7 +15,8 @@ class CategoryModel extends Model
 {
     protected $table = "category";
 
-    public function listCategoryParent(){
+    public function listCategoryParent()
+    {
         $sql = "select * from " . $this->table . " where category_parent_id=:par: order by category_name asc";
         $query = $this->db->query($sql, ['par' => 0]);
         return $query->getResultArray();
@@ -53,6 +54,31 @@ class CategoryModel extends Model
     {
         $sql = "select * from " . $this->table . " order by category_name asc";
         $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+    public function listCategoryFilter($type, $parents)
+    {
+        $sql = "select * from " . $this->table;
+        $arrValue = array();
+        if ($type != "" || $parents != "") {
+            $sql .= " where ";
+            if ($type != '') {
+                $arrCol[] = " category_type=:tipe: ";
+                $arrValue['tipe'] = $type;
+            }
+            if ($parents != '') {
+                $arrCol[] = " category_parent_id=:par: ";
+                $arrValue['par'] = $parents;
+            }
+            $sql .= implode(" and ", $arrCol);
+        }
+        $sql .= " order by category_name asc";
+        if (count($arrValue) > 0) {
+            $query = $this->db->query($sql, $arrValue);
+        } else {
+            $query = $this->db->query($sql);
+        }
         return $query->getResultArray();
     }
 

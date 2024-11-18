@@ -71,8 +71,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <select onchange="changeParentId()" name="category_parent_id"
-                                                    id="category_parent_id" class="form-control select2"
-                                                    required>
+                                                    id="category_parent_id" class="form-control select2" >
                                                 <option value="">--Pilih Kategori Induk--</option>
                                                 <?php
                                                 foreach ($parents as $par) {
@@ -85,7 +84,7 @@ echo view("partial/header");
                                                 ?>
                                             </select>
                                         </div>
-                                        <input type="text" id="category_parent_name"
+                                        <input type="hidden" id="category_parent_name"
                                                value="<?php echo $inputs['category_parent_name'] ?>"
                                                name="category_parent_name"/>
                                     </div>
