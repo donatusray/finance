@@ -66,6 +66,7 @@ echo view("partial/header");
                                         <tr>
                                             <th>No</th>
                                             <th>Kategori</th>
+                                            <th>Parent</th>
                                             <th>Tipe</th>
                                             <th>Keterangan</th>
                                             <th>Aksi</th>
@@ -80,6 +81,7 @@ echo view("partial/header");
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
                                             echo "<td>" . $category['category_name'] . "</td>";
+                                            echo "<td>" . $category['category_parent_name'] . "</td>";
                                             echo "<td>" . $category['category_type'] . "</td>";
                                             echo "<td>" . $category['category_description'] . "</td>";
                                             echo "<td>" . $linkEdit . " " . $linkDelete . "</td>";

@@ -30,7 +30,9 @@ class Categories extends BaseController
 
     public function add()
     {
-        return view('forms/category_add');
+        $listCategoryParent = $this->categoryModel->listCategoryParent();
+        $data['parents'] = $listCategoryParent;
+        return view('forms/category_add', $data);
     }
 
     public function insert()
@@ -39,6 +41,8 @@ class Categories extends BaseController
             'category_name' => $this->request->getPost('category_name'),
             'category_type' => $this->request->getPost('category_type'),
             'category_description' => $this->request->getPost('category_description'),
+            'category_parent_id' => $this->request->getPost('category_parent_id'),
+            'category_parent_name' => $this->request->getPost('category_parent_name'),
             'createdby' => 1,
             'updatedby' => 1
         );
@@ -62,7 +66,9 @@ class Categories extends BaseController
     {
         $id = $this->request->getGet('id');
         $category = $this->categoryModel->getCategory($id);
+        $categoryParent = $this->categoryModel->listCategoryParent();
         $data['category'] = $category;
+        $data['parents'] = $categoryParent;
         session()->setFlashdata('inputs', $category);
         return view('forms/category_edit', $data);
     }
@@ -75,7 +81,7 @@ class Categories extends BaseController
             'category_type' => $this->request->getPost('category_type'),
             'category_description' => $this->request->getPost('category_description'),
             'updatedby' => 1,
-            'updated'=>date('Y-m-d h:i:s')
+            'updated' => date('Y-m-d h:i:s')
         );
 
         $dataErrors = $this->getError($data);

@@ -15,6 +15,19 @@ class CategoryModel extends Model
 {
     protected $table = "category";
 
+    public function listCategoryParent(){
+        $sql = "select * from " . $this->table . " where category_parent_id=:par: order by category_name asc";
+        $query = $this->db->query($sql, ['par' => 0]);
+        return $query->getResultArray();
+    }
+
+    public function listCategoryIncomeParent()
+    {
+        $sql = "select * from " . $this->table . " where category_type=:tipe: and category_parent_id=:par: order by category_name asc";
+        $query = $this->db->query($sql, ['tipe' => 'INCOME', 'par' => 0]);
+        return $query->getResultArray();
+    }
+
     public function listCategoryIncome()
     {
         $sql = "select * from " . $this->table . " where category_type=:tipe: order by category_name asc";
@@ -26,6 +39,13 @@ class CategoryModel extends Model
     {
         $sql = "select * from " . $this->table . " where category_type=:tipe: order by category_name asc";
         $query = $this->db->query($sql, ['tipe' => 'EXPENSE']);
+        return $query->getResultArray();
+    }
+
+    public function listCategoryExpenseParent()
+    {
+        $sql = "select * from " . $this->table . " where category_type=:tipe: and category_parent_id=:par: order by category_name asc";
+        $query = $this->db->query($sql, ['tipe' => 'EXPENSE', 'par' => 0]);
         return $query->getResultArray();
     }
 
