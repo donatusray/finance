@@ -41,12 +41,13 @@ class Categories extends BaseController
 
     public function insert()
     {
+        $parent = $this->request->getPost('category_parent_id');
         $data = array(
             'category_name' => $this->request->getPost('category_name'),
             'category_type' => $this->request->getPost('category_type'),
             'category_description' => $this->request->getPost('category_description'),
-            'category_parent_id' => $this->request->getPost('category_parent_id'),
-            'category_parent_name' => $this->request->getPost('category_parent_name'),
+            'category_parent_id' => $parent,
+            'category_parent_name' => ($parent == 0) ? '' : $this->request->getPost('category_parent_name'),
             'createdby' => 1,
             'updatedby' => 1
         );
@@ -80,14 +81,15 @@ class Categories extends BaseController
     public function update()
     {
         $id = $this->request->getPost('category_id');
+        $parent = $this->request->getPost('category_parent_id');
         $data = array(
             'category_name' => $this->request->getPost('category_name'),
             'category_type' => $this->request->getPost('category_type'),
             'category_description' => $this->request->getPost('category_description'),
             'updatedby' => 1,
             'updated' => date('Y-m-d h:i:s'),
-            'category_parent_id' => $this->request->getPost('category_parent_id'),
-            'category_parent_name' => $this->request->getPost('category_parent_name')
+            'category_parent_id' => $parent,
+            'category_parent_name' => ($parent == 0) ? '' : $this->request->getPost('category_parent_name'),
         );
 
         $dataErrors = $this->getError($data);

@@ -119,7 +119,8 @@ echo view("partial/header");
                         <div class="col-sm-8">
                             <select name="category_parent_id"
                                     id="category_parent_id" class="form-control">
-                                <option value="">--Pilih Kategori Induk--</option>
+                                <option value="">--Semua--</option>
+                                <option value="0">Tanpa Parent</option>
                                 <?php
                                 foreach ($parents as $par) {
                                     $selected = "";
