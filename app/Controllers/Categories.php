@@ -23,6 +23,9 @@ class Categories extends BaseController
 
     public function index()
     {
+        $queryString = $_SERVER['QUERY_STRING'];
+        session()->set('current_page', base_url('categories') . "?" . $queryString);
+
         $parents = (isset($_GET['parents']) or $_GET['parents'] != '') ? $_GET['parents'] : 0;
         $type = (isset($_GET['tipe']) or $_GET['tipe'] != '') ? $_GET['tipe'] : '';
         $listCategory = $this->categoryModel->listCategoryFilter($type, $parents);
@@ -62,7 +65,7 @@ class Categories extends BaseController
             $simpan = $this->categoryModel->insertCategory($data);
             if ($simpan) {
                 session()->setFlashdata('success', 'Insert Kategori Berhasil');
-                return redirect()->to(base_url('categories'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -102,7 +105,7 @@ class Categories extends BaseController
             $simpan = $this->categoryModel->updateCategory($data, $id);
             if ($simpan) {
                 session()->setFlashdata('success', 'Update Kategori Berhasil');
-                return redirect()->to(base_url('categories'));
+                return redirect()->to(session()->get('current_page'));
             }
         }
     }
@@ -114,10 +117,10 @@ class Categories extends BaseController
         $delete = $this->categoryModel->deleteCategory($id);
         if ($delete) {
             session()->setFlashdata('success', 'Delete Kategori Berhasil');
-            return redirect()->to(base_url('categories'));
+            return redirect()->to(session()->get('current_page'));
         } else {
             session()->setFlashdata('warning', 'Delete Kategori Gagal');
-            return redirect()->to(base_url('categories'));
+            return redirect()->to(session()->get('current_page'));
         }
 
     }
