@@ -17,16 +17,21 @@ class IncomeModel extends Model
 
     public function listIncome()
     {
-        $sql = "select i.*,a.account_name from " . $this->table . " i inner join accounts a on a.account_id=i.account_id order by i.income_date asc";
+        $sql = "select i.*,a.account_name, c.category_name, c.category_parent_name
+from " . $this->table . " i
+inner join accounts a on a.account_id=i.account_id
+inner join category c on c.category_id=i.category_id
+order by i.income_date asc";
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
 
     public function listIncomeCustom($where, $value)
     {
-        $sql = "select i.*,a.account_name
+        $sql = "select i.*,a.account_name, c.category_name, c.category_parent_name
 from " . $this->table . " i
-inner join accounts a on a.account_id=i.account_id ";
+inner join accounts a on a.account_id=i.account_id
+inner join category c on c.category_id=i.category_id ";
         if (count($where) > 0) {
             $sql .= " where " . implode(" ", $where);
         }

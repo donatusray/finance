@@ -36,9 +36,23 @@ class CategoryModel extends Model
         return $query->getResultArray();
     }
 
+    public function listCategoryIncomeNoParent()
+    {
+        $sql = "select * from " . $this->table . " where category_type=:tipe: and category_parent_id!=0 order by category_parent_name asc, category_name asc";
+        $query = $this->db->query($sql, ['tipe' => 'INCOME']);
+        return $query->getResultArray();
+    }
+
     public function listCategoryExpense()
     {
         $sql = "select * from " . $this->table . " where category_type=:tipe: order by category_name asc";
+        $query = $this->db->query($sql, ['tipe' => 'EXPENSE']);
+        return $query->getResultArray();
+    }
+
+    public function listCategoryExpenseNoParent()
+    {
+        $sql = "select * from " . $this->table . " where category_type=:tipe: and category_parent_id!=0 order by category_parent_name asc, category_name asc";
         $query = $this->db->query($sql, ['tipe' => 'EXPENSE']);
         return $query->getResultArray();
     }
