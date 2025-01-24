@@ -62,6 +62,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" name="expense_title" id="expense_title"
+                                                   value="<?php echo $inputs['expense_title'] ?>"
                                                    class="form-control" placeholder="Nama Pengeluaran" required>
                                         </div>
                                     </div>
@@ -86,11 +87,14 @@ echo view("partial/header");
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
                                                 foreach ($categories as $cat) {
-                                                    echo "<option value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
+                                                    $selected = "";
+                                                    if ($inputs['category_id'] == $cat['category_id']) $selected = "selected";
+                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
-                                            <input type="hidden" name="category_name" id="category_name">
+                                            <input type="hidden" name="category_name" id="category_name"
+                                                   value="<?= $inputs['category_name'] ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -103,7 +107,9 @@ echo view("partial/header");
                                                 <option value="">Pilih Akun Pengeluaran</option>
                                                 <?php
                                                 foreach ($accounts as $account) {
-                                                    echo "<option value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
+                                                    $selected = "";
+                                                    if ($account['account_id'] == $inputs['account_id']) $selected = "selected";
+                                                    echo "<option " . $selected . " value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -115,7 +121,9 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" name="amount" id="amount"
-                                                   class="form-control money" value="0" required>
+                                                   class="form-control money"
+                                                   value="<?= ($inputs['amount'] == null) ? '0' : $inputs['amount'] ?>"
+                                                   required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -124,7 +132,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="expense_description" id="expense_description"
-                                                      placeholder="Keterangan" class="form-control"></textarea>
+                                                      placeholder="Keterangan" class="form-control"><?=$inputs['expense_description']?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -144,6 +152,10 @@ echo view("partial/header");
         $('.money').mask('000,000,000,000,000', {reverse: true});
         $(".select2").select2();
 
+        function changeSelCategoryId() {
+            var textCategoryId = $("#category_id option:selected").text();
+            $("#category_name").val(textCategoryId);
+        }
     </script>
 <?php
 echo view("partial/footer");

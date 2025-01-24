@@ -75,6 +75,21 @@ class Income extends BaseController
         return view('forms/income_add', $data);
     }
 
+    public function copy()
+    {
+        $id = $this->request->getGet('id');
+        $income = $this->incomeModel->getIncome($id);
+        $listCategoryIncome = $this->categoryModel->listCategoryIncomeNoParent();
+        $listAccountIncome = $this->accountsModel->listAccountIncomeActive();
+        $data['categories'] = $listCategoryIncome;
+        $data['accounts'] = $listAccountIncome;
+        $data['income'] = $income;
+        if (session()->getFlashdata('inputs') == null) {
+            session()->setFlashdata('inputs', $income);
+        }
+        return view('forms/income_add', $data);
+    }
+
     public function insert()
     {
         $data = array(
