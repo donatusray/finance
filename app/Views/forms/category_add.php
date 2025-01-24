@@ -49,10 +49,12 @@ echo view("partial/header");
                                     </div>
                                 <?php } ?>
 
-                                <form class="form-horizontal" action="<?= base_url('categories/insert') ?>" method="post">
+                                <form class="form-horizontal" action="<?= base_url('categories/insert') ?>"
+                                      method="post">
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="category_name">Nama Kategori <span class="text-danger">*</span></label>
+                                               for="category_name">Nama Kategori <span
+                                                class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" name="category_name"
@@ -62,10 +64,28 @@ echo view("partial/header");
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="category_parent_id">Induk Kategori</label>
+
+                                        <div class="col-sm-10">
+                                            <select onchange="changeParentId()" name="category_parent_id"
+                                                    id="category_parent_id" class="form-control select2">
+                                                <option value="0">--Pilih Kategori Induk--</option>
+                                                <?php
+                                                foreach ($parents as $par) {
+                                                    echo "<option value='" . $par['category_id'] . "'>" . $par['category_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" id="category_parent_name" name="category_parent_name"/>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="category_type">Tipe <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <select name="category_type" id="category_type" class="form-control" required>
+                                            <select name="category_type" id="category_type" class="form-control"
+                                                    required>
                                                 <option value="">--Pilih Account--</option>
                                                 <option value="INCOME">INCOME</option>
                                                 <option value="EXPENSE">EXPENSE</option>
@@ -95,7 +115,14 @@ echo view("partial/header");
     </div>
     <!-- Wrapper END -->
     <script type="text/javascript">
+        $("document").ready(function () {
+            $(".select2").select2();
+        });
         $('.money').mask('000,000,000,000,000', {reverse: true});
+        function changeParentId() {
+            var textParent = $("#category_parent_id option:selected").text();
+            $("#category_parent_name").val(textParent);
+        }
     </script>
 <?php
 echo view("partial/footer");

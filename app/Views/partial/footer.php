@@ -8,6 +8,8 @@
         </div>
     </div>
 </footer>
+<!-- Custom JavaScript -->
+<script src="<?= base_url('public') ?>/js/custom.js"></script>
 </body>
 </html>
 <?php

@@ -64,7 +64,7 @@ echo view("partial/header");
                                                             if ($cat['category_id'] == $get_category) {
                                                                 $selected = "selected";
                                                             }
-                                                            echo "<option value='" . $cat['category_id'] . "' ".$selected.">" . $cat['category_name'] . "</option>";
+                                                            echo "<option value='" . $cat['category_id'] . "' " . $selected . ">" . $cat['category_name'] . "</option>";
                                                         }
                                                         ?>
                                                     </select>
@@ -143,8 +143,8 @@ echo view("partial/header");
                                             $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('income/delete') . "?id=" . $income['id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Pemasukan' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
-                                            echo "<td>" . date('d-m-Y',strtotime($income['income_date'])) . "</td>";
-                                            echo "<td>" . $income['category_name'] . "</td>";
+                                            echo "<td>" . date('d-m-Y', strtotime($income['income_date'])) . "</td>";
+                                            echo "<td>" . $income['category_parent_name'] . " - " . $income['category_name'] . "</td>";
                                             echo "<td>" . $income['account_name'] . "</td>";
                                             echo "<td>" . $income['income_title'] . "</td>";
                                             echo "<td class='text-right'>" . number_format($income['amount'], 0, '.', ',') . "</td>";

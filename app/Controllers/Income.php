@@ -68,7 +68,7 @@ class Income extends BaseController
 
     public function add()
     {
-        $listCategoryIncome = $this->categoryModel->listCategoryIncome();
+        $listCategoryIncome = $this->categoryModel->listCategoryIncomeNoParent();
         $listAccountIncome = $this->accountsModel->listAccountIncomeActive();
         $data['categories'] = $listCategoryIncome;
         $data['accounts'] = $listAccountIncome;
@@ -80,7 +80,6 @@ class Income extends BaseController
         $data = array(
             'income_date' => date('Y-m-d', strtotime($this->request->getPost('income_date'))),
             'category_id' => $this->request->getPost('category_id'),
-            'category_name' => $this->request->getPost('category_name'),
             'account_id' => $this->request->getPost('account_id'),
             'amount' => str_replace(",", "", $this->request->getPost('amount')),
             'income_title' => $this->request->getPost('income_title'),
@@ -108,7 +107,7 @@ class Income extends BaseController
     {
         $id = $this->request->getGet('id');
         $income = $this->incomeModel->getIncome($id);
-        $listCategoryIncome = $this->categoryModel->listCategoryIncome();
+        $listCategoryIncome = $this->categoryModel->listCategoryIncomeNoParent();
         $listAccountIncome = $this->accountsModel->listAccountIncomeActive();
         $data['categories'] = $listCategoryIncome;
         $data['accounts'] = $listAccountIncome;
@@ -128,7 +127,6 @@ class Income extends BaseController
         $data = array(
             'income_date' => date('Y-m-d', strtotime($this->request->getPost('income_date'))),
             'category_id' => $this->request->getPost('category_id'),
-            'category_name' => $this->request->getPost('category_name'),
             'account_id' => $this->request->getPost('account_id'),
             'amount' => str_replace(",", "", $this->request->getPost('amount')),
             'income_title' => $this->request->getPost('income_title'),

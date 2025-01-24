@@ -67,7 +67,7 @@ class Expense extends BaseController
 
     public function add()
     {
-        $listCategoryExpense = $this->categoryModel->listCategoryExpense();
+        $listCategoryExpense = $this->categoryModel->listCategoryExpenseNoParent();
         $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
         $data['categories'] = $listCategoryExpense;
         $data['accounts'] = $listAccountExpense;
@@ -79,7 +79,6 @@ class Expense extends BaseController
         $data = array(
             'expense_date' => date('Y-m-d', strtotime($this->request->getPost('expense_date'))),
             'category_id' => $this->request->getPost('category_id'),
-            'category_name' => $this->request->getPost('category_name'),
             'account_id' => $this->request->getPost('account_id'),
             'amount' => str_replace(",", "", $this->request->getPost('amount')),
             'expense_title' => $this->request->getPost('expense_title'),
@@ -107,7 +106,7 @@ class Expense extends BaseController
     {
         $id = $this->request->getGet('id');
         $expense = $this->expenseModel->getExpense($id);
-        $listCategoryExpense = $this->categoryModel->listCategoryExpense();
+        $listCategoryExpense = $this->categoryModel->listCategoryExpenseNoParent();
         $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
         $data['categories'] = $listCategoryExpense;
         $data['accounts'] = $listAccountExpense;
@@ -127,7 +126,6 @@ class Expense extends BaseController
         $data = array(
             'expense_date' => date('Y-m-d', strtotime($this->request->getPost('expense_date'))),
             'category_id' => $this->request->getPost('category_id'),
-            'category_name' => $this->request->getPost('category_name'),
             'account_id' => $this->request->getPost('account_id'),
             'amount' => str_replace(",", "", $this->request->getPost('amount')),
             'expense_title' => $this->request->getPost('expense_title'),

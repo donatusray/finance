@@ -59,7 +59,8 @@ echo view("partial/header");
 
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="expense_title">Nama Pengeluaran <span class="text-danger">*</span></label>
+                                               for="expense_title">Nama Pengeluaran <span
+                                                class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" name="expense_title" id="expense_title"
@@ -83,7 +84,7 @@ echo view("partial/header");
                                                for="category_id">Kategori <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <select required name="category_id" id="category_id" class="form-control"
+                                            <select required name="category_id" id="category_id" class="form-control select2"
                                                     onchange="changeSelCategoryId()">
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
@@ -92,7 +93,7 @@ echo view("partial/header");
                                                     if ($cat['category_id'] == $inputs['category_id']) {
                                                         $selected = "selected";
                                                     }
-                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_name'] . "</option>";
+                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -155,6 +156,7 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
         $('.money').mask('000,000,000,000,000', {reverse: true});
+        $(".select2").select2();
 
         function changeSelCategoryId() {
             var textCategoryId = $("#category_id option:selected").text();
