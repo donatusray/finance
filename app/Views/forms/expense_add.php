@@ -57,7 +57,8 @@ echo view("partial/header");
                                 <form class="form-horizontal" action="<?= base_url('expense/insert') ?>" method="post">
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="expense_title">Nama Pengeluaran <span class="text-danger">*</span></label>
+                                               for="expense_title">Nama Pengeluaran <span
+                                                class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" name="expense_title" id="expense_title"
@@ -70,8 +71,9 @@ echo view("partial/header");
                                                 class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <input type="date" name="expense_date" id="expense_date" value="<?=date('Y-m-d')?>"
-                                                   class="form-control"  required>
+                                            <input type="date" name="expense_date" id="expense_date"
+                                                   value="<?= date('Y-m-d') ?>"
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -79,12 +81,12 @@ echo view("partial/header");
                                                for="category_id">Kategori <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <select required name="category_id" id="category_id" class="form-control"
-                                                    onchange="changeSelCategoryId()">
+                                            <select required name="category_id" id="category_id"
+                                                    class="form-control select2">
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
                                                 foreach ($categories as $cat) {
-                                                    echo "<option value='" . $cat['category_id'] . "'>" . $cat['category_name'] . "</option>";
+                                                    echo "<option value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -140,11 +142,8 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
         $('.money').mask('000,000,000,000,000', {reverse: true});
+        $(".select2").select2();
 
-        function changeSelCategoryId() {
-            var textCategoryId = $("#category_id option:selected").text();
-            $("#category_name").val(textCategoryId);
-        }
     </script>
 <?php
 echo view("partial/footer");

@@ -144,7 +144,7 @@ echo view("partial/header");
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
                                             echo "<td>" . date('d-m-Y', strtotime($expense['expense_date'])) . "</td>";
-                                            echo "<td>" . $expense['category_name'] . "</td>";
+                                            echo "<td>" . $expense['category_parent_name'] . " - " . $expense['category_name'] . "</td>";
                                             echo "<td>" . $expense['account_name'] . "</td>";
                                             echo "<td>" . $expense['expense_title'] . "</td>";
                                             echo "<td class='text-right'>" . number_format($expense['amount'], 0, '.', ',') . "</td>";

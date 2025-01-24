@@ -12,13 +12,8 @@ echo view("partial/header");
         <div id="loading-center">
         </div>
     </div>
-    <!-- MASK -->
     <script src="<?= base_url('public/jquery-mask') ?>/jquery.mask.min.js"></script>
-    <!--    <!-- daterangepicker -->-->
-    <!--    <script src="--><?php //echo base_url('public/moment'); ?><!--/moment.min.js"></script>-->
-    <!--    <script src="--><?php //echo base_url('public/daterangepicker'); ?><!--/daterangepicker.js"></script>-->
-    <!-- loader END -->
-    <!-- Wrapper Start -->
+
     <div class="wrapper">
         <?= view("partial/menu") ?>
 
@@ -59,7 +54,8 @@ echo view("partial/header");
 
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="income_title">Nama Pemasukan <span class="text-danger">*</span></label>
+                                               for="income_title">Nama Pemasukan <span
+                                                class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" name="income_title" id="income_title"
@@ -83,8 +79,8 @@ echo view("partial/header");
                                                for="category_id">Kategori <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <select required name="category_id" id="category_id" class="form-control"
-                                                    onchange="changeSelCategoryId()">
+                                            <select required name="category_id" id="category_id"
+                                                    class="form-control select2">
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
                                                 foreach ($categories as $cat) {
@@ -92,7 +88,7 @@ echo view("partial/header");
                                                     if ($cat['category_id'] == $inputs['category_id']) {
                                                         $selected = "selected";
                                                     }
-                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_name'] . "</option>";
+                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -155,11 +151,7 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
         $('.money').mask('000,000,000,000,000', {reverse: true});
-
-        function changeSelCategoryId() {
-            var textCategoryId = $("#category_id option:selected").text();
-            $("#category_name").val(textCategoryId);
-        }
+        $(".select2").select2();
     </script>
 <?php
 echo view("partial/footer");

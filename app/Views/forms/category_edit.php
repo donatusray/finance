@@ -67,6 +67,29 @@ echo view("partial/header");
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="category_parent_id">Induk Kategori</label>
+
+                                        <div class="col-sm-10">
+                                            <select onchange="changeParentId()" name="category_parent_id"
+                                                    id="category_parent_id" class="form-control select2" >
+                                                <option value="0">--Pilih Kategori Induk--</option>
+                                                <?php
+                                                foreach ($parents as $par) {
+                                                    $selected = "";
+                                                    if ($inputs['category_parent_id'] == $par['category_id']) {
+                                                        $selected = "selected";
+                                                    }
+                                                    echo "<option " . $selected . " value='" . $par['category_id'] . "'>" . $par['category_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" id="category_parent_name"
+                                               value="<?php echo $inputs['category_parent_name'] ?>"
+                                               name="category_parent_name"/>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="category_type">Tipe <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
@@ -106,6 +129,15 @@ echo view("partial/header");
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $("document").ready(function () {
+            $(".select2").select2();
+        });
+        function changeParentId() {
+            var textParent = $("#category_parent_id option:selected").text();
+            $("#category_parent_name").val(textParent);
+        }
+    </script>
 <?php
 echo view("partial/footer");
 ?>
