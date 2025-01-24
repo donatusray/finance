@@ -56,6 +56,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" name="income_title" id="income_title"
+                                                   value="<?= $inputs['income_title'] ?>"
                                                    class="form-control" placeholder="Nama Pemasukan" required>
                                         </div>
                                     </div>
@@ -80,11 +81,14 @@ echo view("partial/header");
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
                                                 foreach ($categories as $cat) {
-                                                    echo "<option value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
+                                                    $selected = "";
+                                                    if ($cat['category_id'] == $inputs['category_id']) $selected = "selected";
+                                                    echo "<option " . $selected . " value='" . $cat['category_id'] . "'>" . $cat['category_parent_name'] . " - " . $cat['category_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
-                                            <input type="hidden" name="category_name" id="category_name">
+                                            <input type="hidden" value="<?= $inputs['category_name'] ?>"
+                                                   name="category_name" id="category_name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -98,7 +102,9 @@ echo view("partial/header");
                                                 <option value="">Pilih Akun Pemasukan</option>
                                                 <?php
                                                 foreach ($accounts as $account) {
-                                                    echo "<option value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
+                                                    $selected = "";
+                                                    if ($account['account_id'] == $inputs['account_id']) $selected = "selected";
+                                                    echo "<option " . $selected . " value='" . $account['account_id'] . "'>" . $account['account_name'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -110,7 +116,9 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" name="amount" id="amount"
-                                                   class="form-control money" value="0" required>
+                                                   class="form-control money"
+                                                   value="<?= ($inputs['amount'] == null) ? '0' : $inputs['amount'] ?>"
+                                                   required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -119,7 +127,8 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="income_description" id="income_description"
-                                                      placeholder="Keterangan" class="form-control"></textarea>
+                                                      placeholder="Keterangan"
+                                                      class="form-control"><?= $inputs['income_description'] ?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">

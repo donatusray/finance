@@ -74,6 +74,23 @@ class Expense extends BaseController
         return view('forms/expense_add', $data);
     }
 
+    public function copy()
+    {
+        $id = $this->request->getGet('id');
+
+        $expense = $this->expenseModel->getExpense($id);
+        $listCategoryExpense = $this->categoryModel->listCategoryExpenseNoParent();
+        $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
+        $data['categories'] = $listCategoryExpense;
+        $data['accounts'] = $listAccountExpense;
+        $data['expense'] = $expense;
+        if (session()->getFlashdata('inputs') == null) {
+            session()->setFlashdata('inputs', $expense);
+        }
+
+        return view('forms/expense_add', $data);
+    }
+
     public function insert()
     {
         $data = array(
