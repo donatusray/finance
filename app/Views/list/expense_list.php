@@ -138,6 +138,8 @@ echo view("partial/header");
                                         <tbody>
                                         <?php
                                         foreach ($expenses as $no => $expense) {
+                                            $linkCopy = "<a href='" . base_url('expense/copy') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
+                                   data-placement='top' title='Copy Pengeluaran' class='btn btn-warning'><i class='fa fa-copy'></i></a>";
                                             $linkEdit = "<a href='" . base_url('expense/edit') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Ubah Pengeluaran' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
                                             $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('expense/delete') . "?id=" . $expense['id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Pengeluaran' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
@@ -148,7 +150,7 @@ echo view("partial/header");
                                             echo "<td>" . $expense['account_name'] . "</td>";
                                             echo "<td>" . $expense['expense_title'] . "</td>";
                                             echo "<td class='text-right'>" . number_format($expense['amount'], 0, '.', ',') . "</td>";
-                                            echo "<td>" . $linkEdit . " " . $linkDelete . "</td>";
+                                            echo "<td>" . $linkCopy . " " . $linkEdit . " " . $linkDelete . "</td>";
                                             echo "</tr>";
                                         }
                                         ?>

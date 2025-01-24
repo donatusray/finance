@@ -72,6 +72,21 @@ class Transfers extends BaseController
         return view('forms/transfers_add', $data);
     }
 
+    public function copy()
+    {
+        $id = $this->request->getGet('id');
+        $transfer = $this->transfersModel->getTransfer($id);
+        $listAccountIncome = $this->accountsModel->listAccountIncomeActive();
+        $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
+        $data['account_income'] = $listAccountIncome;
+        $data['account_expense'] = $listAccountExpense;
+        $data['transfer'] = $transfer;
+        if (session()->getFlashdata('inputs') == null) {
+            session()->setFlashdata('inputs', $transfer);
+        }
+        return view('forms/transfers_add', $data);
+    }
+
     public function insert()
     {
         $data = array(
