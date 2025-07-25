@@ -82,11 +82,11 @@ echo view("partial/header");
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
-                                               for="account_limit">Limit</label>
+                                               for="is_credit">Akun Paylater</label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" name="account_limit" id="account_limit"
-                                                   class="form-control money" value="0" required>
+                                            <input type="checkbox" name="is_credit" onclick="changePaylater(this)"
+                                                   id="is_credit" <?= ($inputs['is_credit'] == '1') ? "checked" : "" ?>>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -96,6 +96,48 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="account_description" id="account_description"
                                                       placeholder="Keterangan" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row form_paylater">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="credit_limit">Credit Limit</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control money" name="credit_limit"
+                                                   id="credit_limit"
+                                                   value="<?= ($inputs['credit_limit'] == null) ? 0 : $inputs['credit_limit'] ?>"
+                                                   placeholder="Credit Limit">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form_paylater">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="billing_date">Billing Date</label>
+
+                                        <div class="col-sm-10">
+                                            <select name="billing_date" id="billing_date" class="form-control select2">
+                                                <option value="NOW">Saat Transaksi</option>
+                                                <?php
+                                                for ($i = 1; $i <= 31; $i++) {
+                                                    echo "<option value='" . $i . "'>" . $i . "</option>";
+                                                }
+                                                ?>
+                                                <option value="END_MONTH">Akhir Bulan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form_paylater">
+                                        <label class="control-label col-sm-2 align-self-center mb-0"
+                                               for="billing_date">Jatuh Tempo</label>
+
+                                        <div class="col-sm-10">
+                                            <select name="billing_date" id="billing_date" class="form-control select2">
+                                                <?php
+                                                for ($i = 1; $i <= 30; $i++) {
+                                                    echo "<option value='" . $i . "'>" . $i . " Hari Setelah Billing Date</option>";
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -113,6 +155,19 @@ echo view("partial/header");
     <!-- Wrapper END -->
     <script type="text/javascript">
         $('.money').mask('000,000,000,000,000', {reverse: true});
+        $(".select2").select2();
+
+        $("document").ready(function () {
+            $(".form_paylater").hide();
+        });
+
+        function changePaylater(formx) {
+            if (formx.checked) {
+                $(".form_paylater").show();
+            } else {
+                $(".form_paylater").hide();
+            }
+        }
     </script>
 <?php
 echo view("partial/footer");
