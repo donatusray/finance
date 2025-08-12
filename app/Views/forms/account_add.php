@@ -137,6 +137,7 @@ echo view("partial/header");
                                                     echo "<option value='" . $i . "'>" . $i . " Hari Setelah Billing Date</option>";
                                                 }
                                                 ?>
+                                                <option value="FIRST_NEXT_MONTH">Awal Bulan Depan</option>
                                             </select>
                                         </div>
                                     </div>

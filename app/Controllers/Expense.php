@@ -9,9 +9,12 @@
 namespace App\Controllers;
 
 
+use App\Models\AccountsCreditDetailModel;
 use App\Models\AccountsModel;
+use App\Models\BillModel;
 use App\Models\CategoryModel;
 use App\Models\ExpenseModel;
+use App\Models\MutationCreditModel;
 use App\Models\MutationModel;
 
 class Expense extends BaseController
@@ -19,7 +22,10 @@ class Expense extends BaseController
     private $expenseModel;
     private $categoryModel;
     private $accountsModel;
+    private $accountCreditDetailModel;
     private $mutationModel;
+    private $mutationCreditModel;
+    private $billModel;
 
     public function __construct()
     {
@@ -27,6 +33,9 @@ class Expense extends BaseController
         $this->categoryModel = new CategoryModel();
         $this->accountsModel = new AccountsModel();
         $this->mutationModel = new MutationModel();
+        $this->accountCreditDetailModel = new AccountsCreditDetailModel();
+        $this->billModel = new BillModel();
+        $this->mutationCreditModel = new MutationCreditModel();
     }
 
     public function index()
@@ -113,6 +122,7 @@ class Expense extends BaseController
         } else {
             $simpan = $this->expenseModel->insertExpense($data);
             if ($simpan) {
+                $this->checkInsertDebt($data, $simpan);
                 session()->setFlashdata('success', 'Insert Pengeluaran Berhasil');
                 return redirect()->to(session()->get('current_page'));
             }
@@ -200,8 +210,52 @@ class Expense extends BaseController
         //notif
         session()->setFlashdata('success', 'Delete Pengeluaran Berhasil');
         return redirect()->to(session()->get('current_page'));
+    }
 
+    private function checkInsertDebt($expense, $expenseId)
+    {
+        $account = $this->accountsModel->getAccount($expense['account_id']);
+        if ($account['is_credit'] == 1) {
+            $accountDetail = $this->accountCreditDetailModel->getAccountCreditDetail($account['account_id']);
+            $billingDate = date('Y-m-d', strtotime($expense['expense_date']));
+            if ($accountDetail['billing_date'] == "END_MONTH") {
+                $billingDate = date('Y-m-t', strtotime($billingDate));
+            } else {
+                $billingDate = date('Y-m', strtotime($billingDate)) . "-" . $accountDetail['billing_date'];
+                if ($expense['expense_date'] > $billingDate) {
+                    $billingDate = date('Y-m', strtotime('+1 month', strtotime($billingDate))) . "-" . $accountDetail['billing_date'];
+                }
+            }
 
+            $checkCreateBill = $this->billModel->checkBill($expense['account_id'], $billingDate);
+            if ($checkCreateBill) {
+                $billId = $checkCreateBill['bill_id'];
+                $data['grand_total'] = $checkCreateBill['grand_total'] + $expense['amount'];
+                $data['updatedby'] = 1;
+                $data['updated'] = date('Y-m-d h:i:s');
+                $this->billModel->updateBill($data, $billId);
+            } else {
+                $dueDate = date('Y-m-d', strtotime($billingDate . ' + ' . $accountDetail['due_date'] . ' days'));
+                $data['account_id'] = $expense['account_id'];
+                $data['recording_date'] = $billingDate;
+                $data['due_date'] = $dueDate;
+                $data['grand_total'] = $expense['amount'];
+                $data['createdby'] = 1;
+                $data['updatedby'] = 1;
+                $billId = $this->billModel->insertBill($data);
+            }
+            $mutation['account_debt_id'] = $expense['account_id'];
+            $mutation['mutation_date'] = $expense['expense_date'];
+            $mutation['mutation_description'] = $expense['expense_title'];
+            $mutation['mutation_nominal'] = $expense['amount'];
+            $mutation['bill_id'] = $billId;
+            $mutation['transaction_id'] = $expenseId;
+            $mutation['installment_total'] = 1;
+            $mutation['installment_number'] = 1;
+            $mutation['createdby'] = 1;
+            $mutation['updatedby'] = 1;
+            $this->mutationCreditModel->insertMutation($mutation);
+        }
     }
 
     private function getError($post)
