@@ -209,7 +209,7 @@ class Expense extends BaseController
         $this->expenseModel->deleteExpense($id);
 
         //delete mutation credit
-        $this->mutationCreditModel->deleteMutation($id);
+        $this->deleteCheckDebt($expenseBefore, $id);
 
         //notif
         session()->setFlashdata('success', 'Delete Pengeluaran Berhasil');
@@ -313,7 +313,7 @@ class Expense extends BaseController
         if ($account['is_credit'] == 1) {
             $mutationCredit = $this->mutationCreditModel->getMutationByIdTransaction($expenseId);
             if ($mutationCredit) {
-                $this->mutationCreditModel->deleteMutation($mutationCredit['id']);
+                $this->mutationCreditModel->deleteMutation($mutationCredit['mutation_credit_id']);
             }
         }
     }
