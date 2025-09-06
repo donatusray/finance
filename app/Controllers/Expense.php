@@ -182,6 +182,7 @@ class Expense extends BaseController
                 $dataSaldo['account_balance'] = $accountBefore['account_balance'] - (str_replace(",", "", $this->request->getPost('amount'))) + $expenseBefore['amount'];
                 $this->accountsModel->updateAccount($dataSaldo, $this->request->getPost('account_id'));
 
+                $this->checkUpdateDebt($data, $id);
                 session()->setFlashdata('success', 'Update Pengeluaran Berhasil');
                 return redirect()->to(session()->get('current_page'));
             }
@@ -206,6 +207,9 @@ class Expense extends BaseController
 
         //delete income
         $this->expenseModel->deleteExpense($id);
+
+        //delete mutation credit
+        $this->mutationCreditModel->deleteMutation($id);
 
         //notif
         session()->setFlashdata('success', 'Delete Pengeluaran Berhasil');
@@ -255,6 +259,62 @@ class Expense extends BaseController
             $mutation['createdby'] = 1;
             $mutation['updatedby'] = 1;
             $this->mutationCreditModel->insertMutation($mutation);
+        }
+    }
+
+    private function checkUpdateDebt($expense, $expenseId)
+    {
+        $account = $this->accountsModel->getAccount($expense['account_id']);
+        if ($account['is_credit'] == 1) {
+            $accountDetail = $this->accountCreditDetailModel->getAccountCreditDetail($account['account_id']);
+            $billingDate = date('Y-m-d', strtotime($expense['expense_date']));
+            if ($accountDetail['billing_date'] == "END_MONTH") {
+                $billingDate = date('Y-m-t', strtotime($billingDate));
+            } else {
+                $billingDate = date('Y-m', strtotime($billingDate)) . "-" . $accountDetail['billing_date'];
+                if ($expense['expense_date'] > $billingDate) {
+                    $billingDate = date('Y-m', strtotime('+1 month', strtotime($billingDate))) . "-" . $accountDetail['billing_date'];
+                }
+            }
+
+            $checkCreateBill = $this->billModel->checkBill($expense['account_id'], $billingDate);
+            if ($checkCreateBill) {
+                $billId = $checkCreateBill['bill_id'];
+                $data['grand_total'] = $checkCreateBill['grand_total'] + $expense['amount'];
+                $data['updatedby'] = 1;
+                $data['updated'] = date('Y-m-d h:i:s');
+                $this->billModel->updateBill($data, $billId);
+            } else {
+                $dueDate = date('Y-m-d', strtotime($billingDate . ' + ' . $accountDetail['due_date'] . ' days'));
+                $data['account_id'] = $expense['account_id'];
+                $data['recording_date'] = $billingDate;
+                $data['due_date'] = $dueDate;
+                $data['grand_total'] = $expense['amount'];
+                $data['createdby'] = 1;
+                $data['updatedby'] = 1;
+                $billId = $this->billModel->insertBill($data);
+            }
+            $mutationCredit = $this->mutationCreditModel->getMutationByIdTransaction($expenseId);
+            $mutationCredit['account_debt_id'] = $expense['account_id'];
+            $mutationCredit['mutation_date'] = $expense['expense_date'];
+            $mutationCredit['mutation_description'] = $expense['expense_title'];
+            $mutationCredit['mutation_nominal'] = $expense['amount'];
+            $mutationCredit['bill_id'] = $billId;
+            $mutationCredit['transaction_id'] = $expenseId;
+            $mutationCredit['updatedby'] = 1;
+            $mutationCredit['updated'] = date('Y-m-d h:i:s');
+            $this->mutationCreditModel->updateMutation($mutationCredit, $mutationCredit['mutation_credit_id']);
+        }
+    }
+
+    private function deleteCheckDebt($expense, $expenseId)
+    {
+        $account = $this->accountsModel->getAccount($expense['account_id']);
+        if ($account['is_credit'] == 1) {
+            $mutationCredit = $this->mutationCreditModel->getMutationByIdTransaction($expenseId);
+            if ($mutationCredit) {
+                $this->mutationCreditModel->deleteMutation($mutationCredit['id']);
+            }
         }
     }
 

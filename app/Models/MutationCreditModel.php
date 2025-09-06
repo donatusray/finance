@@ -49,10 +49,10 @@ where m.mutation_date between :from_date: and :to_date: ";
         return $query->getRowArray();
     }
 
-    public function getMutationByTypeAndIdTransaction($type, $idTransaction)
+    public function getMutationByIdTransaction($idTransaction)
     {
-        $sql = "select * from " . $this->table . " where mutation_type=:tipe: and id_transaction=:id_trans:";
-        $query = $this->db->query($sql, ['tipe' => $type, 'id_trans' => $idTransaction]);
+        $sql = "select * from " . $this->table . " where  transaction_id=:id_trans:";
+        $query = $this->db->query($sql, ['id_trans' => $idTransaction]);
         return $query->getRowArray();
     }
 
@@ -63,11 +63,11 @@ where m.mutation_date between :from_date: and :to_date: ";
 
     public function updateMutation($data, $id)
     {
-        return $this->db->table($this->table)->update($data, ['id' => $id]);
+        return $this->db->table($this->table)->update($data, ['mutation_credit_id' => $id]);
     }
 
     public function deleteMutation($id)
     {
-        return $this->db->table($this->table)->delete(['id' => $id]);
+        return $this->db->table($this->table)->delete(['mutation_credit_id' => $id]);
     }
 } 
