@@ -28,7 +28,7 @@ order by e.expense_date asc";
 
     public function listExpenseCustom($where, $value)
     {
-        $sql = "select e.*,a.account_name, c.category_name, c.category_parent_name
+        $sql = "select e.*,a.account_name,a.is_credit, c.category_name, c.category_parent_name
 from " . $this->table . " e
 inner join accounts a on a.account_id=e.account_id
 inner join category c on c.category_id=e.category_id ";

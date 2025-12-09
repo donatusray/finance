@@ -15,6 +15,13 @@ class BillModel extends Model
 {
     protected $table = "bill";
 
+    public function listBill()
+    {
+        $sql = "select bill.*, accounts.account_name  from " . $this->table." inner join accounts on accounts.account_id = bill.account_id order by due_date asc";
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
     public function checkBill($accountId, $recordingDate)
     {
         $sql = "select * from " . $this->table . " where account_id=:account_id: and recording_date=:recording_date:";

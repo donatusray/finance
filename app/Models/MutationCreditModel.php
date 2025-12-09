@@ -42,6 +42,18 @@ where m.mutation_date between :from_date: and :to_date: ";
         return $query->getResultArray();
     }
 
+    public function getMutationByBillId($billId)
+    {
+        $sql = "select mc.*, a.account_name, c.category_name   
+        from mutation_credit mc 
+        inner join accounts a on a.account_id=mc.account_debt_id 
+        inner join category c on c.category_id=mc.category_id 
+        where mc.bill_id = :bill_id:
+        order by mc.mutation_date asc";
+        $query = $this->db->query($sql, ['bill_id' => $billId]);
+        return $query->getResultArray();
+    }
+
     public function getMutation($id)
     {
         $sql = "select * from " . $this->table . " where id=:id:";
