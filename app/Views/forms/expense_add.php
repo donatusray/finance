@@ -73,7 +73,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="date" name="expense_date" id="expense_date"
-                                                   value="<?= date('Y-m-d') ?>"
+                                                   value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>"
                                                    class="form-control" required>
                                         </div>
                                     </div>
@@ -132,7 +132,8 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="expense_description" id="expense_description"
-                                                      placeholder="Keterangan" class="form-control"><?=$inputs['expense_description']?></textarea>
+                                                      placeholder="Keterangan"
+                                                      class="form-control"><?= $inputs['expense_description'] ?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">

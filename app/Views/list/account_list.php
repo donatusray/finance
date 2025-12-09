@@ -68,8 +68,8 @@ echo view("partial/header");
                                             <th>Nama</th>
                                             <th>Akun Pemasukan</th>
                                             <th>Akun Pengeluaran</th>
+                                            <th>Paylater</th>
                                             <th>Saldo</th>
-                                            <th>Limit</th>
                                             <th>Keterangan</th>
                                             <th>Aktif</th>
                                             <th>Aksi</th>
@@ -92,6 +92,10 @@ echo view("partial/header");
                                             if ($la['account_expense'] == 'N') {
                                                 $iconExpense = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
                                             }
+                                            $iconPaylater = "<span class='badge badge-success'><i class='las la-check'></i></span>";
+                                            if ($la['is_credit'] == 0) {
+                                                $iconPaylater = "<span class='badge badge-danger'><i class='las la-times'></i></span>";
+                                            }
 
                                             ?>
                                             <tr>
@@ -99,8 +103,8 @@ echo view("partial/header");
                                                 <td><?= $la['account_name'] ?></td>
                                                 <td><?= $iconIncome ?></td>
                                                 <td><?= $iconExpense ?></td>
+                                                <td><?= $iconPaylater ?></td>
                                                 <td class="text-right"><?= number_format($la['account_balance'], 0, '.', ',') ?></td>
-                                                <td class="text-right"><?= number_format($la['account_limit'], 0, '.', ',') ?></td>
                                                 <td><?= $la['account_description'] ?></td>
                                                 <td><?= $iconActive ?></td>
                                                 <td><?= $linkEdit . " " . $linkDelete ?></td>

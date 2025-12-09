@@ -45,7 +45,8 @@ class AccountsModel extends Model
 
     public function insertAccount($data)
     {
-        return $this->db->table($this->table)->insert($data);
+        $this->db->table($this->table)->insert($data);
+        return $this->db->insertID();
     }
 
     public function updateAccount($data, $id)
