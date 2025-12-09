@@ -181,7 +181,7 @@ class Expense extends BaseController
                 $dataSaldo['updatedby'] = 1;
                 $dataSaldo['account_balance'] = $accountBefore['account_balance'] - (str_replace(",", "", $this->request->getPost('amount'))) + $expenseBefore['amount'];
                 $this->accountsModel->updateAccount($dataSaldo, $this->request->getPost('account_id'));
-                
+
                 session()->setFlashdata('success', 'Update Pengeluaran Berhasil');
                 return redirect()->to(session()->get('current_page'));
             }
@@ -244,6 +244,7 @@ class Expense extends BaseController
                 $data['updatedby'] = 1;
                 $billId = $this->billModel->insertBill($data);
             }
+            $mutation['category_id'] = $expense['category_id'];
             $mutation['account_debt_id'] = $expense['account_id'];
             $mutation['mutation_date'] = $expense['expense_date'];
             $mutation['mutation_description'] = $expense['expense_title'];

@@ -100,7 +100,7 @@ echo view("partial/header");
                                 <a href="<?= base_url('expense/add') ?>" class="btn btn-success"
                                    data-toggle="tooltip"
                                    data-placement="top" title="Tambah Pengeluaran"><i
-                                        class="fa fa-plus"></i></a>
+                                            class="fa fa-plus"></i></a>
                                 <br>
 
                                 <?php
@@ -130,6 +130,7 @@ echo view("partial/header");
                                             <th>Tanggal</th>
                                             <th>Kategori</th>
                                             <th>Akun</th>
+                                            <th>Tipe</th>
                                             <th>Nama Pengeluaran</th>
                                             <th>Nominal</th>
                                             <th>Aksi</th>
@@ -138,16 +139,25 @@ echo view("partial/header");
                                         <tbody>
                                         <?php
                                         foreach ($expenses as $no => $expense) {
-                                            $linkCopy = "<a href='" . base_url('expense/copy') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
+                                            $iconType = "<span class='badge badge-success'>Tunai</span>";
+                                            if ($expense['is_credit'] == 1) {
+                                                $iconType = "<span class='badge badge-warning'>Kredit</span>";
+                                                $linkCopy = "";
+                                                $linkEdit = "";
+                                                $linkDelete = "";
+                                            } else {
+                                                $linkCopy = "<a href='" . base_url('expense/copy') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Copy Pengeluaran' class='btn btn-warning'><i class='fa fa-copy'></i></a>";
-                                            $linkEdit = "<a href='" . base_url('expense/edit') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
+                                                $linkEdit = "<a href='" . base_url('expense/edit') . "?id=" . $expense['id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Ubah Pengeluaran' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
-                                            $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('expense/delete') . "?id=" . $expense['id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Pengeluaran' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                                $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('expense/delete') . "?id=" . $expense['id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Pengeluaran' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                            }
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
                                             echo "<td>" . date('d-m-Y', strtotime($expense['expense_date'])) . "</td>";
                                             echo "<td>" . $expense['category_parent_name'] . " - " . $expense['category_name'] . "</td>";
                                             echo "<td>" . $expense['account_name'] . "</td>";
+                                            echo "<td>" . $iconType . "</td>";
                                             echo "<td>" . $expense['expense_title'] . "</td>";
                                             echo "<td class='text-right'>" . number_format($expense['amount'], 0, '.', ',') . "</td>";
                                             echo "<td>" . $linkCopy . " " . $linkEdit . " " . $linkDelete . "</td>";
