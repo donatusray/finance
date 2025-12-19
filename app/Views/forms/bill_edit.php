@@ -116,6 +116,10 @@ echo view("partial/header");
                                             <tbody>
                                             <?php
                                             foreach ($bill_item as $no => $bi) {
+                                                $btnVoid = "";
+                                                if ($bi['status'] == 0) {
+                                                    
+                                                }
                                                 ?>
                                                 <tr>
                                                     <td><?= $no + 1 ?></td>
