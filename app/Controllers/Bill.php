@@ -68,12 +68,12 @@ class Bill extends BaseController
         if (!empty($dataErrors)) {
             session()->setFlashdata('inputs', $this->request->getPost());
             session()->setFlashdata('errors', $dataErrors);
-            return redirect()->to(base_url('expense/edit') . "?id=" . $id);
+            return redirect()->to(base_url('bill/edit') . "?id=" . $id);
         } else {
             $simpan = $this->billModel->updateBill($data, $id);
             if ($simpan) {
                 session()->setFlashdata('success', 'Update Bill Berhasil');
-                return redirect()->to(session()->get('current_page'));
+                return redirect()->to(base_url('bill/edit') . "?id=" . $id);
             }
         }
 

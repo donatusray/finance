@@ -54,9 +54,9 @@ where m.mutation_date between :from_date: and :to_date: ";
         return $query->getResultArray();
     }
 
-    public function getMutation($id)
+    public function getMutationCreditById($id)
     {
-        $sql = "select * from " . $this->table . " where id=:id:";
+        $sql = "select * from " . $this->table . " where mutation_credit_id=:id:";
         $query = $this->db->query($sql, ['id' => $id]);
         return $query->getRowArray();
     }

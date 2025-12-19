@@ -31,6 +31,7 @@ echo view("partial/header");
                                 <?php
                                 $inputs = session()->getFlashdata('inputs');
                                 $errors = session()->getFlashdata('errors');
+                                $success = session()->getFlashdata('success');
                                 if (!empty($errors)) {
                                     ?>
                                     <div class="alert alert-danger" role="alert">
@@ -40,6 +41,13 @@ echo view("partial/header");
                                                 <li><?php echo esc($error) ?></li>
                                             <?php endforeach ?>
                                         </ul>
+                                    </div>
+                                <?php } ?>
+                                <?php
+                                if (!empty($success)) {
+                                    ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <?= $success ?>
                                     </div>
                                 <?php } ?>
 
@@ -116,9 +124,9 @@ echo view("partial/header");
                                             <tbody>
                                             <?php
                                             foreach ($bill_item as $no => $bi) {
-                                                $btnVoid = "";
+                                                $linkDelete = "";
                                                 if ($bi['status'] == 0) {
-                                                    
+                                                    $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('mutationcredit/delete') . "?id=" . $bi['mutation_credit_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Tagihan' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                                 }
                                                 ?>
                                                 <tr>
@@ -129,7 +137,7 @@ echo view("partial/header");
                                                     <td><?= $bi['mutation_description'] ?></td>
                                                     <td><?= $bi['installment_number'] . " / " . $bi['installment_total'] ?></td>
                                                     <td class="text-right"><?= number_format($bi['mutation_nominal']) ?></td>
-                                                    <td></td>
+                                                    <td><?= $linkDelete ?></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -160,6 +168,14 @@ echo view("partial/header");
         function changeParentId() {
             var textParent = $("#category_parent_id option:selected").text();
             $("#category_parent_name").val(textParent);
+        }
+
+        function confirmDelete() {
+            if (confirm('Yakin menghapus item tagihan?')) {
+                return true;
+            } else {
+                return false;
+            }
         }
     </script>
 <?php
