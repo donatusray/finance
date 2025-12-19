@@ -220,6 +220,8 @@ class Expense extends BaseController
             $billingDate = date('Y-m-d', strtotime($expense['expense_date']));
             if ($accountDetail['billing_date'] == "END_MONTH") {
                 $billingDate = date('Y-m-t', strtotime($billingDate));
+            } else if ($accountDetail['billing_date'] == "NOW") {
+                $billingDate = date('Y-m-d', strtotime($billingDate));
             } else {
                 $billingDate = date('Y-m', strtotime($billingDate)) . "-" . $accountDetail['billing_date'];
                 if ($expense['expense_date'] > $billingDate) {
@@ -227,6 +229,12 @@ class Expense extends BaseController
                 }
             }
 
+            if ($accountDetail['due_date'] == "FIRST_NEXT_MONTH") {
+                $nextMonth = strtotime('+1 month', strtotime($billingDate));
+                $dueDate = date('Y-m-01', $nextMonth);
+            } else {
+                $dueDate = date('Y-m-d', strtotime($billingDate . ' + ' . $accountDetail['due_date'] . ' days'));
+            }
             $checkCreateBill = $this->billModel->checkBill($expense['account_id'], $billingDate);
             if ($checkCreateBill) {
                 $billId = $checkCreateBill['bill_id'];
@@ -235,7 +243,6 @@ class Expense extends BaseController
                 $data['updated'] = date('Y-m-d h:i:s');
                 $this->billModel->updateBill($data, $billId);
             } else {
-                $dueDate = date('Y-m-d', strtotime($billingDate . ' + ' . $accountDetail['due_date'] . ' days'));
                 $data['account_id'] = $expense['account_id'];
                 $data['recording_date'] = $billingDate;
                 $data['due_date'] = $dueDate;
