@@ -34,6 +34,8 @@ class Bill extends BaseController
          * 1 : bayar
          * 2 : closed
          * */
+        $queryString = $_SERVER['QUERY_STRING'];
+        session()->set('current_page', base_url('bill') . "?" . $queryString);
 
         $data['bills'] = $this->billModel->listBill();
         return view('list/bill_list', $data);
@@ -49,5 +51,40 @@ class Bill extends BaseController
         $data['account'] = $account;
         $data['bill_item'] = $billItem;
         return view('forms/bill_edit', $data);
+    }
+
+    public function update()
+    {
+        $id = $this->request->getPost('id');
+        $data = array(
+            'recording_date' => date('Y-m-d', strtotime($this->request->getPost('recording_date'))),
+            'due_date' => date('Y-m-d', strtotime($this->request->getPost('due_date'))),
+            'status' => $this->request->getPost('status'),
+            'updatedby' => 1,
+            'updated' => date('Y-m-d h:i:s')
+        );
+
+        $dataErrors = $this->getError($data);
+        if (!empty($dataErrors)) {
+            session()->setFlashdata('inputs', $this->request->getPost());
+            session()->setFlashdata('errors', $dataErrors);
+            return redirect()->to(base_url('expense/edit') . "?id=" . $id);
+        } else {
+            $simpan = $this->billModel->updateBill($data, $id);
+            if ($simpan) {
+                session()->setFlashdata('success', 'Update Bill Berhasil');
+                return redirect()->to(session()->get('current_page'));
+            }
+        }
+
+    }
+
+    public function getError($post)
+    {
+        $error = array();
+        if ($post['payment'] > 0) {
+            $error[] = "Tidak bisa update pembayaran karena sudah melakukan pembayaran";
+        }
+        return $error;
     }
 } 

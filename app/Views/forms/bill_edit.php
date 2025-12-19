@@ -45,6 +45,7 @@ echo view("partial/header");
 
                                 <form class="form-horizontal" action="<?= base_url('bill/update') ?>"
                                       method="post">
+                                    <input type="hidden" name="id" id="id" value="<?= $bill['bill_id'] ?>"/>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="account_name">Nama Akun</label>
