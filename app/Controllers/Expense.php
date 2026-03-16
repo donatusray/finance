@@ -133,14 +133,13 @@ class Expense extends BaseController
     {
         $id = $this->request->getGet('id');
         $expense = $this->expenseModel->getExpense($id);
+        $category = $this->categoryModel->getCategory($expense['category_id']);
         $listCategoryExpense = $this->categoryModel->listCategoryExpenseNoParent();
         $listAccountExpense = $this->accountsModel->listAccountExpenseActive();
         $data['categories'] = $listCategoryExpense;
+        $data['category'] = $category;
         $data['accounts'] = $listAccountExpense;
         $data['expense'] = $expense;
-        if (session()->getFlashdata('inputs') == null) {
-            session()->setFlashdata('inputs', $expense);
-        }
         return view('forms/expense_edit', $data);
     }
 
