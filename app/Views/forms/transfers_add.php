@@ -36,7 +36,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 if (!empty($errors)) {
                                     ?>
@@ -74,6 +74,7 @@ echo view("partial/header");
                                                     class="form-control">
                                                 <option value="">Pilih Akun Sumber</option>
                                                 <?php
+                                                $inputs['account_credit'] = $inputs['account_credit'] ?? '';
                                                 foreach ($account_expense as $ae) {
                                                     $selected = "";
                                                     if ($ae['account_id'] == $inputs['account_credit']) $selected = "selected";
@@ -93,6 +94,7 @@ echo view("partial/header");
                                                     class="form-control" onchange="createDescription()">
                                                 <option value="">Pilih Akun Tujuan</option>
                                                 <?php
+                                                $inputs['account_debet'] = $inputs['account_debet'] ?? '';
                                                 foreach ($account_income as $ai) {
                                                     $selected = "";
                                                     if ($ai['account_id'] == $inputs['account_debet']) $selected = "selected";
@@ -109,7 +111,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <input type="text" name="nominal" id="nominal"
                                                    class="form-control money"
-                                                   value="<?= ($inputs['nominal'] == null) ? '0' : $inputs['nominal'] ?>"
+                                                   value="<?= $inputs['nominal'] ?? '0' ?>"
                                                    required>
                                         </div>
                                     </div>
@@ -120,7 +122,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="transfer_description" id="transfer_description"
                                                       placeholder="Keterangan"
-                                                      class="form-control"><?= $inputs['transfer_description'] ?></textarea>
+                                                      class="form-control"><?= $inputs['transfer_description'] ?? '' ?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">

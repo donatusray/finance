@@ -37,7 +37,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 if (!empty($errors)) {
                                     ?>
@@ -68,7 +68,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="checkbox" name="account_income"
-                                                   id="account_income" <?= ($inputs['account_income'] == 'Y') ? "checked" : "" ?>>
+                                                   id="account_income" <?= (($inputs['account_income'] ?? '') == 'Y') ? "checked" : "" ?>>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -77,7 +77,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="checkbox" name="account_expense"
-                                                   id="account_expense" <?= ($inputs['account_expense'] == 'Y') ? "checked" : "" ?>>
+                                                   id="account_expense" <?= (($inputs['account_expense'] ?? '') == 'Y') ? "checked" : "" ?>>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -86,7 +86,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="checkbox" name="is_credit" onclick="changePaylater(this)"
-                                                   id="is_credit" <?= ($inputs['is_credit'] == '1') ? "checked" : "" ?>>
+                                                   id="is_credit" <?= (($inputs['is_credit'] ?? '') == '1') ? "checked" : "" ?>>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -106,7 +106,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control money" name="credit_limit"
                                                    id="credit_limit"
-                                                   value="<?= ($inputs['credit_limit'] == null) ? 0 : $inputs['credit_limit'] ?>"
+                                                   value="<?= $inputs['credit_limit'] ?? '0' ?>"
                                                    placeholder="Credit Limit">
                                         </div>
                                     </div>

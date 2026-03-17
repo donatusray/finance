@@ -76,11 +76,11 @@ class Accounts extends BaseController
         $id = $this->request->getGet('id');
         $account = $this->accountModel->getAccount($id);
         $data['account'] = $account;
+        $accountCredit = array();
         if ($account['is_credit'] == 1) {
             $accountCredit = $this->accountsCreditDetailModel->getAccountCreditDetail($id);
-            $data['account_credit'] = $accountCredit;
         }
-        session()->setFlashdata('inputs', $account);
+        $data['account_credit'] = $accountCredit;
         return view('forms/account_edit', $data);
     }
 

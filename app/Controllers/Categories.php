@@ -26,12 +26,14 @@ class Categories extends BaseController
         $queryString = $_SERVER['QUERY_STRING'];
         session()->set('current_page', base_url('categories') . "?" . $queryString);
 
-        $parents = (isset($_GET['parents']) or $_GET['parents'] != '') ? $_GET['parents'] : 0;
-        $type = (isset($_GET['tipe']) or $_GET['tipe'] != '') ? $_GET['tipe'] : '';
+        $parents = $this->request->getGet('parents') ?? 0;
+        $type = $this->request->getGet('tipe') ?? '';
         $listCategory = $this->categoryModel->listCategoryFilter($type, $parents);
         $listCategoryParent = $this->categoryModel->listCategoryParent();
         $data['parents'] = $listCategoryParent;
         $data['categories'] = $listCategory;
+        $data['selected_parent'] = $parents;
+        $data['selected_type'] = $type;
         return view('list/category_list', $data);
     }
 

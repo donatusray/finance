@@ -29,7 +29,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 $success = session()->getFlashdata('success');
                                 if (!empty($errors)) {

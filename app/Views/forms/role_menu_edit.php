@@ -36,7 +36,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 if (!empty($errors)) {
                                     ?>
@@ -51,7 +51,7 @@ echo view("partial/header");
                                 <?php } ?>
 
                                 <form class="form-horizontal" action="<?= base_url('rolemenu/insert') ?>" method="post">
-                                    <input type="hidden" name="role_id" id="role_id" value="<?= $inputs['role_id'] ?>"/>
+                                    <input type="hidden" name="role_id" id="role_id" value="<?= $inputs['role_id'] ?? '' ?>"/>
 
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"

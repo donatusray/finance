@@ -44,10 +44,11 @@ where m.mutation_date between :from_date: and :to_date: ";
 
     public function getMutationByBillId($billId)
     {
-        $sql = "select mc.*, a.account_name, c.category_name   
+        $sql = "select mc.*, a.account_name, c.category_name, b.status    
         from mutation_credit mc 
         inner join accounts a on a.account_id=mc.account_debt_id 
-        inner join category c on c.category_id=mc.category_id 
+        inner join category c on c.category_id=mc.category_id
+        inner join bill b on b.bill_id=mc.bill_id
         where mc.bill_id = :bill_id:
         order by mc.mutation_date asc";
         $query = $this->db->query($sql, ['bill_id' => $billId]);
