@@ -40,7 +40,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 if (!empty($errors)) {
                                     ?>
@@ -58,18 +58,18 @@ echo view("partial/header");
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="expense_title">Nama Pengeluaran <span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" name="expense_title" id="expense_title"
-                                                   value="<?php echo $inputs['expense_title'] ?>"
+                                                   value="<?php echo $inputs['expense_title'] ?? '' ?>"
                                                    class="form-control" placeholder="Nama Pengeluaran" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="expense_date">Tanggal Pemasukan <span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="date" name="expense_date" id="expense_date"
@@ -86,6 +86,7 @@ echo view("partial/header");
                                                     class="form-control select2">
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
+                                                $inputs['category_id'] = $inputs['category_id'] ?? '';
                                                 foreach ($categories as $cat) {
                                                     $selected = "";
                                                     if ($inputs['category_id'] == $cat['category_id']) $selected = "selected";
@@ -94,18 +95,19 @@ echo view("partial/header");
                                                 ?>
                                             </select>
                                             <input type="hidden" name="category_name" id="category_name"
-                                                   value="<?= $inputs['category_name'] ?>">
+                                                   value="<?= $inputs['category_name'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="account_id">Akun Pengeluaran <span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <select required name="account_id" id="account_id" class="form-control">
                                                 <option value="">Pilih Akun Pengeluaran</option>
                                                 <?php
+                                                $inputs['account_id'] = $inputs['account_id'] ?? '';
                                                 foreach ($accounts as $account) {
                                                     $selected = "";
                                                     if ($account['account_id'] == $inputs['account_id']) $selected = "selected";
@@ -122,7 +124,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <input type="text" name="amount" id="amount"
                                                    class="form-control money"
-                                                   value="<?= ($inputs['amount'] == null) ? '0' : $inputs['amount'] ?>"
+                                                   value="<?= $inputs['amount'] ?? '0' ?>"
                                                    required>
                                         </div>
                                     </div>
@@ -133,7 +135,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="expense_description" id="expense_description"
                                                       placeholder="Keterangan"
-                                                      class="form-control"><?= $inputs['expense_description'] ?></textarea>
+                                                      class="form-control"><?= $inputs['expense_description'] ?? '' ?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">

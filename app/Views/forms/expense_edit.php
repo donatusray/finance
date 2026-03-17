@@ -40,7 +40,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? $expense ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 if (!empty($errors)) {
                                     ?>
@@ -60,7 +60,7 @@ echo view("partial/header");
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="expense_title">Nama Pengeluaran <span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="text" name="expense_title" id="expense_title"
@@ -71,7 +71,7 @@ echo view("partial/header");
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="expense_date">Tanggal Pengeluaran <span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <input type="date" name="expense_date" id="expense_date"
@@ -84,7 +84,8 @@ echo view("partial/header");
                                                for="category_id">Kategori <span class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
-                                            <select required name="category_id" id="category_id" class="form-control select2"
+                                            <select required name="category_id" id="category_id"
+                                                    class="form-control select2"
                                                     onchange="changeSelCategoryId()">
                                                 <option value="">Pilih Kategori</option>
                                                 <?php
@@ -98,13 +99,13 @@ echo view("partial/header");
                                                 ?>
                                             </select>
                                             <input type="hidden" name="category_name" id="category_name"
-                                                   value="<?= $inputs['category_name'] ?>">
+                                                   value="<?= $inputs['category_name'] ?? $category['category_name'] ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-sm-2 align-self-center mb-0"
                                                for="account_id">Akun Pengeluaran <span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
 
                                         <div class="col-sm-10">
                                             <select required name="account_id" id="account_id" class="form-control"

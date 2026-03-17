@@ -37,7 +37,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? $account ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 if (!empty($errors)) {
                                     ?>
@@ -61,7 +61,7 @@ echo view("partial/header");
 
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" name="account_name"
-                                                   id="account_name" value="<?= $inputs['account_name'] ?>"
+                                                   id="account_name" value="<?= $inputs['account_name'] ?? '' ?>"
                                                    required placeholder="Nama Akun">
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <textarea rows="2" name="account_description" id="account_description"
                                                       placeholder="Keterangan"
-                                                      class="form-control"><?= $inputs['account_description'] ?></textarea>
+                                                      class="form-control"><?= $inputs['account_description'] ?? '' ?></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -118,7 +118,7 @@ echo view("partial/header");
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control money" name="credit_limit"
                                                    id="credit_limit"
-                                                   value="<?= ($account_credit['credit_limit'] == null) ? 0 : $account_credit['credit_limit'] ?>"
+                                                   value="<?= $account_credit['credit_limit'] ?? 0 ?? $account_credit['credit_limit'] ?>"
                                                    placeholder="Credit Limit">
                                         </div>
                                     </div>
@@ -172,9 +172,9 @@ echo view("partial/header");
         $('.money').mask('000,000,000,000,000', {reverse: true});
         $(".select2").select2();
 
-        var billingDate = "<?=$account_credit['billing_date']?>";
-        var dueDate = "<?=$account_credit['due_date']?>";
-        var isCredit = "<?=$account['is_credit']?>";
+        var billingDate = "<?=$account_credit['billing_date'] ?? ''?>";
+        var dueDate = "<?=$account_credit['due_date'] ?? ''?>";
+        var isCredit = "<?=$account['is_credit'] ?? ''?>";
 
         $(document).ready(function () {
             var billingDateForm = $("#billing_date");

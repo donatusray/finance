@@ -4,6 +4,7 @@
 # Private Files
 app/Config/database.php
 public/
+vendor/
 system/
 writable/
 

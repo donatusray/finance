@@ -124,7 +124,7 @@ echo view("partial/header");
                                 <?php
                                 foreach ($parents as $par) {
                                     $selected = "";
-                                    if ($par['category_id'] == $_GET['parents']) {
+                                    if ($par['category_id'] == $selected_parent) {
                                         $selected = "selected";
                                     }
                                     echo "<option " . $selected . " value='" . $par['category_id'] . "'>" . $par['category_name'] . "</option>";
@@ -142,9 +142,9 @@ echo view("partial/header");
                         <div class="col-sm-8">
                             <select name="category_type" id="category_type" class="form-control">
                                 <option value="">--Pilih Account--</option>
-                                <option <?= ($_GET['tipe'] == "INCOME") ? "selected" : ""; ?> value="INCOME">INCOME
+                                <option <?= ($selected_type == "INCOME") ? "selected" : ""; ?> value="INCOME">INCOME
                                 </option>
-                                <option <?= ($_GET['tipe'] == "EXPENSE") ? "selected" : ""; ?> value="EXPENSE">EXPENSE
+                                <option <?= ($selected_type == "EXPENSE") ? "selected" : ""; ?> value="EXPENSE">EXPENSE
                                 </option>
                             </select>
                         </div>

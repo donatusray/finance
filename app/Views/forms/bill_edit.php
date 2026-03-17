@@ -29,7 +29,7 @@ echo view("partial/header");
                             <div class="iq-card-body">
 
                                 <?php
-                                $inputs = session()->getFlashdata('inputs');
+                                $inputs = session()->getFlashdata('inputs') ?? [];
                                 $errors = session()->getFlashdata('errors');
                                 $success = session()->getFlashdata('success');
                                 if (!empty($errors)) {
@@ -126,7 +126,7 @@ echo view("partial/header");
                                             foreach ($bill_item as $no => $bi) {
                                                 $linkDelete = "";
                                                 if ($bi['status'] == 0) {
-                                                    $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('mutationcredit/delete') . "?id=" . $bi['mutation_credit_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Tagihan' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
+                                                    $linkDelete = "<a onclick='return confirmDelete()' href='" . base_url('MutationCredit/delete') . "?id=" . $bi['mutation_credit_id'] . "' data-toggle='tooltip' data-placement='top' title='Hapus Tagihan' class='btn btn-danger'><i class='fa fa-trash'></i></a>";
                                                 }
                                                 ?>
                                                 <tr>
