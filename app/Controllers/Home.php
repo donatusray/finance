@@ -16,7 +16,7 @@ class Home extends BaseController
     public function index()
     {
         $limit = 3;
-        $filterWaktu = array('harian', 'bulanan');
+        $filterWaktu = array('bulanan', 'tahunan');
         $get_waktu = $this->request->getGet('waktu');
         if ($get_waktu == null) {
             $get_waktu = current($filterWaktu);
@@ -44,15 +44,15 @@ class Home extends BaseController
         $compareExpenseBefore = 0;
         $compareIncomeBefore = 0;
 
-        if ($get_waktu == "harian") {
-            $showIncome = $this->viewTransactionModel->totalIncomeToday();
-            $showExpense = $this->viewTransactionModel->totalExpenseToday();
-            $listIncome = $this->viewTransactionModel->lineIncomeHarian($limit);
-            $listExpense = $this->viewTransactionModel->lineExpenseHarian($limit);
-            $listCategoryIncome = $this->viewTransactionModel->categoryIncomeHarian();
-            $listCategoryExpense = $this->viewTransactionModel->categoryExpenseHarian();
-            $listAccountIncome = $this->viewTransactionModel->accountIncomeHarian();
-            $listAccountExpense = $this->viewTransactionModel->accountExpenseHarian();
+        if ($get_waktu == "tahunan") {
+            $showIncome = $this->viewTransactionModel->totalIncomeTahunan();
+            $showExpense = $this->viewTransactionModel->totalExpenseTahunan();
+            $listIncome = $this->viewTransactionModel->lineIncomeTahunan($limit);
+            $listExpense = $this->viewTransactionModel->lineExpenseTahunan($limit);
+            $listCategoryIncome = $this->viewTransactionModel->categoryIncomeTahunan();
+            $listCategoryExpense = $this->viewTransactionModel->categoryExpenseTahunan();
+            $listAccountIncome = $this->viewTransactionModel->accountIncomeTahunan();
+            $listAccountExpense = $this->viewTransactionModel->accountExpenseTahunan();
         } else if ($get_waktu == 'bulanan') {
             $showIncome = $this->viewTransactionModel->totalIncomeMonthToday();
             $showExpense = $this->viewTransactionModel->totalExpenseMonthToday();
@@ -66,8 +66,13 @@ class Home extends BaseController
 
         if (count($listIncome) > 0) {
             for ($i = $limit - 1; $i >= 0; $i--) {
-                $arrayHeaderIncome[] = "'" . $listIncome[$i]['waktu'] . "'";
-                $arrayValueIncome[] = "'" . $listIncome[$i]['total_amount'] . "'";
+                if (isset($listIncome[$i])) {
+                    $arrayHeaderIncome[] = "'" . $listIncome[$i]['waktu'] . "'";
+                    $arrayValueIncome[] = "'" . $listIncome[$i]['total_amount'] . "'";
+                } else {
+                    $arrayHeaderIncome[] = "''";
+                    $arrayValueIncome[] = "'0'";
+                }
             }
             $compareIncomeBefore = str_replace("'", "", end($arrayValueIncome));
         }
@@ -75,8 +80,13 @@ class Home extends BaseController
 
         if (count($listExpense) > 0) {
             for ($i = $limit - 1; $i >= 0; $i--) {
-                $arrayHeaderExpense[] = "'" . $listExpense[$i]['waktu'] . "'";
-                $arrayValueExpense[] = "'" . $listExpense[$i]['total_amount'] . "'";
+                if (isset($listExpense[$i])) {
+                    $arrayHeaderExpense[] = "'" . $listExpense[$i]['waktu'] . "'";
+                    $arrayValueExpense[] = "'" . $listExpense[$i]['total_amount'] . "'";
+                } else {
+                    $arrayHeaderExpense[] = "''";
+                    $arrayValueExpense[] = "'0'";
+                }
             }
             $compareExpenseBefore = str_replace("'", "", end($arrayValueExpense));
         }
