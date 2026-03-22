@@ -109,7 +109,6 @@ order by total_amount desc";
         $query = $this->db->query($sql, ['tipe_transaction' => 'Expense', 'tanggal' => $date]);
         return $query->getResultArray();
     }
-
     public function categoryExpenseBulanan()
     {
         $bulan = date("Ym");
@@ -118,6 +117,17 @@ from view_transaction where tipe=:tipe_transaction: and date_format(tanggal,'%Y%
 group by kategori
 order by total_amount desc";
         $query = $this->db->query($sql, ['bulan' => $bulan, 'tipe_transaction' => 'Expense']);
+        return $query->getResultArray();
+    }
+
+    public function categoryExpenseTahunan()
+    {
+        $tahun = date("Y");
+        $sql = "select kategori, case when (sum(amount) is null) then 0 else sum(amount) end total_amount
+from view_transaction where tipe=:tipe_transaction: and date_format(tanggal,'%Y') = :tahun:
+group by kategori
+order by total_amount desc limit 10";
+        $query = $this->db->query($sql, ['tahun' => $tahun, 'tipe_transaction' => 'Expense']);
         return $query->getResultArray();
     }
 
@@ -144,6 +154,17 @@ order by total_amount desc";
         return $query->getResultArray();
     }
 
+    public function categoryIncomeTahunan()
+    {
+        $tahun = date("Y");
+        $sql = "select kategori, case when (sum(amount) is null) then 0 else sum(amount) end total_amount
+from view_transaction where tipe=:tipe_transaction: and date_format(tanggal,'%Y') = :tahun:
+group by kategori
+order by total_amount desc limit 10";
+        $query = $this->db->query($sql, ['tahun' => $tahun, 'tipe_transaction' => 'Income']);
+        return $query->getResultArray();
+    }
+
     function accountExpenseHarian()
     {
         $date = date('Y-m-d');
@@ -167,6 +188,17 @@ order by total_amount desc";
         return $query->getResultArray();
     }
 
+    public function accountExpenseTahunan()
+    {
+        $tahun = date("Y");
+        $sql = "select akun, case when (sum(amount) is null) then 0 else sum(amount) end total_amount
+from view_transaction where tipe=:tipe_transaction: and date_format(tanggal,'%Y') = :tahun:
+group by akun
+order by total_amount desc";
+        $query = $this->db->query($sql, ['tahun' => $tahun, 'tipe_transaction' => 'Expense']);
+        return $query->getResultArray();
+    }
+
     function accountIncomeHarian()
     {
         $date = date('Y-m-d');
@@ -187,6 +219,61 @@ from view_transaction where tipe=:tipe_transaction: and date_format(tanggal,'%Y%
 group by akun
 order by total_amount desc";
         $query = $this->db->query($sql, ['bulan' => $bulan, 'tipe_transaction' => 'Income']);
+        return $query->getResultArray();
+    }
+
+    public function accountIncomeTahunan()
+    {
+        $tahun = date("Y");
+        $sql = "select akun, case when (sum(amount) is null) then 0 else sum(amount) end total_amount
+from view_transaction where tipe=:tipe_transaction: and date_format(tanggal,'%Y') = :tahun:
+group by akun
+order by total_amount desc";
+        $query = $this->db->query($sql, ['tahun' => $tahun, 'tipe_transaction' => 'Income']);
+        return $query->getResultArray();
+    }
+
+    public function totalIncomeTahunan()
+    {
+        $date = date('Y');
+        $sql = "select case when (sum(amount) is null) then 0 else sum(amount) end total_amount from " . $this->table . " where tipe=:tipe_transaction: and date_format(tanggal,'%Y')=:tahun:";
+        $query = $this->db->query($sql, ['tipe_transaction' => 'Income', 'tahun' => $date]);
+        return $query->getRowArray();
+    }
+
+    public function totalExpenseTahunan()
+    {
+        $date = date('Y');
+        $sql = "select case when (sum(amount) is null) then 0 else sum(amount) end total_amount from " . $this->table . " where tipe=:tipe_transaction: and date_format(tanggal,'%Y') = :tahun: ";
+        $query = $this->db->query($sql, ['tipe_transaction' => 'Expense', 'tahun' => $date]);
+        return $query->getRowArray();
+    }
+
+    public function lineIncomeTahunan($limit)
+    {
+        $tahun = date("Y");
+        $sql = "select date_format(tanggal,'%Y') waktu,
+case when (sum(amount) is null) then 0 else sum(amount) end total_amount
+from view_transaction
+where tipe=:tipe_transaction: and date_format(tanggal,'%Y') < :tahun:
+group by date_format(tanggal,'%Y')
+order by date_format(tanggal,'%Y') desc
+limit :limit:";
+        $query = $this->db->query($sql, ['tahun' => $tahun, 'tipe_transaction' => 'Income', 'limit' => $limit]);
+        return $query->getResultArray();
+    }
+
+    function lineExpenseTahunan($limit)
+    {
+        $tahun = date("Y");
+        $sql = "select date_format(tanggal,'%Y') waktu,
+case when (sum(amount) is null) then 0 else sum(amount) end total_amount
+from view_transaction
+where tipe=:tipe_transaction: and date_format(tanggal,'%Y') < :tahun:
+group by date_format(tanggal,'%Y-%m')
+order by date_format(tanggal,'%Y-%m') desc
+limit :limit:";
+        $query = $this->db->query($sql, ['tahun' => $tahun, 'tipe_transaction' => 'Expense', 'limit' => $limit]);
         return $query->getResultArray();
     }
 }
