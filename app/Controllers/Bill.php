@@ -46,9 +46,12 @@ class Bill extends BaseController
         $id = $this->request->getGet('id');
         $bill = $this->billModel->getBill($id);
         $account = $this->accountModel->getAccount($bill['account_id']);
+        $accountDebit = $this->accountModel->listAccountIncomeActive();
         $billItem = $this->mutationCreditModel->getMutationByBillId($id);
+        $payment = $this->mutationCreditModel->getMutationByBillId($id);
         $data['bill'] = $bill;
         $data['account'] = $account;
+        $data['account_debit'] = $accountDebit;
         $data['bill_item'] = $billItem;
         return view('forms/bill_edit', $data);
     }
@@ -61,7 +64,8 @@ class Bill extends BaseController
             'due_date' => date('Y-m-d', strtotime($this->request->getPost('due_date'))),
             'status' => $this->request->getPost('status'),
             'updatedby' => 1,
-            'updated' => date('Y-m-d h:i:s')
+            'updated' => date('Y-m-d h:i:s'),
+            'payment' => str_replace(",", "", $this->request->getPost('payment')),
         );
 
         $dataErrors = $this->getError($data);

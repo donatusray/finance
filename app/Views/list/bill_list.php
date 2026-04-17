@@ -29,74 +29,9 @@ echo view("partial/header");
                                 </div>
                             </div>
                             <div class="iq-card-body">
-                                <div class="card iq-mb-3">
-                                    <div class="card-body">
-                                        <!--                                    <div class="row">-->
-                                        <!--                                        <div class="col-md-3">-->
-                                        <!--                                            <div class="form-group">-->
-                                        <!--                                                <label for="filter_from">Tanggal Pemasukan Dari</label>-->
-                                        <!--                                                <input type="date" name="filter_from" id="filter_from"-->
-                                        <!--                                                       value="-->
-                                        <?php //= $get_from ?><!--" class="form-control">-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
-                                        <!--                                        <div class="col-md-3">-->
-                                        <!--                                            <div class="form-group">-->
-                                        <!--                                                <label for="filter_to">Tanggal Pemasukan Sampai</label>-->
-                                        <!--                                                <input type="date" name="filter_to" id="filter_to"-->
-                                        <!--                                                       value="-->
-                                        <?php //= $get_to ?><!--" class="form-control">-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
-                                        <!--                                        <div class="col-md-3">-->
-                                        <!--                                            <div class="form-group">-->
-                                        <!--                                                <label for="filter_category">Kategori Pemasukan</label>-->
-                                        <!--                                                <select name="filter_category" id="filter_category"-->
-                                        <!--                                                        class="form-control">-->
-                                        <!--                                                    <option value="">All</option>-->
-                                        <!--                                                    --><?php
-                                        //                                                    foreach ($categories as $cat) {
-                                        //                                                        $selected = "";
-                                        //                                                        if ($cat['category_id'] == $get_category) {
-                                        //                                                            $selected = "selected";
-                                        //                                                        }
-                                        //                                                        echo "<option value='" . $cat['category_id'] . "' " . $selected . ">" . $cat['category_name'] . "</option>";
-                                        //                                                    }
-                                        //                                                    ?>
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
-                                        <!--                                        <div class="col-md-3">-->
-                                        <!--                                            <div class="form-group">-->
-                                        <!--                                                <label for="filter_account">Akun Pemasukan</label>-->
-                                        <!--                                                <select name="filter_account" id="filter_account"-->
-                                        <!--                                                        class="form-control">-->
-                                        <!--                                                    <option value="">All</option>-->
-                                        <!--                                                    --><?php
-                                        //                                                    foreach ($accounts as $account) {
-                                        //                                                        $selected = "";
-                                        //                                                        if ($account['account_id'] == $get_account) {
-                                        //                                                            $selected = "selected";
-                                        //                                                        }
-                                        //                                                        echo "<option value='" . $account['account_id'] . "' " . $selected . ">" . $account['account_name'] . "</option>";
-                                        //                                                    }
-                                        //                                                    ?>
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
-                                        <!--                                        <div class="col-md-3">-->
-                                        <!--                                            <button type="button" name="btn" class="btn btn-primary"-->
-                                        <!--                                                    onclick="search()"><i class="las la-search"></i> Cari Data-->
-                                        <!--                                            </button>-->
-                                        <!--                                        </div>-->
-                                        <!--                                    </div>-->
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <a href="<?= base_url('income/add') ?>" class="btn btn-success"
+                                <a href="<?= base_url('bill/add') ?>" class="btn btn-success"
                                    data-toggle="tooltip"
-                                   data-placement="top" title="Tambah Pemasukan"><i
+                                   data-placement="top" title="Tambah Tagihan"><i
                                             class="fa fa-plus"></i></a>
                                 <br><br>
 
@@ -128,6 +63,7 @@ echo view("partial/header");
                                             <th>Jatuh Tempo</th>
                                             <th>Total</th>
                                             <th>Pembayaran</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                         </thead>
@@ -136,6 +72,13 @@ echo view("partial/header");
                                         foreach ($bills as $no => $bill) {
                                             $linkEdit = "<a href='" . base_url('bill/edit') . "?id=" . $bill['bill_id'] . "' data-toggle='tooltip'
                                    data-placement='top' title='Ubah Tagihan' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
+                                            if ($bill['status'] == 1) {
+                                                $titleStatus = "<span class='badge badge-warning'>Active</span>";
+                                            } else if ($bill['status'] == 0) {
+                                                $titleStatus = "<span class='badge badge-danger'>Open</span>";
+                                            } else {
+                                                $titleStatus = "<span class='badge badge-success'>Close</span>";
+                                            }
                                             echo "<tr>";
                                             echo "<td>" . ($no + 1) . "</td>";
                                             echo "<td>" . $bill['account_name'] . "</td>";
@@ -143,6 +86,7 @@ echo view("partial/header");
                                             echo "<td>" . date('d-m-Y', strtotime($bill['due_date'])) . "</td>";
                                             echo "<td class='text-right'>" . number_format($bill['grand_total'], 0, '.', ',') . "</td>";
                                             echo "<td class='text-right'>" . number_format($bill['payment'], 0, '.', ',') . "</td>";
+                                            echo "<td>" . $titleStatus . "</td>";
                                             echo "<td>" . $linkEdit . "</td>";
                                             echo "</tr>";
                                         }
