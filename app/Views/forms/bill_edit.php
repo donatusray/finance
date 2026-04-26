@@ -59,6 +59,7 @@ echo view("partial/header");
                                         <div class="col-6">
                                             <input type="hidden" name="id" id="id" value="<?= $bill['bill_id'] ?>"/>
                                             <div class="form-group row">
+                                                <input type="hidden" name="account_id" id="account_id" value="<?= $bill['account_id'] ?>"/>
                                                 <label class="control-label col-sm-4 align-self-center mb-0"
                                                        for="account_name">Nama Akun</label>
                                                 <div class="col-sm-8">
@@ -176,6 +177,17 @@ echo view("partial/header");
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="control-label col-sm-4 align-self-center mb-0"
+                                                           for="total_bill">Keterangan Pembayaran</label>
+
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="payment_title" id="payment_title"
+                                                               class="form-control" readonly
+                                                               value="<?= "Pembayaran ".$account['account_name']." ". date('M-Y',strtotime($bill['recording_date'])) ?>"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="control-label col-sm-4 align-self-center mb-0"
                                                            for="total_bill">Total Tagihan</label>
 
                                                     <div class="col-sm-8">
@@ -278,7 +290,7 @@ echo view("partial/header");
     <script type="text/javascript">
         $("document").ready(function () {
             $(".select2").select2();
-            changePaymentAmount();
+            // changePaymentAmount();
         });
         $('.money').mask('000,000,000,000,000', {reverse: true});
 
