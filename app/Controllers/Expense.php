@@ -251,6 +251,7 @@ class Expense extends BaseController
                 $billId = $this->billModel->insertBill($data);
             }
             $mutation['category_id'] = $expense['category_id'];
+            $mutation['mutation_type'] = 'debit';
             $mutation['account_debt_id'] = $expense['account_id'];
             $mutation['mutation_date'] = $expense['expense_date'];
             $mutation['mutation_description'] = $expense['expense_title'];
