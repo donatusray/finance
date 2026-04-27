@@ -17,7 +17,7 @@ class BillModel extends Model
 
     public function listBill()
     {
-        $sql = "select bill.*, accounts.account_name  from " . $this->table." inner join accounts on accounts.account_id = bill.account_id order by due_date asc";
+        $sql = "select bill.*, accounts.account_name  from " . $this->table . " inner join accounts on accounts.account_id = bill.account_id order by due_date asc";
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
@@ -50,5 +50,29 @@ class BillModel extends Model
     public function deleteBill($id)
     {
         return $this->db->table($this->table)->delete(['bill_id' => $id]);
+    }
+
+    public function getTotalHutang()
+    {
+        $sql = "select sum(grand_total - payment) as total_hutang from bill";
+        $query = $this->db->query($sql);
+        return $query->getRowArray();
+    }
+
+    public function getTotalTagihan($maturityDate)
+    {
+        $sql = "select sum(grand_total + balance_start - payment) as total_tagihan from bill where due_date <= :maturity_date:";
+        $query = $this->db->query($sql, ['maturity_date' => $maturityDate]);
+        return $query->getRowArray();
+    }
+
+    public function listTagihanWillMaturity($maturityDate)
+    {
+        $sql = "select bill.*, accounts.account_name  
+from " . $this->table . " inner join accounts on accounts.account_id = bill.account_id 
+where due_date <= :maturity_date: 
+order by due_date asc";
+        $query = $this->db->query($sql, ['maturity_date' => $maturityDate]);
+        return $query->getResultArray();
     }
 } 

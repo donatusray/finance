@@ -36,10 +36,24 @@ class AccountsModel extends Model
         return $query->getResultArray();
     }
 
+    public function listAccountNotCredit()
+    {
+        $sql = "select * from " . $this->table . " where is_credit=:is_credit: and account_active=:active:";
+        $query = $this->db->query($sql, ['is_credit' => '0', 'active' => 'Y']);
+        return $query->getResultArray();
+    }
+
     public function getAccount($id)
     {
         $sql = "select * from " . $this->table . " where account_id=:id:";
         $query = $this->db->query($sql, ['id' => $id]);
+        return $query->getRowArray();
+    }
+
+    public function totalAccountBalance($is_credit)
+    {
+        $sql = "select sum(account_balance) as total_balance from accounts where is_credit=:is_credit:";
+        $query = $this->db->query($sql, ['is_credit' => $is_credit]);
         return $query->getRowArray();
     }
 

@@ -14,47 +14,61 @@ echo view("partial/header");
     </div>
 
     <div class="wrapper">
-    <?= view("partial/menu") ?>
+        <?= view("partial/menu") ?>
 
-    <!-- Page Content  -->
-    <div id="content-page" class="content-page">
-    <div class="card iq-mb-3">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="filter_time">Filter Waktu</label>
-                        <select name="filter_time" id="filter_time" onchange="changeTime()"
-                                class="form-control">
-                            <?php
-                            foreach ($filter_waktu as $fw) {
-                                $selected = "";
-                                if ($fw == $get_waktu) {
-                                    $selected = "selected";
-                                }
-                                echo "<option value='" . $fw . "' " . $selected . ">" . ucfirst($fw) . "</option>";
-                            }
-                            ?>
-                        </select>
+        <!-- Page Content  -->
+        <div id="content-page" class="content-page">
+            <div class="card iq-mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="filter_time">Filter Waktu</label>
+                                <select name="filter_time" id="filter_time" onchange="changeTime()"
+                                        class="form-control">
+                                    <?php
+                                    foreach ($filter_waktu as $fw) {
+                                        $selected = "";
+                                        if ($fw == $get_waktu) {
+                                            $selected = "selected";
+                                        }
+                                        echo "<option value='" . $fw . "' " . $selected . ">" . ucfirst($fw) . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                                <div class="iq-card-body iq-box-relative">
+                                    <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-success">
+                                        <i class="ri-database-2-line"></i>
+                                    </div>
+                                    <p class="text-secondary">Total Account Debet</p>
+
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h2><b><?= $show_account ?></b></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
-        </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                            <div class="iq-card-body iq-box-relative">
+                                <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-primary">
+                                    <i class="ri-focus-2-line"></i>
+                                </div>
+                                <p class="text-secondary">Total Pemasukan <?= $get_waktu_text ?></p>
 
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                    <div class="iq-card-body iq-box-relative">
-                        <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-primary">
-                            <i class="ri-focus-2-line"></i>
-                        </div>
-                        <p class="text-secondary">Total Pemasukan</p>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div id="iq-chart-box1"></div>
-                            <h4><b><?= $show_income ?></b></h4>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div id="iq-chart-box1"></div>
+                                    <h4><b><?= $show_income ?></b></h4>
                                     <span class="text-primary">
                                         <b> <?= $percent_income ?>%
                                             <?php
@@ -66,54 +80,24 @@ echo view("partial/header");
                                             ?>
                                         </b>
                                     </span>
+                                </div>
+                            </div>
+                            <button name="btnMoreIncome" onclick="moreIncome()" class="btn btn-block btn-primary">
+                                More Income
+                            </button>
                         </div>
                     </div>
-                    <button name="btnMoreIncome" onclick="moreIncome()" class="btn btn-block btn-success">
-                        More Income
-                    </button>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                    <div class="iq-card-body iq-box-relative">
-                        <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-danger">
-                            <i class="ri-pantone-line"></i>
-                        </div>
-                        <p class="text-secondary">Total Pengeluaran</p>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                            <div class="iq-card-body iq-box-relative">
+                                <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-danger">
+                                    <i class="ri-pantone-line"></i>
+                                </div>
+                                <p class="text-secondary">Total Pengeluaran <?= $get_waktu_text ?></p>
 
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div id="iq-chart-box2"></div>
-                            <h4><b><?= $show_expense ?></b></h4>
-
-                                    <span class="text-danger">
-                                        <b> <?= $percent_expense ?>%
-                                            <?php
-                                            if ($percent_expense > 0) {
-                                                echo '<i class="ri-arrow-up-fill"></i>';
-                                            } else {
-                                                echo '<i class="ri-arrow-down-fill"></i>';
-                                            }
-                                            ?>
-                                        </b>
-                                    </span>
-                        </div>
-                    </div>
-                    <button name="btnMoreIncome" onclick="moreExpense()" class="btn btn-block btn-danger">More
-                        Expense
-                    </button>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                    <div class="iq-card-body iq-box-relative">
-                        <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-warning">
-                            <i class="ri-pantone-line"></i>
-                        </div>
-                        <p class="text-secondary">Total Hutang</p>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div id="iq-chart-box2"></div>
-                            <h4><b><?= $show_expense ?></b></h4>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div id="iq-chart-box2"></div>
+                                    <h4><b><?= $show_expense ?></b></h4>
 
                                     <span class="text-danger">
                                         <b> <?= $percent_expense ?>%
@@ -126,105 +110,185 @@ echo view("partial/header");
                                             ?>
                                         </b>
                                     </span>
+                                </div>
+                            </div>
+                            <button name="btnMoreIncome" onclick="moreExpense()" class="btn btn-block btn-danger">More
+                                Expense
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                            <div class="iq-card-body iq-box-relative">
+                                <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-success">
+                                    <i class="ri-database-2-line"></i>
+                                </div>
+                                <p class="text-secondary">Total Hutang Berjalan</p>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h2><b><?= $show_hutang ?></b></h2>
+                                </div>
+                            </div>
+                            <button name="btnMoreIncome" onclick="moreExpense()" class="btn btn-block btn-success">More
+                                Hutang
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                            <div class="iq-card-body iq-box-relative">
+                                <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-warning">
+                                    <i class="ri-pantone-line"></i>
+                                </div>
+                                <p class="text-secondary">Total Tagihan H+30</p>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h2><b><?= $show_tagihan ?></b></h2>
+                                </div>
+                            </div>
+                            <button name="btnMoreIncome" onclick="moreExpense()" class="btn btn-block btn-warning">More
+                                Tagihan
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                    <div class="iq-card-body iq-box-relative">
-                        <div class="iq-box-absolute icon iq-icon-box rounded-circle iq-bg-warning">
-                            <i class="ri-pantone-line"></i>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Kategori Pemasukan</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div id="pie-income-category"></div>
+                            </div>
                         </div>
-                        <p class="text-secondary">Total Tagihan</p>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Kategori Pengeluaran</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div id="pie-expense-category"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Akun Pemasukan</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div id="account-income-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Akun Pengeluaran</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div id="account-expense-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div id="iq-chart-box2"></div>
-                            <h4><b><?= $show_expense ?></b></h4>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Daftar tagihan H+30</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Jatuh Tempo</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($show_data_tagihan
 
-                                    <span class="text-danger">
-                                        <b> <?= $percent_expense ?>%
-                                            <?php
-                                            if ($percent_expense > 0) {
-                                                echo '<i class="ri-arrow-up-fill"></i>';
-                                            } else {
-                                                echo '<i class="ri-arrow-down-fill"></i>';
-                                            }
-                                            ?>
-                                        </b>
-                                    </span>
+                                        as $no => $tg) {
+                                        $linkEdit = "<a href='" . base_url('bill/edit') . "?id=" . $tg['bill_id'] . "' data-toggle='tooltip'
+                                   data-placement='top' title='Ubah Tagihan' class='btn btn-primary'><i class='fa fa-edit'></i></a>";
+                                        if ($tg['status'] == 1) {
+                                            $titleStatus = "<span class='badge badge-warning'>Active</span>";
+                                        } else if ($tg['status'] == 0) {
+                                            $titleStatus = "<span class='badge badge-danger'>Open</span>";
+                                        } else {
+                                            $titleStatus = "<span class='badge badge-success'>Close</span>";
+                                        }
+                                        ?>
+                                        <tr>
+                                            <td><?= $tg['due_date'] ?></td>
+                                            <td><?= 'Tagihan ' . $tg['account_name'] ?></td>
+                                            <td class="text-right"><?= number_format($tg['grand_total'] + $tg['balance_start'] - $tg['payment']) ?></td>
+                                            <td><?= $titleStatus ?></td>
+                                            <td>
+                                                <?= $linkEdit ?>
+                                            </td>
+                                            <?php } ?>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Daftar Akun No Credit</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Saldo</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($show_data_account_no_tagihan
+
+                                        as $no => $sdant) {
+
+                                        ?>
+                                        <tr>
+                                            <td><?= $sdant['account_name'] ?></td>
+                                            <td class="text-right"><?= number_format($sdant['account_balance']) ?></td>
+                                            <?php } ?>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card">
-                    <div class="iq-card-header d-flex justify-content-between">
-                        <div class="iq-header-title">
-                            <h4 class="card-title">Kategori Pemasukan</h4>
-                        </div>
-                    </div>
-                    <div class="iq-card-body">
-                        <div id="pie-income-category"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card">
-                    <div class="iq-card-header d-flex justify-content-between">
-                        <div class="iq-header-title">
-                            <h4 class="card-title">Kategori Pengeluaran</h4>
-                        </div>
-                    </div>
-                    <div class="iq-card-body">
-                        <div id="pie-expense-category"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card">
-                    <div class="iq-card-header d-flex justify-content-between">
-                        <div class="iq-header-title">
-                            <h4 class="card-title">Kategori Hutang</h4>
-                        </div>
-                    </div>
-                    <div class="iq-card-body">
-                        <div id="apex-pie-chart"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card">
-                    <div class="iq-card-header d-flex justify-content-between">
-                        <div class="iq-header-title">
-                            <h4 class="card-title">Akun Pemasukan</h4>
-                        </div>
-                    </div>
-                    <div class="iq-card-body">
-                        <div id="account-income-bar"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="iq-card">
-                    <div class="iq-card-header d-flex justify-content-between">
-                        <div class="iq-header-title">
-                            <h4 class="card-title">Akun Pengeluaran</h4>
-                        </div>
-                    </div>
-                    <div class="iq-card-body">
-                        <div id="account-expense-bar"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
     </div>
     <!-- Wrapper END -->
     <script type="text/javascript">

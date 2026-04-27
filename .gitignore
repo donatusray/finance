@@ -7,6 +7,7 @@ public/
 vendor/
 system/
 writable/
+build/
 
 # Jetbrains editors (PHPStorm, etc)
 .idea/
