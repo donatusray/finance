@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="5" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="0.174262">
+    <testsuite name="App" tests="5" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="0.174262">
+      <testsuite name="ExampleDatabaseTest" file="D:\wamp64\www\finance\tests\database\ExampleDatabaseTest.php" tests="2" assertions="3" errors="0" warnings="0" failures="0" skipped="0" time="0.159129">
+        <testcase name="testModelFindAll" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" file="D:\wamp64\www\finance\tests\database\ExampleDatabaseTest.php" line="17" assertions="1" time="0.147572"/>
+        <testcase name="testSoftDeleteLeavesRow" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" file="D:\wamp64\www\finance\tests\database\ExampleDatabaseTest.php" line="28" assertions="2" time="0.011558"/>
+      </testsuite>
+      <testsuite name="ExampleSessionTest" file="D:\wamp64\www\finance\tests\session\ExampleSessionTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.004912">
+        <testcase name="testSessionSimple" class="ExampleSessionTest" classname="ExampleSessionTest" file="D:\wamp64\www\finance\tests\session\ExampleSessionTest.php" line="11" assertions="1" time="0.004912"/>
+      </testsuite>
+      <testsuite name="HealthTest" file="D:\wamp64\www\finance\tests\unit\HealthTest.php" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="0.010221">
+        <testcase name="testIsDefinedAppPath" class="HealthTest" classname="HealthTest" file="D:\wamp64\www\finance\tests\unit\HealthTest.php" line="13" assertions="1" time="0.003715"/>
+        <testcase name="testBaseUrlHasBeenSet" class="HealthTest" classname="HealthTest" file="D:\wamp64\www\finance\tests\unit\HealthTest.php" line="18" assertions="1" time="0.006505"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

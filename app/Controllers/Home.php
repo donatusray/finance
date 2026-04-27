@@ -2,20 +2,29 @@
 
 namespace App\Controllers;
 
+use App\Models\AccountsModel;
+use App\Models\BillModel;
 use App\Models\ViewTransactionModel;
 
 class Home extends BaseController
 {
     private $viewTransactionModel;
+    private $billModel;
+    private $accountModel;
 
     public function __construct()
     {
         $this->viewTransactionModel = new ViewTransactionModel();
+        $this->billModel = new BillModel();
+        $this->accountModel = new AccountsModel();
     }
 
     public function index()
     {
         $limit = 3;
+        $dateNow = date('Y-m-d');
+        $limitMaturity = 30;
+        $limitMaturityDate = date('Y-m-d', strtotime("+$limitMaturity day", strtotime($dateNow)));
         $filterWaktu = array('bulanan', 'tahunan');
         $get_waktu = $this->request->getGet('waktu');
         if ($get_waktu == null) {
@@ -26,6 +35,7 @@ class Home extends BaseController
             session()->setFlashdata('error_login', $this->alertLogin);
             return redirect()->to(base_url());
         }
+
 
         $arrayHeaderIncome = array();
         $arrayValueIncome = array();
@@ -43,25 +53,29 @@ class Home extends BaseController
         $arrayValueAccountExpense = array();
         $compareExpenseBefore = 0;
         $compareIncomeBefore = 0;
+        $showHutang = $this->billModel->getTotalHutang();
+        $showTagihan = $this->billModel->getTotalTagihan($limitMaturityDate);
+        $showDataTagihan = $this->billModel->listTagihanWillMaturity($limitMaturityDate);
+        $showAccount = $this->accountModel->totalAccountBalance(0);
 
         if ($get_waktu == "tahunan") {
-            $showIncome = $this->viewTransactionModel->totalIncomeTahunan();
-            $showExpense = $this->viewTransactionModel->totalExpenseTahunan();
-            $listIncome = $this->viewTransactionModel->lineIncomeTahunan($limit);
-            $listExpense = $this->viewTransactionModel->lineExpenseTahunan($limit);
-            $listCategoryIncome = $this->viewTransactionModel->categoryIncomeTahunan();
-            $listCategoryExpense = $this->viewTransactionModel->categoryExpenseTahunan();
-            $listAccountIncome = $this->viewTransactionModel->accountIncomeTahunan();
-            $listAccountExpense = $this->viewTransactionModel->accountExpenseTahunan();
+            $showIncome = $this->viewTransactionModel->totalDataTransaction('Income', 'tahun', date('Y'));
+            $showExpense = $this->viewTransactionModel->totalDataTransaction('Expense', 'tahun', date('Y'));
+            $listIncome = $this->viewTransactionModel->lineTahunan($limit, 'Income');
+            $listExpense = $this->viewTransactionModel->lineTahunan($limit, 'Expense');
+            $listCategoryIncome = $this->viewTransactionModel->categoryDataTransaction('Income', 'tahun', date('Y'));
+            $listCategoryExpense = $this->viewTransactionModel->categoryDataTransaction('Expense', 'tahun', date('Y'));
+            $listAccountIncome = $this->viewTransactionModel->accountDataTransaction('Income', 'tahun', date('Y'));
+            $listAccountExpense = $this->viewTransactionModel->accountDataTransaction('Expense', 'tahun', date('Y'));
         } else if ($get_waktu == 'bulanan') {
-            $showIncome = $this->viewTransactionModel->totalIncomeMonthToday();
-            $showExpense = $this->viewTransactionModel->totalExpenseMonthToday();
-            $listIncome = $this->viewTransactionModel->lineIncomeBulanan($limit);
-            $listExpense = $this->viewTransactionModel->lineExpenseBulanan($limit);
-            $listCategoryIncome = $this->viewTransactionModel->categoryIncomeBulanan();
-            $listCategoryExpense = $this->viewTransactionModel->categoryExpenseBulanan();
-            $listAccountIncome = $this->viewTransactionModel->accountIncomeBulanan();
-            $listAccountExpense = $this->viewTransactionModel->accountExpenseBulanan();
+            $showIncome = $this->viewTransactionModel->totalDataTransaction('Income', 'bulan', date('Y-m'));
+            $showExpense = $this->viewTransactionModel->totalDataTransaction('Expense', 'bulan', date('Y-m'));
+            $listIncome = $this->viewTransactionModel->lineBulanan($limit, 'Income');
+            $listExpense = $this->viewTransactionModel->lineBulanan($limit, 'Expense');
+            $listCategoryIncome = $this->viewTransactionModel->categoryDataTransaction('Income', 'bulan', date('Y-m'));
+            $listCategoryExpense = $this->viewTransactionModel->categoryDataTransaction('Expense', 'bulan', date('Y-m'));
+            $listAccountIncome = $this->viewTransactionModel->accountDataTransaction('Income', 'bulan', date('Y-m'));
+            $listAccountExpense = $this->viewTransactionModel->accountDataTransaction('Expense', 'bulan', date('Y-m'));
         }
 
         if (count($listIncome) > 0) {
@@ -144,8 +158,18 @@ class Home extends BaseController
         $data['array_value_account_income'] = implode(",", $arrayValueAccountIncome);
         $data['array_header_account_income'] = implode(",", $arrayLabelAccountIncome);
 
+        $data['show_hutang'] = number_format($showHutang['total_hutang'], 0, '.', ',');
+        $data['show_tagihan'] = number_format($showTagihan['total_tagihan'], 0, '.', ',');
+        $data['show_account'] = number_format($showAccount['total_balance'], 0, '.', ',');
         $data['filter_waktu'] = $filterWaktu;
         $data['get_waktu'] = $get_waktu;
+        $data['show_data_tagihan'] = $showDataTagihan;
+        $data['show_data_account_no_tagihan'] = $this->accountModel->listAccountNotCredit();
+        if ($get_waktu == 'tahunan') {
+            $data['get_waktu_text'] = date('Y');
+        } else {
+            $data['get_waktu_text'] = date('F Y');
+        }
 
         return view('home', $data);
     }
